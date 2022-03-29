@@ -2,39 +2,61 @@
 
 namespace App\Entity;
 
-use App\Repository\CountriesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CountriesRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: CountriesRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['country_read']],
+    collectionOperations: ['get', 'post'],
+    itemOperations: ['get', 'delete', 'put'],
+    denormalizationContext: ["disable_type_enforcement" => true],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'continent' => 'partial', 'capital' => 'partial'])]
+#[ApiFilter(OrderFilter::class)]
 class Countries
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["country_read", "destination_read"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["country_read", "destination_read"])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["country_read", "destination_read"])]
     private $continent;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["country_read", "destination_read"])]
     private $capital;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups(["country_read", "destination_read"])]
     private $population;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["country_read", "destination_read"])]
     private $currency;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["country_read", "destination_read"])]
     private $iso;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["country_read", "destination_read"])]
     private $flagPng;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["country_read", "destination_read"])]
     private $flagSvg;
 
     public function getId(): ?int

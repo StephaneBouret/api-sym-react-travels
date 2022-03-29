@@ -2,49 +2,107 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\DestinationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DestinationRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: DestinationRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['destination_read']],
+    collectionOperations: ['get', 'post'],
+    itemOperations: ['get', 'delete', 'put'],
+    subresourceOperations: [
+        'travel_get_subresource' => [
+            'path' => '/destination/{id}/travel',
+        ]
+    ],
+    denormalizationContext: ["disable_type_enforcement" => true],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['title' => 'partial', 'country' => 'partial', 'city' => 'partial'])]
+#[ApiFilter(OrderFilter::class)]
 class Destination
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["destination_read", "travel_read"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "Le titre de la destination est obligatoire")]
+    #[Assert\Type(type: 'string', message: 'Le titre doit être au format texte')]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: 'Le titre doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le titre ne peut excéder plus de {{ limit }} caractères',
+    )]
+    #[Groups(["destination_read", "travel_read"])]
     private $title;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message: "La description de la destination est obligatoire")]
+    #[Assert\Type(type: 'string', message: 'La description doit être au format texte')]
+    #[Assert\Length(
+        min: 3,
+        max: 5000,
+        minMessage: 'La description doit faire au moins {{ limit }} caractères',
+        maxMessage: 'La description ne peut excéder plus de {{ limit }} caractères',
+    )]
+    #[Groups(["destination_read", "travel_read"])]
     private $description;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "Le pays de la destination est obligatoire")]
+    #[Assert\Type(type: 'string', message: 'Le pays doit être au format texte')]
+    #[Groups(["destination_read", "travel_read"])]
     private $country;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "La ville de la destination est obligatoire")]
+    #[Assert\Type(type: 'string', message: 'La ville doit être au format texte')]
+    #[Groups(["destination_read", "travel_read"])]
     private $city;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "Le continent de la destination est obligatoire")]
+    #[Assert\Type(type: 'string', message: 'Le continent doit être au format texte')]
+    #[Groups(["destination_read", "travel_read"])]
     private $continent;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank(message: "La population de la destination est obligatoire")]
+    #[Assert\Type(type: 'numeric', message: 'La population doit être au format numérique')]
+    #[Groups(["destination_read", "travel_read"])]
     private $population;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "La monnaie de la destination est obligatoire")]
+    #[Assert\Type(type: 'string', message: 'La monnaie doit être au format texte')]
+    #[Groups(["destination_read", "travel_read"])]
     private $currency;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(["destination_read", "travel_read"])]
     private $filePath;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updatedAt;
 
     #[ORM\OneToMany(mappedBy: 'destinations', targetEntity: Travel::class)]
+    #[Groups(["destination_read"])]
+    #[ApiSubresource]
     private $travel;
 
     public function __construct()
