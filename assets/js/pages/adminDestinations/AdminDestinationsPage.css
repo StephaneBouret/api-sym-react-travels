@@ -1,0 +1,33 @@
+#main {
+    margin-top: 120px;
+}
+
+.destinations_h1 {
+    position: relative;
+    font-size: 1.7em;
+    font-weight: 600;
+}
+
+.destinations_h1:before {
+    content: "";
+    left: 0;
+    position: absolute;
+    height: 3px;
+    right: 60%;
+    background-color: #ffb03b;
+    bottom: -5px;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f !important;
+    border-color: #d9534f;
+}
+
+@media (max-width: 768px) {
+    .destination_button {
+        margin-right: 0;
+        margin-top: 0.5rem;
+    }
+
+}

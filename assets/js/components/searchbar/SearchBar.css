@@ -1,0 +1,5 @@
+.destination_search .form-control:focus {
+    border-color: #ffb03b;
+    outline: 0;
+    box-shadow: none;
+}

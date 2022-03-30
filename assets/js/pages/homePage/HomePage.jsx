@@ -21,9 +21,9 @@ const HomePage = () => {
         </section>
         <main id="main">
             <WhyUs/>
+            <ScrollButton/>
+            <SpecialsPage/>
         </main>
-        <ScrollButton/>
-        <SpecialsPage/>
         </>
     );
 }
