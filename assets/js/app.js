@@ -1,6 +1,11 @@
 // Les imports importants
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Navbar from './components/navbar/Navbar';
+import HomePage from './pages/homePage/HomePage';
 
 // any CSS you import will output into a single css file (app.css in this case)
 import '../styles/app.css';
@@ -10,7 +15,14 @@ import '../bootstrap';
 
 const App = () => {
     return ( 
-        <h1>Hello !</h1>
+        <HashRouter>
+            <Navbar/>
+            <div>
+                <Routes>
+                    <Route path="/" element={<HomePage />}/>
+                </Routes>
+            </div>
+        </HashRouter>
     );
 }
 
