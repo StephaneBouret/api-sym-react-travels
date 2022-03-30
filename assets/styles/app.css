@@ -15,3 +15,27 @@ a:hover {
     color: #ffc56e;
     text-decoration: none;
 }
+
+:root {
+    --secondary: #e6007e;
+    --primary: #82db35;
+    --primary-light: #82db3526;
+    --background: #eef6ff;
+    --gray-light: #e2ecf4;
+    --gray-dark: #6e8595;
+    --gray-semantic: #596d7b;
+    --light: #d9eafc;
+    --gray: #d1d6e3;
+    --dark: #39434d;
+    --primary-dark: #6fb53b;
+    --secondary-dark: #b91171;
+    --white: #fff;
+    --overlay: rgba(57, 67, 77, 0.75);
+    --facebook: #3b55a0;
+    --facebook-dark: #073d77;
+    --orange: #ff9014;
+    --in-progress: #009fe3;
+    --yellow: #f6c136;
+    --warning: #e29520;
+    --info: #2e6fc1;
+}
