@@ -1,4 +1,5 @@
 import AOS from 'aos';
+import 'aos/dist/aos.css';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -25,7 +26,7 @@ const AdminDestinationsPage = () => {
             setDestinations(data);
             setLoading(false);
         } catch (error) {
-            toast.error("Impossible de charger les clients");
+            toast.error("Impossible de charger les destinations");
         }
     }
 

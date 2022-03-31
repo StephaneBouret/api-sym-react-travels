@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
@@ -10,8 +12,6 @@ import TableAdminCountries from '../../components/tableAdminCountries/TableAdmin
 import countriesAPI from '../../services/countriesAPI';
 import destinationsAPI from '../../services/destinationsAPI';
 import './AdminDestinationPage.css';
-import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css';
 
 const AdminDestinationPage = () => {
     const navigate = useNavigate();
