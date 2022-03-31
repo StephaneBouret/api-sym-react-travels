@@ -1,0 +1,79 @@
+#main {
+    margin-top: 120px;
+}
+
+.travel-form {
+    width: 100%;
+    border-top: 3px solid #ffb03b;
+    border-bottom: 3px solid #ffb03b;
+    padding: 30px;
+    background: #fff;
+    box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+}
+
+.travel-form .form-group {
+    padding-bottom: 8px;
+}
+
+.travel-form input,
+.travel-form textarea, .travel-form select {
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.travel-form input:focus,
+.travel-form textarea:focus, .travel-form select:focus {
+    border-color: #ffb03b;
+    box-shadow: none;
+}
+
+.travel-form input[type=file] {
+    height: auto;
+}
+
+.travel-form input, .travel-form select {
+    height: 44px;
+}
+
+.travel-form textarea {
+    padding: 10px 12px;
+}
+
+.travel-form button[type=submit] {
+    background: #5cb874;
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 4px;
+}
+
+.travel-form button[type=submit]:hover {
+    background: #6ec083;
+}
+
+.edit-img img {
+    box-shadow: 0 0 0 4px #fff, 0 0 4px 3px #6c757d;
+    max-width: 100%;
+    cursor: pointer;
+}
+
+.tags-img {
+    display: flex;
+    flex-direction: column;
+}
+
+.tags-img p {
+    margin-bottom: 0;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+@media screen and (min-width: 768px) {
+    .edit-img img {
+        max-height: 150px;
+        max-width: 100%;
+    }
+}
