@@ -29,6 +29,10 @@
     box-shadow: none;
 }
 
+.destination-form input[type=file] {
+    height: auto;
+}
+
 .destination-form input {
     height: 44px;
 }
@@ -48,4 +52,28 @@
 
 .destination-form button[type=submit]:hover {
     background: #6ec083;
+}
+
+.edit-img img {
+    box-shadow: 0 0 0 4px #fff, 0 0 4px 3px #6c757d;
+    max-width: 100%;
+    cursor: pointer;
+}
+
+.tags-img {
+    display: flex;
+    flex-direction: column;
+}
+
+.tags-img p {
+    margin-bottom: 0;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+@media screen and (min-width: 768px) {
+    .edit-img img {
+        max-height: 150px;
+        max-width: 100%;
+    }
 }

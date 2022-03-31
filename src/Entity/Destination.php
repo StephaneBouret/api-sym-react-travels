@@ -7,21 +7,55 @@ use App\Repository\DestinationRepository;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\DestinationImageController;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
+/**
+ * @Vich\Uploadable
+ */
 #[ORM\Entity(repositoryClass: DestinationRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['destination_read']],
     collectionOperations: ['get', 'post'],
-    itemOperations: ['get', 'delete', 'put'],
+    itemOperations: [
+        'get', 
+        'delete', 
+        'put',
+        'image' => [
+            'method' => 'POST',
+            'path' => '/destinations/{id}/image',
+            'controller' => DestinationImageController::class,
+            'deserialize' => false,
+            'validation_groups' => ['Default', 'destination_object_create'],
+            'openapi_context' => [
+                'requestBody' => [
+                    'content' => [
+                        'multipart/form-data' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'file' => [
+                                        'type' => 'string',
+                                        'format' => 'binary',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
     subresourceOperations: [
         'travel_get_subresource' => [
             'path' => '/destination/{id}/travel',
@@ -92,6 +126,12 @@ class Destination
     #[Assert\Type(type: 'string', message: 'La monnaie doit être au format texte')]
     #[Groups(["destination_read", "travel_read"])]
     private $currency;
+
+    /**
+     * @Vich\UploadableField(mapping="destination_image", fileNameProperty="filePath")
+     */
+    #[Groups(['destination_object_create'])]
+    public ?File $file = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(["destination_read", "travel_read"])]
@@ -250,6 +290,24 @@ class Destination
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    /**
+    * @param File|null $file
+    * @return Destination
+    */
+    public function setFile(?File $file): Destination
+    {
+        $this->file = $file;
         return $this;
     }
 }

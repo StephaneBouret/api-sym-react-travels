@@ -10,6 +10,8 @@ import TableAdminCountries from '../../components/tableAdminCountries/TableAdmin
 import countriesAPI from '../../services/countriesAPI';
 import destinationsAPI from '../../services/destinationsAPI';
 import './AdminDestinationPage.css';
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
 
 const AdminDestinationPage = () => {
     const navigate = useNavigate();
@@ -33,8 +35,11 @@ const AdminDestinationPage = () => {
         title: "", description: "", country: "", city: "", continent: "", population: "", currency: "",
     });
     const [editing, setEditing] = useState(false);
-    const [search, setSearch] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    const [isSelected, setIsSelected] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+    const [search, setSearch] = useState("");
+    const [selectedFile, setSelectedFile] = useState();
 
     const fetchCountries = async () => {
         try {
@@ -139,6 +144,25 @@ const AdminDestinationPage = () => {
                     toast.error("Des erreurs dans votre formulaire !");
                 })
             }
+        }
+    }
+
+    const changeHandler = (event) => {
+        setSelectedFile(event.target.files[0]);
+		setIsSelected(true);
+    }
+
+    const handleSubmission = async event => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        try {
+            await destinationsAPI.updateImage(id, formData);
+            toast.success("L'image est bien téléchargée");
+            navigate("/admin/destinations");
+        } catch (error) {
+            toast.error("L'image n'a pas pu être téléchargée");
         }
     }
 
@@ -255,6 +279,49 @@ const AdminDestinationPage = () => {
                         </Link>
                     </div>
                 </form>
+                )}
+                {editing && (
+                    <form className="destination-form mb-3" onSubmit={handleSubmission}>
+                        <div className="form-group">
+                            {(destinations.filePath && 
+                                <div className="edit-img mb-3">
+                                    <img 
+                                    src={destinations.filePath}
+                                    onClick={() => setIsOpen(true)}
+                                    />
+                                    {isOpen && (
+                                        <Lightbox
+                                        mainSrc={destinations.filePath}
+                                        onCloseRequest={() => setIsOpen(false)}
+                                        />
+                                    )}
+                                </div>
+                            ) || (<h5>Aucune image</h5>)}
+                            <label htmlFor="file">Image</label>
+                            <input 
+                            type="file" 
+                            name="file" 
+                            id="file" 
+                            className="form-control"
+                            onChange={changeHandler}
+                            />
+                            <div className="tags-img mt-2">
+                                {isSelected ? (
+                                    <>
+                                    <p>Type : {selectedFile.type}</p>
+                                    <p>Taille en octets : {selectedFile.size}</p>
+                                    </>
+                                ) : (
+                                    <p>Merci de sélectionner un fichier</p>
+                                )}
+                            </div>
+                            <div className="form-group mt-3">
+                            <button type="submit" className="btn btn-success">
+                            Enregistrer
+                            </button>
+                        </div>
+                        </div>
+                    </form>
                 )}
             </div>
         </main>

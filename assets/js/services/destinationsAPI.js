@@ -24,10 +24,15 @@ function update(id, destinations) {
     return axios.put(DESTINATIONS_API + "/" + id, destinations)
 }
 
+function updateImage(id, formData) {
+    return axios.post(DESTINATIONS_API + "/" + id + "/image", formData);
+}
+
 export default {
     findAll,
     delete: deleteDestination,
     find,
     create,
-    update
+    update,
+    updateImage
 }
