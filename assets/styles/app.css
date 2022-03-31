@@ -92,3 +92,28 @@ section {
         width: 50%;
     }
 }
+
+/*--------------------------------------------------------------
+# Pagination table
+--------------------------------------------------------------*/
+.pagination {
+    flex-wrap: wrap;
+}
+
+.page-link {
+    color: #ffb03b;
+}
+
+.page-item.active .page-link {
+    background-color: #ffb03b;
+    border-color: #ffb03b;
+}
+
+.page-link:hover {
+    color: #ffa012;
+}
+
+.page-link:focus {
+    color: #ffb03b;
+    box-shadow: none;
+}

@@ -1,0 +1,32 @@
+.flag-country img {
+    width: 25%;
+    max-width: 25%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .table thead {
+        display: none;
+    }
+
+    .table tr {
+        flex-direction: column;
+        margin-bottom: 40px;
+    }
+
+    .table td {
+        text-align: right !important;
+        width: 100%;
+    }
+
+    .table td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+    }
+
+    .flag-country img {
+        max-width: 10%;
+        height: auto;
+    }
+}

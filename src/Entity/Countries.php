@@ -16,9 +16,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
     collectionOperations: ['get', 'post'],
     itemOperations: ['get', 'delete', 'put'],
     denormalizationContext: ["disable_type_enforcement" => true],
+    order: ["name" => "ASC"],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'continent' => 'partial', 'capital' => 'partial'])]
-#[ApiFilter(OrderFilter::class)]
+#[ApiFilter(OrderFilter::class, properties: ['name'])]
 class Countries
 {
     #[ORM\Id]
