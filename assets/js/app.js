@@ -10,6 +10,7 @@ import AdminDestinationsPage from './pages/adminDestinations/AdminDestinationsPa
 import AdminDestinationPage from './pages/adminDestination/AdminDestinationPage';
 import AdminTravelsPage from './pages/adminTravels/AdminTravelsPage';
 import AdminTravelPage from './pages/adminTravel/AdminTravelPage';
+import DestinationsPage from './pages/destinations/DestinationsPage';
 
 // any CSS you import will output into a single css file (app.css in this case)
 import '../styles/app.css';
@@ -23,6 +24,7 @@ const App = () => {
             <Navbar/>
             <div>
                 <Routes>
+                    <Route path="/destinations" element={<DestinationsPage/>} />
                     <Route path="/admin/travel/:id" element={<AdminTravelPage/>}/>
                     <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
                     <Route path="/admin/destination/:id" element={<AdminDestinationPage/>}/>
