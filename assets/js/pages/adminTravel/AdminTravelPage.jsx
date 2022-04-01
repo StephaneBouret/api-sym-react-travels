@@ -1,24 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Field from '../../components/forms/Field';
-import FormContentLoader from '../../components/loaders/FormContentLoader';
-import destinationsAPI from '../../services/destinationsAPI';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
-import axios from 'axios';
-import './AdminTravelPage.css';
+import Field from '../../components/forms/Field';
 import Select from '../../components/forms/Select';
 import TextArea from '../../components/forms/TextArea';
+import FormContentLoader from '../../components/loaders/FormContentLoader';
+import destinationsAPI from '../../services/destinationsAPI';
+import travelsAPI from '../../services/travelsAPI';
+import './AdminTravelPage.css';
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
 
 const AdminTravelPage = () => {
     const navigate = useNavigate();
     const params = useParams();
     const { id = "new" } = params;
 
-    const [currentPage, setCurrentPage] = useState(1);
     const [destinations, setDestinations] = useState([]);
     const [editing, setEditing] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isSelected, setIsSelected] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [selectedFile, setSelectedFile] = useState();
     const [travel, setTravel] = useState({
         title: "",
         description: "",
@@ -29,6 +33,7 @@ const AdminTravelPage = () => {
         filePath: null,
         destinations: "",
     });
+    console.log(travel);
     
     const [errors, setErrors] = useState({
         title: "",
@@ -41,7 +46,7 @@ const AdminTravelPage = () => {
 
     const fetchTravel = async (id) => {
         try {
-          const { title, description, type, days, nights, amount, filePath, destinations } = await axios.get("https://127.0.0.1:8000/api/travel" + "/" + id).then((response) => response.data);
+          const { title, description, type, days, nights, amount, filePath, destinations } = await travelsAPI.find(id);
           setTravel({ title, description, type, days, nights, amount, filePath, destinations });
         } catch (error) {
           toast.error("Le voyage n'a pas pu être chargé");
@@ -56,7 +61,7 @@ const AdminTravelPage = () => {
             setDestinations(sortDestinations);
             setLoading(false);
 
-            if (!travel.destinations) setTravel({ ...travel, destinations: data[0].id });
+            // if (!travel.destinations) setTravel({ ...travel, destinations: data[0].id });
         }   catch (error) {
             toast.error("Impossible de charger les destinations");
             navigate("/admin/travel");
@@ -87,10 +92,10 @@ const AdminTravelPage = () => {
         try {
             setErrors({});
             if (editing) {
-                await axios.put("https://127.0.0.1:8000/api/travel" + "/" + id, {...travel, destinations: `/api/destinations/${travel.destinations}`})
+                await travelsAPI.update(id, travel);
                 toast.success("Le voyage a bien été modifié");
             } else {
-                await axios.post("https://127.0.0.1:8000/api/travel", {...travel, destinations: `/api/destinations/${travel.destinations}`});
+                await travelsAPI.create(travel);
                 toast.success("Le voyage a bien été enregistré");
                 navigate("/admin/travel");
             }
@@ -105,6 +110,25 @@ const AdminTravelPage = () => {
                     toast.error("Des erreurs dans votre formulaire");
                 })
             }
+        }
+    }
+
+    const changeHandler = (event) => {
+        setSelectedFile(event.target.files[0]);
+		setIsSelected(true);
+    }
+
+    const handleSubmission = async event => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        try {
+            await travelsAPI.updateImage(id, formData);
+            toast.success("L'image est bien téléchargée");
+            navigate("/admin/travel");
+        } catch (error) {
+            toast.error("L'image n'a pas pu être téléchargée");
         }
     }
 
@@ -208,6 +232,49 @@ const AdminTravelPage = () => {
                         </Link>
                     </div>
                 </form>
+                )}
+                {editing && (
+                    <form className="travel-form mb-3" onSubmit={handleSubmission}>
+                        <div className="form-group">
+                            {(travel.filePath && 
+                                <div className="edit-img mb-3">
+                                    <img 
+                                    src={travel.filePath}
+                                    onClick={() => setIsOpen(true)}
+                                    />
+                                    {isOpen && (
+                                        <Lightbox
+                                        mainSrc={travel.filePath}
+                                        onCloseRequest={() => setIsOpen(false)}
+                                        />
+                                    )}
+                                </div>
+                            ) || (<h5>Aucune image</h5>)}
+                            <label htmlFor="file">Image</label>
+                            <input 
+                            type="file" 
+                            name="file" 
+                            id="file" 
+                            className="form-control"
+                            onChange={changeHandler}
+                            />
+                            <div className="tags-img mt-2">
+                                {isSelected ? (
+                                    <>
+                                    <p>Type : {selectedFile.type}</p>
+                                    <p>Taille en octets : {selectedFile.size}</p>
+                                    </>
+                                ) : (
+                                    <p>Merci de sélectionner un fichier</p>
+                                )}
+                            </div>
+                            <div className="form-group mt-3">
+                            <button type="submit" className="btn btn-success">
+                            Enregistrer
+                            </button>
+                        </div>
+                        </div>
+                    </form>
                 )}
             </div>
         </main>

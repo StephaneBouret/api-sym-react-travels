@@ -2,7 +2,11 @@ vich_uploader:
     db_driver: orm
 
     mappings:
-       destination_image:
-           uri_prefix: /images/destinations
-           upload_destination: '%kernel.project_dir%/public/images/destinations'
+        destination_image:
+            uri_prefix: /images/destinations
+            upload_destination: '%kernel.project_dir%/public/images/destinations'
+            namer: Vich\UploaderBundle\Naming\OrignameNamer
+        travel_image:
+           uri_prefix: /images/travels
+           upload_destination: '%kernel.project_dir%/public/images/travels'
            namer: Vich\UploaderBundle\Naming\OrignameNamer

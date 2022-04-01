@@ -5,16 +5,22 @@ namespace App\Entity;
 use App\Entity\Destination;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TravelRepository;
+use App\Controller\TravelImageController;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints\Length;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
+/**
+ * @Vich\Uploadable
+ */
 #[ORM\Entity(repositoryClass: TravelRepository::class)]
 #[ApiResource(
     subresourceOperations: [
@@ -32,6 +38,30 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
         'get',
         'put',
         'delete',
+        'image' => [
+            'method' => 'POST',
+            'path' => '/travel/{id}/image',
+            'controller' => TravelImageController::class,
+            'deserialize' => false,
+            'validation_groups' => ['Default', 'travel_object_create'],
+            'openapi_context' => [
+                'requestBody' => [
+                    'content' => [
+                        'multipart/form-data' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'file' => [
+                                        'type' => 'string',
+                                        'format' => 'binary',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
     ],
     attributes: [
         "pagination_enabled" => false,
@@ -93,6 +123,12 @@ class Travel
     #[Assert\Type(type: 'numeric', message: 'Le prix doit être au format numérique')]
     #[Groups(["travel_read", "destination_read", "travel_subresource"])]
     private $amount;
+
+    /**
+     * @Vich\UploadableField(mapping="travel_image", fileNameProperty="filePath")
+     */
+    #[Groups(['travel_object_create'])]
+    public ?File $file = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(["travel_read", "destination_read", "travel_subresource"])]
@@ -216,6 +252,24 @@ class Travel
     {
         $this->destinations = $destinations;
 
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param File|null $file
+     * @return Travel
+     */
+    public function setFile(?File $file): Travel
+    {
+        $this->file = $file;
         return $this;
     }
 }
