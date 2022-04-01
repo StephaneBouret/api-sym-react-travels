@@ -47,7 +47,7 @@ const AdminTravelPage = () => {
     const fetchTravel = async (id) => {
         try {
           const { title, description, type, days, nights, amount, filePath, destinations } = await travelsAPI.find(id);
-          setTravel({ title, description, type, days, nights, amount, filePath, destinations });
+          setTravel({ title, description, type, days, nights, amount, filePath, destinations: destinations.id });
         } catch (error) {
           toast.error("Le voyage n'a pas pu être chargé");
           navigate("/admin/travel");
