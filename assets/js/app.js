@@ -12,6 +12,7 @@ import AdminTravelsPage from './pages/adminTravels/AdminTravelsPage';
 import AdminTravelPage from './pages/adminTravel/AdminTravelPage';
 import DestinationsPage from './pages/destinations/DestinationsPage';
 import DetailDestination from './pages/detailDestination/DetailDestination';
+import ScrollToTop from './components/ScrollToTop';
 
 // any CSS you import will output into a single css file (app.css in this case)
 import '../styles/app.css';
@@ -22,21 +23,23 @@ import '../bootstrap';
 const App = () => {
     return ( 
         <HashRouter>
-            <Navbar/>
-            <div>
-                <Routes>
-                    <Route path="/destinations/:id" element={<DetailDestination/>}/>
-                    <Route path="/destinations" element={<DestinationsPage/>} />
-                    <Route path="/admin/travel/:id" element={<AdminTravelPage/>}/>
-                    <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
-                    <Route path="/admin/destination/:id" element={<AdminDestinationPage/>}/>
-                    <Route path="/admin/destinations" element={<AdminDestinationsPage/>}/>
-                    <Route path="/" element={<HomePage />}/>
-                </Routes>
-            <ToastContainer 
-                position={toast.POSITION.BOTTOM_LEFT}
-            />
-            </div>
+            <ScrollToTop>
+                <Navbar/>
+                <div>
+                    <Routes>
+                        <Route path="/destinations/:id" element={<DetailDestination/>}/>
+                        <Route path="/destinations" element={<DestinationsPage/>} />
+                        <Route path="/admin/travel/:id" element={<AdminTravelPage/>}/>
+                        <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
+                        <Route path="/admin/destination/:id" element={<AdminDestinationPage/>}/>
+                        <Route path="/admin/destinations" element={<AdminDestinationsPage/>}/>
+                        <Route path="/" element={<HomePage />}/>
+                    </Routes>
+                <ToastContainer 
+                    position={toast.POSITION.BOTTOM_LEFT}
+                />
+                </div>
+            </ScrollToTop>
         </HashRouter>
     );
 }
