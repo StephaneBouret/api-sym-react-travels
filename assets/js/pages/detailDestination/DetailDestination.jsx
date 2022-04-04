@@ -21,8 +21,8 @@ const DetailDestination = () => {
         filePath: "",
         travel: ""
     });
-    const [loading, setLoading] = useState(true);
     const [display, setDisplay] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const fetchDestination = async (id) => {
         try {
@@ -89,7 +89,7 @@ const DetailDestination = () => {
                                     <span>Devise : <strong>{destination.currency}</strong></span>
                                     <span>Population : <strong><NumberFormat value={destination.population} thousandSeparator={true} displayType="text"/></strong></span>
                                 </div>
-                                <div className="mt-5">
+                                <div className="mt-5" style={{display: destination.travel.length > 0 ? 'block' : 'none'}}>
                                     <Link
                                     to={"/destinations/" + id + "/tours"}
                                     className="btn login-btn mb-3"
