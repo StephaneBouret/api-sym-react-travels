@@ -28,11 +28,17 @@ function updateImage(id, formData) {
     return axios.post(DESTINATIONS_API + "/" + id + "/image", formData);
 }
 
+function getTravelsbyDestination(id) {
+    return axios.get(DESTINATIONS_API + "/" + id + "/travel")
+                .then((response) => response.data["hydra:member"]);
+}
+
 export default {
     findAll,
     delete: deleteDestination,
     find,
     create,
     update,
-    updateImage
+    updateImage,
+    getTravelsbyDestination
 }

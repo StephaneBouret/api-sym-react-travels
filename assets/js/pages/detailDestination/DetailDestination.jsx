@@ -91,7 +91,7 @@ const DetailDestination = () => {
                                 </div>
                                 <div className="mt-5" style={{display: destination.travel.length > 0 ? 'block' : 'none'}}>
                                     <Link
-                                    to={"/destinations/" + id + "/tours"}
+                                    to={"/destination/" + id + "/travel"}
                                     className="btn login-btn mb-3"
                                     >
                                     voir les voyages

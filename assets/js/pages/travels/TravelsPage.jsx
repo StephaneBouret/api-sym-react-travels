@@ -69,50 +69,52 @@ const TravelsPage = () => {
     return ( 
         <>
         <main id='main'>
-            <section id="travels" className="travels">
-                <div className="container">
-                    <div className="section-title">
-                        <h2>Nos voyages</h2>
+            <div data-aos="fade-up">
+                <section id="travels" className="travels">
+                    <div className="container">
+                        <div className="section-title">
+                            <h2>Nos voyages</h2>
+                        </div>
                     </div>
-                </div>
-            </section>
-            <ContainerOuter
-            handleClickContinent={handleClickContinent}
-            currentId={currentId}
-            />
-            <section className="paginated-travels">
-                <div className="container">
-                    <SearchBar handleSearch={handleSearch} search={search} />
-                    <div className="row mt-5">
-                        {paginatedTravels.map((travel) => (
-                            <div
-                            key={travel.id}
-                            className="col-lg-4 col-md-6 mb-3"
-                            >
-                            <TravelsCard
-                            filePath={travel.filePath}
-                            country={travel.destinations.country}
-                            id={travel.id}
-                            title={travel.title}
-                            description={travel.description}
-                            days={travel.days}
-                            nights={travel.nights}
-                            amount={travel.amount}
+                </section>
+                <ContainerOuter
+                handleClickContinent={handleClickContinent}
+                currentId={currentId}
+                />
+                <section className="paginated-travels">
+                    <div className="container">
+                        <SearchBar handleSearch={handleSearch} search={search} />
+                        <div className="row mt-5">
+                            {paginatedTravels.map((travel) => (
+                                <div
+                                key={travel.id}
+                                className="col-lg-4 col-md-6 mb-3"
+                                >
+                                <TravelsCard
+                                filePath={travel.filePath}
+                                country={travel.destinations.country}
+                                id={travel.id}
+                                title={travel.title}
+                                description={travel.description}
+                                days={travel.days}
+                                nights={travel.nights}
+                                amount={travel.amount}
+                                />
+                                </div>
+                            ))}
+                        </div>
+                        {loading && <ImageGrid />}
+                        {itemsPerPage < filteredTravels.length && (
+                        <Pagination 
+                            currentPage={currentPage} 
+                            itemsPerPage={itemsPerPage} 
+                            length={filteredTravels.length} 
+                            onPageChanged={handlePageChange} 
                             />
-                            </div>
-                        ))}
+                        )}
                     </div>
-                    {loading && <ImageGrid />}
-                    {itemsPerPage < filteredTravels.length && (
-                    <Pagination 
-                        currentPage={currentPage} 
-                        itemsPerPage={itemsPerPage} 
-                        length={filteredTravels.length} 
-                        onPageChanged={handlePageChange} 
-                        />
-                    )}
-                </div>
-            </section>
+                </section>
+            </div>
             <ScrollButton/>
         </main>
         </>

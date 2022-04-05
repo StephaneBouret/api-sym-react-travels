@@ -58,7 +58,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
     ],
     subresourceOperations: [
         'travel_get_subresource' => [
-            'path' => '/destination/{id}/travel',
+            'path' => '/destinations/{id}/travel',
         ]
     ],
     denormalizationContext: ["disable_type_enforcement" => true],
