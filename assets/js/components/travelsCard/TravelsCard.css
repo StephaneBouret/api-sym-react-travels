@@ -88,6 +88,7 @@ h3.card-explore__title {
     text-transform: uppercase;
     font-weight: 500;
     font-size: 20px;
+    height: 54px;
 }
 
 h3.card-explore__title:after {

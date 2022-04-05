@@ -21,7 +21,9 @@ const TravelsPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [findContinent, setFindContinent] = useState("");
     const [travels, setTravels] = useState([]);
+    console.log(findContinent);
 
     const fetchTravels = async () => {
         try {
@@ -44,16 +46,17 @@ const TravelsPage = () => {
     };
     
     const handleClickContinent = (val, idx) => (e) => {
-        setSearch(val);
+        // setSearch(val);
+        setFindContinent(val);
         setCurrentId(idx);
     };
    
     const filteredTravels = travels.filter(
         (travel) => 
-            travel.title.toLowerCase().includes(search.toLowerCase()) ||
+            (travel.title.toLowerCase().includes(search.toLowerCase()) ||
             travel.type.toLowerCase().includes(search.toLowerCase()) ||
-            travel.destinations.country.toLowerCase().includes(search.toLowerCase()) ||
-            travel.destinations.continent.toLowerCase().includes(search.toLowerCase())
+            travel.destinations.country.toLowerCase().includes(search.toLowerCase())) &&
+            travel.destinations.continent === findContinent
     );
 
     // Page change management
@@ -64,7 +67,6 @@ const TravelsPage = () => {
         currentPage,
         itemsPerPage
     );
-
 
     return ( 
         <>
@@ -83,9 +85,10 @@ const TravelsPage = () => {
                 />
                 <section className="paginated-travels">
                     <div className="container">
+                        <p className="mb-0">Rechercher par pays</p>
                         <SearchBar handleSearch={handleSearch} search={search} />
                         <div className="row mt-5">
-                            {paginatedTravels.map((travel) => (
+                            {(!findContinent ? travels : paginatedTravels).map((travel) => (
                                 <div
                                 key={travel.id}
                                 className="col-lg-4 col-md-6 mb-3"

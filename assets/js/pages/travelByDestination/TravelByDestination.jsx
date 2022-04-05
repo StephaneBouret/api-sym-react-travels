@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { BiLink, BiPlus } from "react-icons/bi";
+import Lightbox from 'react-image-lightbox';
+import Masonry from "react-masonry-component";
 import { Link, useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
-import ScrollButton from '../../components/scrollButton/ScrollButton';
-import './TravelByDestination.css';
-import destinationsAPI from '../../services/destinationsAPI';
-import { BiPlus, BiLink } from "react-icons/bi";
-import Masonry from "react-masonry-component";
 import ImageGrid from '../../components/loaders/ImageGrid';
-import Lightbox from 'react-image-lightbox';
+import ScrollButton from '../../components/scrollButton/ScrollButton';
+import destinationsAPI from '../../services/destinationsAPI';
+import './TravelByDestination.css';
 
 const TravelByDestination = () => {
     const { id } = useParams();
 
+    const titleRef = useRef();
+    console.log(titleRef);
     const [destination, setDestination] = useState({});
     const [filtredTravel, setFiltredTravel] = useState(null);
     const [filterKey, setFilterKey] = useState('all');
@@ -62,6 +64,7 @@ const TravelByDestination = () => {
     }   
     
     const handleTravel = typeTravel => () => {
+        titleRef.current.scrollIntoView({ behavior: "smooth" });
         setFilterKey(typeTravel);
         typeTravel !== "all"
             ? setFiltredTravel(filteredTravels(typeTravel))
@@ -104,7 +107,7 @@ const TravelByDestination = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className="row portfolio-container d-flex justify-content-between">
+                    <div className="row portfolio-container d-flex justify-content-between" ref={titleRef}>
                         <Masonry
                         elementType={'ul'}
                         className={'media'}
