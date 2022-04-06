@@ -13,7 +13,6 @@ const TravelByDestination = () => {
     const { id } = useParams();
 
     const titleRef = useRef();
-    console.log(titleRef);
     const [destination, setDestination] = useState({});
     const [filtredTravel, setFiltredTravel] = useState(null);
     const [filterKey, setFilterKey] = useState('all');

@@ -14,6 +14,7 @@ import DestinationsPage from './pages/destinations/DestinationsPage';
 import DetailDestination from './pages/detailDestination/DetailDestination';
 import TravelsPage from './pages/travels/TravelsPage';
 import TravelByDestination from './pages/travelByDestination/TravelByDestination';
+import AboutPage from './pages/about/AboutPage';
 import ScrollToTop from './components/ScrollToTop';
 
 // any CSS you import will output into a single css file (app.css in this case)
@@ -29,6 +30,7 @@ const App = () => {
                 <Navbar/>
                 <div>
                     <Routes>
+                        <Route path="/about" element={<AboutPage/>}/>
                         <Route path="/destination/:id/travel" element={<TravelByDestination/>}/>
                         <Route path="/travel" element={<TravelsPage/>}/>
                         <Route path="/destinations/:id" element={<DetailDestination/>}/>

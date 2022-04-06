@@ -26,8 +26,10 @@ const TravelsCard = ({ amount, country, days, description, filePath, id, nights,
                 <div className="duration">
                     <p><strong>Durée</strong> :</p>
                     <div className="number-duration">
-                        <p className="me-2"><MdHolidayVillage/>{days} jour(s)</p>
-                        <p><MdNightsStay/>{nights} nuit(s)</p>
+                        <ul>
+                            <li className="me-2"><MdHolidayVillage/>{days} {days > 1 ? "jours" : "jour"}</li>
+                            <li><MdNightsStay/>{nights} {nights > 1 ? "nuits" : "nuit"}</li>
+                        </ul>
                     </div>
                 </div>
                 <div className="price">

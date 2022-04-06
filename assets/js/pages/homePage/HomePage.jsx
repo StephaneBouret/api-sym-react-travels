@@ -19,7 +19,7 @@ const HomePage = () => {
                 <Slider/>
             </div>
         </section>
-        <main id="main">
+        <main>
             <WhyUs/>
             <ScrollButton/>
             <SpecialsPage/>

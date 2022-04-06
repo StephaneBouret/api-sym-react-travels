@@ -23,11 +23,11 @@
 }
 
 .card-explore .card-img {
-    border-radius: 0; 
+    border-radius: 0;
 }
 
 .card-explore__img img {
-    padding-bottom: 1px; 
+    padding-bottom: 1px;
 }
 
 .card-explore__img::after {
@@ -36,6 +36,7 @@
     position: absolute;
     bottom: -1px;
     left: 0;
+    -webkit-clip-path: polygon(0 83%, 0% 100%, 100% 100%);
     clip-path: polygon(0 83%, 0% 100%, 100% 100%);
     background: #fff;
     width: 100%;
@@ -58,7 +59,8 @@
     background: #ffa012;
 }
 
-.card-explore__img h3:after, .card-explore__img h3:before {
+.card-explore__img h3:after,
+.card-explore__img h3:before {
     position: absolute;
     top: 0;
     content: '';
@@ -108,7 +110,8 @@ h3.card-explore__title:after {
     line-height: 20px;
 }
 
-.duration, .price {
+.duration,
+.price {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -119,10 +122,24 @@ h3.card-explore__title:after {
     display: flex;
 }
 
-.number-duration p svg {
-    color: #ffa012;
-    margin-right: 10px;
+.number-duration ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.number-duration ul li {
+    padding-left: 25px;
+    position: relative;
+}
+
+.number-duration ul svg {
+    position: absolute;
+    left: 0;
+    top: 2px;
     font-size: 20px;
+    color: #ffa012;
+    line-height: 1;
 }
 
 .travel_price {

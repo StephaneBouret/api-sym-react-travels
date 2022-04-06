@@ -1,33 +1,30 @@
-#main {
-    margin-top: 120px;
+.destinations .section-title h2 {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  position: relative;
 }
 
-.destinations .section-title h2 {
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    position: relative;
-  }
+.destinations .section-title h2::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 120px;
+  height: 1px;
+  background: #ddd;
+  bottom: 1px;
+  left: calc(50% - 60px);
+}
 
-  .destinations .section-title h2::before {
-    content: "";
-    position: absolute;
-    display: block;
-    width: 120px;
-    height: 1px;
-    background: #ddd;
-    bottom: 1px;
-    left: calc(50% - 60px);
-  }
-  .destinations .section-title h2::after {
-    content: "";
-    position: absolute;
-    display: block;
-    width: 40px;
-    height: 3px;
-    background: #ffa012;
-    bottom: 0;
-    left: calc(50% - 20px);
-  }
+.destinations .section-title h2::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: #ffa012;
+  bottom: 0;
+  left: calc(50% - 20px);
+}

@@ -19,6 +19,7 @@ const TravelsPage = () => {
 
     const [currentId, setCurrentId] = useState();
     const [currentPage, setCurrentPage] = useState(1);
+    const [isVisible, setIsVisible] = useState(false);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [findContinent, setFindContinent] = useState("");
@@ -46,9 +47,9 @@ const TravelsPage = () => {
     };
     
     const handleClickContinent = (val, idx) => (e) => {
-        // setSearch(val);
         setFindContinent(val);
         setCurrentId(idx);
+        setIsVisible(true);
     };
    
     const filteredTravels = travels.filter(
@@ -85,8 +86,12 @@ const TravelsPage = () => {
                 />
                 <section className="paginated-travels">
                     <div className="container">
-                        <p className="mb-0">Rechercher par pays</p>
-                        <SearchBar handleSearch={handleSearch} search={search} />
+                        {isVisible && (
+                            <>
+                            <p className="mb-0">Rechercher par pays</p>
+                            <SearchBar handleSearch={handleSearch} search={search} />
+                            </>
+                        )}
                         <div className="row mt-5">
                             {(!findContinent ? travels : paginatedTravels).map((travel) => (
                                 <div
