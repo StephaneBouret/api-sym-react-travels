@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './DestinationsPage.css';
 import Pagination from '../../components/Pagination';
 import SearchBar from '../../components/searchbar/SearchBar';
@@ -8,11 +8,7 @@ import { toast } from 'react-toastify';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import destinationsAPI from '../../services/destinationsAPI';
-import DestinationsSimplifiedCard from '../../components/destinationsSimplifiedCard/DestinationsSimplifiedCard';
 import DestinationsCard from '../../components/destinationsCard/DestinationsCard';
-import { Link } from 'react-router-dom';
-import SmallBreadCrumbs from '../../components/smallbreadcrumbs/SmallBreadCrumbs';
-import ContainerContinent from '../../components/containercontinent/ContainerContinent';
 
 const DestinationsPage = () => {
     AOS.init({
@@ -22,15 +18,12 @@ const DestinationsPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [destinations, setDestinations] = useState([]);
     const [loading, setLoading] = useState(true);
-    const titleRef = useRef(null);
     const [search, setSearch] = useState("");
-    const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)
 
     const fetchDestinations = async () => {
         try {
             const data = await destinationsAPI.findAll();
-            const sortDestinations = data.sort((a, b) => a.country < b.country ? -1 : 1);
-            setDestinations(sortDestinations);
+            setDestinations(data);
             setLoading(false);
         } catch (error) {
             toast.error("Impossible de charger les destinations");
@@ -56,39 +49,35 @@ const DestinationsPage = () => {
 
     // Page change management
     const handlePageChange = (page) => setCurrentPage(page);
-    const itemsPerPage = 12;
+    const itemsPerPage = 10;
     const paginatedDestinations = Pagination.getData(
         filteredDestinations,
         currentPage,
         itemsPerPage
     )
-
-    // onclick scroll to div react
-    const scrollToView = () => scrollToRef(titleRef);
-
     return ( 
         <>
-        <section id="destinations" className="destinations position-relative">
-            <img src={require("../../../media/cheval-blanc-randheli.webp")} className="img-destinations img-fluid"/>
-            <div className="title-destinations" data-aos="fade-up" data-aos-once="true">
-                <h2>Destinations</h2>
-            </div>
-            <Link to={{}} className="inspire-btn scrollButton" onClick={scrollToView}></Link>
-        </section>
-        <main>
-            <SmallBreadCrumbs link={"/"} linkName={"Accueil"} secondTitle={"Destinations"} destinations={destinations}/>
-            <section className="collection-destinations" ref={titleRef}>
-                <div className="container">
+        <main id='main'>
+            <section id="destinations" className="destinations">
+                <div className="container" data-aos="fade-up">
+                    <div className="section-title">
+                        <h2>Nos destinations</h2>
+                    </div>
                     <SearchBar handleSearch={handleSearch} search={search} />
                     {!loading && (
-                    <div className="row mt-3 page-destinations">
+                    <div className="row mt-5">
                         {paginatedDestinations.map((destination) => (
-                            <div key={destination.id} className="col-12 col-lg-3 col-sm-6 card-destination text-center">
-                            <DestinationsSimplifiedCard
-                            id={destination.id}
-                            filePath={destination.filePath}
-                            country={destination.country}
-                            />
+                            <div
+                            key={destination.id}
+                            className="col-lg-4 col-md-6 mb-3"
+                            >
+                                <DestinationsCard
+                                id={destination.id}
+                                country={destination.country}
+                                city={destination.city}
+                                filePath={destination.filePath}
+                                travel={destination.travel}
+                                />
                             </div>
                         ))}
                     </div>
@@ -104,20 +93,10 @@ const DestinationsPage = () => {
                     )}
                 </div>
             </section>
-            <section className="continents">
-                <div className="container">
-                    <div className="section-title">
-                        <h2>Par continents</h2>
-                    </div>
-                    <div className="row page-continents">
-                        <ContainerContinent/>
-                    </div>
-                </div>
-            </section>
             <ScrollButton/>
         </main>
         </>
-    );
+     );
 }
  
 export default DestinationsPage;

@@ -27,10 +27,10 @@ const Navbar = () => {
     }, []);
 
     useEffect(() => {
-        if (pathname !== "/") {
-            setDisplay(true);
-        } else {
+        if (pathname === "/" || pathname === "/destinations") {
             setDisplay(false);
+        } else {
+            setDisplay(true);
         }
     }, [pathname]);
     

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { toast } from 'react-toastify';
 import { Link, useParams } from 'react-router-dom';
 import AOS from 'aos';
@@ -11,20 +11,20 @@ import travelsAPI from '../../services/travelsAPI';
 import ContainerOuter from '../../components/containerouter/ContainerOuter';
 import TravelsCard from '../../components/travelsCard/TravelsCard';
 import './TravelsPage.css';
+import { array } from 'prop-types';
 
 const TravelsPage = () => {
     AOS.init({
         duration: 1000
     });
 
+    const [arrayToFilter, setArrayToFilter] = useState([]);
     const [currentId, setCurrentId] = useState();
     const [currentPage, setCurrentPage] = useState(1);
-    const [isVisible, setIsVisible] = useState(false);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [findContinent, setFindContinent] = useState("");
     const [travels, setTravels] = useState([]);
-    console.log(findContinent);
 
     const fetchTravels = async () => {
         try {
@@ -49,22 +49,25 @@ const TravelsPage = () => {
     const handleClickContinent = (val, idx) => (e) => {
         setFindContinent(val);
         setCurrentId(idx);
-        setIsVisible(true);
     };
-   
-    const filteredTravels = travels.filter(
-        (travel) => 
-            (travel.title.toLowerCase().includes(search.toLowerCase()) ||
-            travel.type.toLowerCase().includes(search.toLowerCase()) ||
-            travel.destinations.country.toLowerCase().includes(search.toLowerCase())) &&
-            travel.destinations.continent === findContinent
-    );
+
+    const filterSelectedTravel = travels
+                                        .filter((travel) => travel.destinations.continent.includes(findContinent))
+                                        .filter((travel) => travel.destinations.country.toLowerCase().includes(search.toLowerCase()));
+
+    useEffect(() => {
+        if (!findContinent) {
+            setArrayToFilter(travels);
+        }
+        setArrayToFilter(filterSelectedTravel);
+    }, [findContinent, search, travels])
+    
 
     // Page change management
     const handlePageChange = (page) => setCurrentPage(page);
     const itemsPerPage = 6;
     const paginatedTravels = Pagination.getData(
-        filteredTravels,
+        arrayToFilter,
         currentPage,
         itemsPerPage
     );
@@ -86,14 +89,10 @@ const TravelsPage = () => {
                 />
                 <section className="paginated-travels">
                     <div className="container">
-                        {isVisible && (
-                            <>
-                            <p className="mb-0">Rechercher par pays</p>
-                            <SearchBar handleSearch={handleSearch} search={search} />
-                            </>
-                        )}
+                        <p className="mb-0">Rechercher par pays</p>
+                        <SearchBar handleSearch={handleSearch} search={search} />
                         <div className="row mt-5">
-                            {(!findContinent ? travels : paginatedTravels).map((travel) => (
+                            {paginatedTravels.map((travel) => (
                                 <div
                                 key={travel.id}
                                 className="col-lg-4 col-md-6 mb-3"
@@ -112,11 +111,11 @@ const TravelsPage = () => {
                             ))}
                         </div>
                         {loading && <ImageGrid />}
-                        {itemsPerPage < filteredTravels.length && (
+                        {itemsPerPage < arrayToFilter.length && (
                         <Pagination 
                             currentPage={currentPage} 
                             itemsPerPage={itemsPerPage} 
-                            length={filteredTravels.length} 
+                            length={arrayToFilter.length} 
                             onPageChanged={handlePageChange} 
                             />
                         )}
