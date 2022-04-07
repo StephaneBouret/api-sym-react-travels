@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './DestinationsPage.css';
-import Pagination from '../../components/Pagination';
-import SearchBar from '../../components/searchbar/SearchBar';
-import ScrollButton from '../../components/scrollButton/ScrollButton';
-import ImageGrid from '../../components/loaders/ImageGrid';
-import { toast } from 'react-toastify';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import destinationsAPI from '../../services/destinationsAPI';
-import DestinationsSimplifiedCard from '../../components/destinationsSimplifiedCard/DestinationsSimplifiedCard';
-import DestinationsCard from '../../components/destinationsCard/DestinationsCard';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import SmallBreadCrumbs from '../../components/smallbreadcrumbs/SmallBreadCrumbs';
+import { toast } from 'react-toastify';
 import ContainerContinent from '../../components/containercontinent/ContainerContinent';
+import DestinationsSimplifiedCard from '../../components/destinationsSimplifiedCard/DestinationsSimplifiedCard';
+import ImageGrid from '../../components/loaders/ImageGrid';
+import Pagination from '../../components/Pagination';
+import ScrollButton from '../../components/scrollButton/ScrollButton';
+import SearchBar from '../../components/searchbar/SearchBar';
+import SmallBreadCrumbs from '../../components/smallbreadcrumbs/SmallBreadCrumbs';
+import destinationsAPI from '../../services/destinationsAPI';
+import continentsAPI from '../../services/continentsAPI';
+import './DestinationsPage.css';
 
 const DestinationsPage = () => {
     AOS.init({
@@ -20,11 +20,15 @@ const DestinationsPage = () => {
     });
 
     const [currentPage, setCurrentPage] = useState(1);
+    const [continents, setContinents] = useState([]);
     const [destinations, setDestinations] = useState([]);
     const [loading, setLoading] = useState(true);
     const titleRef = useRef(null);
     const [search, setSearch] = useState("");
+    // jump to section
     const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)
+
+    console.log(continents);
 
     const fetchDestinations = async () => {
         try {
@@ -37,8 +41,18 @@ const DestinationsPage = () => {
         }
     }
 
+    const fetchContinents = async () => {
+        try {
+            const data = await continentsAPI.findAll();
+            setContinents(data);
+        } catch (error) {
+            toast.error("Impossible de charger les continents");
+        }
+    }
+
     useEffect(() => {
         fetchDestinations();
+        fetchContinents();
     }, []);
 
     // Gestion de la recherche
@@ -62,6 +76,8 @@ const DestinationsPage = () => {
         currentPage,
         itemsPerPage
     )
+
+    const paginatedContinents = continents;
 
     // onclick scroll to div react
     const scrollToView = () => scrollToRef(titleRef);
@@ -105,12 +121,14 @@ const DestinationsPage = () => {
                 </div>
             </section>
             <section className="continents">
-                <div className="container">
+                <div className="container" data-aos="fade-up" data-aos-once="true">
                     <div className="section-title">
                         <h2>Par continents</h2>
                     </div>
                     <div className="row page-continents">
-                        <ContainerContinent/>
+                        <ContainerContinent
+                        paginatedContinents={paginatedContinents}
+                        />
                     </div>
                 </div>
             </section>

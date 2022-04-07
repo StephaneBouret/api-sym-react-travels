@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import slugify from 'react-slugify';
 import { toast } from 'react-toastify';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import Field from '../../components/forms/Field';
@@ -29,12 +30,15 @@ const AdminDestinationPage = () => {
         continent: "",
         population: "",
         currency: "",
-        filePath: ""
-    })
+        filePath: "",
+        slug: ""
+    });
+    const [disabled, setDisabled] = useState(true);
     const [errors, setErrors] = useState({
         title: "", description: "", country: "", city: "", continent: "", population: "", currency: "",
     });
     const [editing, setEditing] = useState(false);
+    const [initialDestinations, setInitialDestinations] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
@@ -61,13 +65,28 @@ const AdminDestinationPage = () => {
 
     const fetchDestination = async (id) => {
         try {
-            const { title, description, country, city, continent, population, currency, filePath } = await destinationsAPI.find(id);
-            setDestinations({ title, description, country, city, continent, population, currency, filePath })
+            const { title, description, country, city, continent, population, currency, filePath, slug } = await destinationsAPI.find(id);
+            setDestinations({ title, description, country, city, continent, population, currency, filePath, slug })
         } catch (error) {
             toast.error("La destination n'a pas pu être chargée");
             navigate("/admin/destinations");
         }
     }
+
+    // Check if country exists in db
+    const fetchCountriesInDb = async () => {
+        try {
+            const data = await destinationsAPI.findAll();
+            const catCountry = data.map(res => res.country);
+            setInitialDestinations(catCountry);
+        } catch (error) {
+            toast.error("Impossible de charger les destinations");
+        }
+    }
+
+    useEffect(() => {
+        fetchCountriesInDb();
+    }, []);
     
     useEffect(() => {
         fetchCountries();
@@ -86,7 +105,16 @@ const AdminDestinationPage = () => {
             fetchCountry(currentIdCountry);
             setIsVisible(true);
         }
-    }, [currentIdCountry]);
+    }, [currentIdCountry]);  
+
+    useEffect(() => {
+        let cancel = false;
+        if (cancel) return;
+        setDestinations({...destinations, slug: slugify(destinations.continent)})
+        return () => {
+            cancel = true;
+        }
+    }, [destinations.continent]);
 
     // Gestion de la recherche
     const handleSearch = ({currentTarget}) => {
@@ -125,10 +153,15 @@ const AdminDestinationPage = () => {
         try {
             setErrors({});
 
+            
             if (editing) {
                 await destinationsAPI.update(id, destinations);
                 toast.success("La destination a bien été modifiée");
             } else {
+                if(initialDestinations.includes(destinations.country)) {
+                    toast.error("Le pays est déjà enregistré");
+                    return;
+                }
                 await destinationsAPI.create(destinations);
                 toast.success("La destination a bien été créée");
                 navigate("/admin/destinations");
@@ -147,6 +180,7 @@ const AdminDestinationPage = () => {
         }
     }
 
+    // Gestion de l'image
     const changeHandler = (event) => {
         setSelectedFile(event.target.files[0]);
 		setIsSelected(true);

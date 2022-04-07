@@ -6,6 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/navbar/Navbar';
 import HomePage from './pages/homePage/HomePage';
+import AdminContinentsPage from './pages/adminContinents/AdminContinentsPage';
+import AdminContinentPage from './pages/adminContinent/AdminContinentPage';
 import AdminDestinationsPage from './pages/adminDestinations/AdminDestinationsPage';
 import AdminDestinationPage from './pages/adminDestination/AdminDestinationPage';
 import AdminTravelsPage from './pages/adminTravels/AdminTravelsPage';
@@ -39,6 +41,8 @@ const App = () => {
                         <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
                         <Route path="/admin/destination/:id" element={<AdminDestinationPage/>}/>
                         <Route path="/admin/destinations" element={<AdminDestinationsPage/>}/>
+                        <Route path="/admin/continent/:id" element={<AdminContinentPage/>}/>
+                        <Route path="/admin/continents" element={<AdminContinentsPage/>}/>
                         <Route path="/" element={<HomePage />}/>
                     </Routes>
                 <ToastContainer 

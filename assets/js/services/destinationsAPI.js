@@ -1,7 +1,7 @@
 import axios from "axios";
 import { DESTINATIONS_API } from "../config";
 
-function findAll() {
+async function findAll() {
     return axios.get(DESTINATIONS_API)
                 .then((response) => response.data["hydra:member"]);
 }
@@ -28,7 +28,7 @@ function updateImage(id, formData) {
     return axios.post(DESTINATIONS_API + "/" + id + "/image", formData);
 }
 
-function getTravelsbyDestination(id) {
+async function getTravelsbyDestination(id) {
     return axios.get(DESTINATIONS_API + "/" + id + "/travel")
                 .then((response) => response.data["hydra:member"]);
 }

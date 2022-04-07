@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\FindDestinationByContinent;
 
 /**
  * @Vich\Uploadable
@@ -31,6 +32,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
         'get', 
         'delete', 
         'put',
+        'get_continent' => [
+            'method' => 'GET',
+            'path' => '/destinations/{slug}/continent',
+            'controller' => FindDestinationByContinent::class,
+            'read'=> false,
+        ],
         'image' => [
             'method' => 'POST',
             'path' => '/destinations/{id}/image',
@@ -144,6 +151,10 @@ class Destination
     #[Groups(["destination_read"])]
     #[ApiSubresource]
     private $travel;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["destination_read", "travel_read"])]
+    private $slug;
 
     public function __construct()
     {
@@ -308,6 +319,18 @@ class Destination
     public function setFile(?File $file): Destination
     {
         $this->file = $file;
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
         return $this;
     }
 }

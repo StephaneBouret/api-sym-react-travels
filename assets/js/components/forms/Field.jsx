@@ -7,6 +7,7 @@ const Field = ({
     onChange,
     placeholder = "",
     type = "text",
+    disabled,
     error = "",
     classCss = ""
 }) => {
@@ -20,6 +21,7 @@ const Field = ({
                 name={name}
                 id={name}
                 type={type}
+                disabled={disabled}
                 className={"form-control" + (error && " is-invalid")}
             />
             {error && <p className="invalid-feedback">{error}</p>}

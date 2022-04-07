@@ -10,3 +10,7 @@ vich_uploader:
            uri_prefix: /images/travels
            upload_destination: '%kernel.project_dir%/public/images/travels'
            namer: Vich\UploaderBundle\Naming\OrignameNamer
+        continent_image:
+           uri_prefix: /images/continents
+           upload_destination: '%kernel.project_dir%/public/images/continents'
+           namer: Vich\UploaderBundle\Naming\OrignameNamer
