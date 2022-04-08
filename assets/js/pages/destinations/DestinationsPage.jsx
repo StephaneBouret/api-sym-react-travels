@@ -26,9 +26,7 @@ const DestinationsPage = () => {
     const titleRef = useRef(null);
     const [search, setSearch] = useState("");
     // jump to section
-    const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)
-
-    console.log(continents);
+    const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
     const fetchDestinations = async () => {
         try {
@@ -84,7 +82,7 @@ const DestinationsPage = () => {
 
     return ( 
         <>
-        <section id="destinations" className="destinations position-relative">
+        <section id="page-destination" className="destinations position-relative">
             <img src={require("../../../media/cheval-blanc-randheli.webp")} className="img-destinations img-fluid"/>
             <div className="title-destinations" data-aos="fade-up" data-aos-once="true">
                 <h2>Destinations</h2>

@@ -28,11 +28,17 @@ function updateImage(id, formData) {
     return axios.post(CONTINENTS_API + "/" + id + "/image", formData);
 }
 
+async function getContinentBySlug(slug) {
+    return axios.get(CONTINENTS_API + "/" + slug + "/continent")
+                .then((response) => response.data["hydra:member"]);;
+}
+
 export default {
     findAll,
     delete: deleteContinent,
     find,
     create,
     update,
-    updateImage
+    updateImage,
+    getContinentBySlug
 }

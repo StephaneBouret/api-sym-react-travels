@@ -33,6 +33,11 @@ async function getTravelsbyDestination(id) {
                 .then((response) => response.data["hydra:member"]);
 }
 
+async function getDestinationsByContinent(slug) {
+    return axios.get(DESTINATIONS_API + "/" + slug + "/continent")
+                .then((response) => response.data["hydra:member"]);;
+}
+
 export default {
     findAll,
     delete: deleteDestination,
@@ -40,5 +45,6 @@ export default {
     create,
     update,
     updateImage,
-    getTravelsbyDestination
+    getTravelsbyDestination,
+    getDestinationsByContinent
 }

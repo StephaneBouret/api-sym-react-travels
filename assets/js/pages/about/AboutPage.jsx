@@ -168,7 +168,7 @@ const AboutPage = () => {
                     </div>
                 </div>
             </section>
-            <section id="team" class="team">
+            <section id="team" className="team">
                 <div className="container" data-aos="fade-up" data-aos-once="true">
                     <div className="section-title">
                         <h2>Notre équipe</h2>

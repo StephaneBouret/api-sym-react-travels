@@ -1,0 +1,125 @@
+#page-continent {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(39, 37, 34, 0.8);
+    overflow: hidden;
+    padding: 0;
+}
+
+#page-continent::before {
+    content: "";
+    background-color: rgba(12, 11, 10, 0.2);
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.img-continent {
+    width: 100%;
+    height: 100vh;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+@media (max-width: 920px) {
+    #page-continent {
+        height: 92vh !important;
+    }
+
+    .img-continent {
+        height: 92vh !important;
+        -o-object-fit: cover;
+        object-fit: cover;
+    }
+}
+
+.title-continent {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 75px;
+    text-align: center;
+}
+
+.title-continent h2 {
+    font-size: 30px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0 60px 7px;
+    position: relative;
+    text-transform: uppercase;
+}
+
+.continent .inspire-btn {
+    padding: 0 0 35px;
+}
+
+.continent .scrollBottom {
+    cursor: pointer;
+}
+
+.continent a.inspire-btn.scrollButton {
+    width: 100%;
+    position: absolute;
+    margin: 0 auto;
+    text-align: center;
+    left: 0;
+    bottom: 0;
+}
+
+.inspire-btn:after {
+    content: '';
+    position: absolute;
+    display: inline-block;
+    border: none;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    width: 30px;
+    height: 30px;
+    bottom: 0;
+    left: 50%;
+    margin: 0 0 0 -15px;
+    transform: rotate(45deg);
+    -webkit-animation-name: slowBounce;
+    animation-name: slowBounce;
+    -webkit-animation-duration: 1.5s;
+    animation-duration: 1.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes slowBounce {
+
+    from,
+    to {
+        bottom: 0;
+    }
+
+    30% {
+        bottom: -30px;
+    }
+}
+
+@keyframes slowBounce {
+
+    from,
+    to {
+        bottom: 0;
+    }
+
+    50% {
+        bottom: -30px;
+    }
+}
+
+.collection-continent {
+    padding: 20px 0;
+}

@@ -7,15 +7,16 @@ use App\Repository\ContinentRepository;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\ContinentImageController;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Controller\ContinentImageController;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\HttpFoundation\File\File;
+use App\Controller\FindContinentBySlug;
 
 /**
  * @Vich\Uploadable
@@ -28,6 +29,12 @@ use Symfony\Component\HttpFoundation\File\File;
         'get', 
         'delete', 
         'put',
+        'get_slugContinent' => [
+            'method' => 'GET',
+            'path' => '/continents/{slugContinent}/continent',
+            'controller' => FindContinentBySlug::class,
+            'read'=> false,
+        ],
         'image' => [
             'method' => 'POST',
             'path' => '/continents/{id}/image',

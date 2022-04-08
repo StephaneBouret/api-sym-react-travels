@@ -5,11 +5,10 @@ import { toast } from 'react-toastify';
 import { BsPhone, BsClock, BsList } from "react-icons/bs";
 import "./Navbar.css";
 
-const Navbar = () => {
+const NavbarDisplayed = () => {
     const [scroll, setScroll] = useState(false);
     const [toggleMobile, settoggleMobile] = useState(false);
-    const [display, setDisplay] = useState(false);
-    const { pathname } = useLocation();
+    const [display, setDisplay] = useState(true);
 
     useEffect(() => {
         let cancel = false;
@@ -25,14 +24,6 @@ const Navbar = () => {
             cancel = true;
         }
     }, []);
-
-    useEffect(() => {
-        if (pathname === "/" || pathname === "/destinations") {
-            setDisplay(false);
-        } else {
-            setDisplay(true);
-        }
-    }, [pathname]);
     
     return ( 
         <>
@@ -85,4 +76,4 @@ const Navbar = () => {
     );
 }
  
-export default Navbar;
+export default NavbarDisplayed;

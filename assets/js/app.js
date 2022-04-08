@@ -1,7 +1,7 @@
 // Les imports importants
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes, Outlet } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/navbar/Navbar';
@@ -16,6 +16,7 @@ import DestinationsPage from './pages/destinations/DestinationsPage';
 import DetailDestination from './pages/detailDestination/DetailDestination';
 import TravelsPage from './pages/travels/TravelsPage';
 import TravelByDestination from './pages/travelByDestination/TravelByDestination';
+import ContinentPage from './pages/continent/ContinentPage';
 import AboutPage from './pages/about/AboutPage';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -24,26 +25,48 @@ import '../styles/app.css';
 
 // start the Stimulus application
 import '../bootstrap';
+import NavbarDisplayed from './components/navbar/NavbarDisplayed';
+import NavbarWithoutDisplay from './components/navbar/NavbarWithoutDisplay';
 
 const App = () => {
+
+    // Cacher la Navbar sur les pages login et register
+    const NavbarDisplayedLayout = () => (
+        <>
+        <NavbarDisplayed />
+        <Outlet />
+        </>
+    );
+    const NavbarWithoutDisplayedLayout = () => (
+        <>
+        <NavbarWithoutDisplay />
+        <Outlet />
+        </>
+    );
+
     return ( 
         <HashRouter>
             <ScrollToTop>
-                <Navbar/>
+                {/* <Navbar/> */}
                 <div>
                     <Routes>
-                        <Route path="/about" element={<AboutPage/>}/>
-                        <Route path="/destination/:id/travel" element={<TravelByDestination/>}/>
-                        <Route path="/travel" element={<TravelsPage/>}/>
-                        <Route path="/destinations/:id" element={<DetailDestination/>}/>
-                        <Route path="/destinations" element={<DestinationsPage/>} />
-                        <Route path="/admin/travel/:id" element={<AdminTravelPage/>}/>
-                        <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
-                        <Route path="/admin/destination/:id" element={<AdminDestinationPage/>}/>
-                        <Route path="/admin/destinations" element={<AdminDestinationsPage/>}/>
-                        <Route path="/admin/continent/:id" element={<AdminContinentPage/>}/>
-                        <Route path="/admin/continents" element={<AdminContinentsPage/>}/>
-                        <Route path="/" element={<HomePage />}/>
+                        <Route element={<NavbarDisplayedLayout/>}>
+                            <Route path="/about" element={<AboutPage/>}/>
+                            <Route path="/travel" element={<TravelsPage/>}/>
+                            <Route path="/admin/destination/:id" element={<AdminDestinationPage/>}/>
+                            <Route path="/admin/destinations" element={<AdminDestinationsPage/>}/>
+                            <Route path="/admin/continent/:id" element={<AdminContinentPage/>}/>
+                            <Route path="/admin/continents" element={<AdminContinentsPage/>}/>
+                            <Route path="/admin/travel/:id" element={<AdminTravelPage/>}/>
+                            <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
+                        </Route>
+                        <Route element={<NavbarWithoutDisplayedLayout/>}>
+                            <Route path="/destinations/:slug/continent" element={<ContinentPage/>}/>
+                            <Route path="/destination/:id/travel" element={<TravelByDestination/>}/>
+                            <Route path="/destinations/:id" element={<DetailDestination/>}/>
+                            <Route path="/destinations" element={<DestinationsPage/>} />
+                            <Route path="/" element={<HomePage />}/>
+                        </Route>
                     </Routes>
                 <ToastContainer 
                     position={toast.POSITION.BOTTOM_LEFT}

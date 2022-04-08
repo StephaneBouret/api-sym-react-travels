@@ -33,6 +33,7 @@ const AdminTravelPage = () => {
         filePath: null,
         destinations: "",
     });
+    console.log(travel);
     
     const [errors, setErrors] = useState({
         title: "",
