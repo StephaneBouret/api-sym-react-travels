@@ -70,7 +70,7 @@
     margin: 0 auto;
     text-align: center;
     left: 0;
-    bottom: 0;
+    bottom: 50px;
 }
 
 .inspire-btn:after {

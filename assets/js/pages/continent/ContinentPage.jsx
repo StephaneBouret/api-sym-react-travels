@@ -1,18 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import DestinationsSimplifiedCard from '../../components/destinationsSimplifiedCard/DestinationsSimplifiedCard';
+import ImageGrid from '../../components/loaders/ImageGrid';
+import Pagination from '../../components/Pagination';
+import ScrollButton from '../../components/scrollButton/ScrollButton';
+import SearchBar from '../../components/searchbar/SearchBar';
+import SmallBreadCrumbs from '../../components/smallbreadcrumbs/SmallBreadCrumbs';
 import continentsAPI from '../../services/continentsAPI';
 import destinationsAPI from '../../services/destinationsAPI';
 import './ContinentPage.css';
-import axios from 'axios';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import SmallBreadCrumbs from '../../components/smallbreadcrumbs/SmallBreadCrumbs';
-import SearchBar from '../../components/searchbar/SearchBar';
-import Pagination from '../../components/Pagination';
-import ImageGrid from '../../components/loaders/ImageGrid';
-import ScrollButton from '../../components/scrollButton/ScrollButton';
-import DestinationsSimplifiedCard from '../../components/destinationsSimplifiedCard/DestinationsSimplifiedCard';
 
 const ContinentPage = () => {
     const params = useParams();
@@ -32,7 +29,6 @@ const ContinentPage = () => {
             const data = await destinationsAPI.getDestinationsByContinent(slug);
             const sortDestinations = data.sort((a, b) => a.country < b.country ? -1 : 1);
             setDestinations(sortDestinations);
-            setLoading(false);
         } catch (error) {
             toast.error("Impossible de charger les destinations");
         }
@@ -42,6 +38,7 @@ const ContinentPage = () => {
         try {
             const data = await continentsAPI.getContinentBySlug(slug);
             setContinent(data[0]);
+            setLoading(false);
         } catch (error) {
             toast.error("Impossible de charger le continent");
         }
@@ -79,12 +76,13 @@ const ContinentPage = () => {
 
     return ( 
         <>
+        {loading && <ImageGrid />}
         <section id="page-continent" className="continent position-relative">
             <img src={continent.filePath} className="img-continent img-fluid" />
             <div className="title-continent">
                 <h2>{continent.name}</h2>
-                <Link to={{}} className="inspire-btn scrollButton" onClick={scrollToView}></Link>
             </div>
+            <Link to={{}} className="inspire-btn scrollButton" onClick={scrollToView}></Link>
         </section>
         <main>
         <SmallBreadCrumbs link={"/"} linkName={"Accueil"} secondTitle={"Destinations"} destinations={destinations}/>
@@ -104,7 +102,6 @@ const ContinentPage = () => {
                 ))}
                 </div>
             )}
-            {loading && <ImageGrid />}
             {itemsPerPage < filteredDestinations.length && (
                 <Pagination 
                 currentPage={currentPage} 
@@ -114,6 +111,7 @@ const ContinentPage = () => {
                 />
             )}
             </div>
+            <ScrollButton/>
         </section>
         </main>
         </>

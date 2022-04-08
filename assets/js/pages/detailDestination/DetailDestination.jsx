@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import destinationsAPI from '../../services/destinationsAPI';
-import { Link, useParams } from "react-router-dom";
-import ImageGrid from '../../components/loaders/ImageGrid';
-import { toast } from 'react-toastify';
-import './DetailDestination.css';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import React, { useEffect, useRef, useState } from 'react';
 import { SiYourtraveldottv } from "react-icons/si";
 import NumberFormat from 'react-number-format';
+import { Link, useParams } from "react-router-dom";
+import { toast } from 'react-toastify';
+import ImageGrid from '../../components/loaders/ImageGrid';
 import ScrollButton from '../../components/scrollButton/ScrollButton';
+import SingleDestinationBreadCrumbs from '../../components/singledestinationbreadcrumbs/SingleDestinationBreadCrumbs';
+import destinationsAPI from '../../services/destinationsAPI';
+import './DetailDestination.css';
 
 const DetailDestination = () => {
+    AOS.init({
+        duration: 1000
+    });
     const { id } = useParams();
     const [destination, setDestination] = useState({
         title: "",
@@ -19,15 +25,21 @@ const DetailDestination = () => {
         population: "",
         currency: "",
         filePath: "",
-        travel: ""
+        travel: "",
+        slug: ""
     });
     const [display, setDisplay] = useState(false);
     const [loading, setLoading] = useState(true);
+    const titleRef = useRef(null);
+    console.log(destination);
+
+    // jump to section
+    const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
     const fetchDestination = async (id) => {
         try {
-            const { title, description, country, city, continent, population, currency, filePath, travel } = await destinationsAPI.find(id);
-            setDestination({ title, description, country, city, continent, population, currency, filePath, travel });
+            const { title, description, country, city, continent, population, currency, filePath, travel, slug } = await destinationsAPI.find(id);
+            setDestination({ title, description, country, city, continent, population, currency, filePath, travel, slug });
             setLoading(false);
         } catch (error) {
             toast.error("La destination n'a pas pu être chargée");
@@ -42,18 +54,28 @@ const DetailDestination = () => {
         backgroundImage: `url(${destination.filePath})`,
     };
 
+    // onclick scroll to div react
+    const scrollToView = () => scrollToRef(titleRef);
+
     return ( 
         <>
-        <main id='main'>
-            {loading && <ImageGrid />}
-            <section className="detail-destination">
-                <div className="inner-slide" style={backgroundImage}>
-                    <div className="container">
-                        <h2 className="title-slide">{destination.country}</h2>
-                    </div>
-                </div>
-            </section>
-            <section id="featured" className="featured">
+        {loading && <ImageGrid />}
+        <section id="page-destination" className="destinations position-relative">
+            <img src={destination.filePath} className="img-destinations img-fluid" />
+            <div className="title-destinations" data-aos="fade-up" data-aos-once="true">
+                <h2>{destination.country}</h2>
+            </div>
+            <Link to={{}} className="inspire-btn scrollButton" onClick={scrollToView}></Link>
+        </section>
+        <main>
+            <SingleDestinationBreadCrumbs 
+            linkFirst={"/"} 
+            continent={destination.slug} 
+            country={destination.country} 
+            travel={destination.travel} 
+            mailto={"mailto:contact@luxury-travel.com"}
+            />
+            <section id="featured" className="featured pt-5" ref={titleRef}>
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-lg-10">
@@ -63,25 +85,25 @@ const DetailDestination = () => {
                                     <h1>{destination.title}</h1>
                                 </div>
                                 <div className="editable-description">
-                                    {!display && (
+                                {!display && (
                                     <div className="short">
-                                    {destination.description.split("\n", 5).map((i,key) => {
-                                        return <p key={key}>{i}</p>;
-                                    })}
-                                    </div>                                      
-                                    )}
+                                        {destination.description.split("\n", 5).map((i,key) => {
+                                            return <p key={key}>{i}</p>;
+                                        })}
+                                        </div>                                      
+                                        )}
                                     {display && (
-                                    <div className="long">
-                                    {destination.description.split("\n").map((i,key) => {
-                                        return <p key={key}>{i}</p>;
-                                    })}
-                                    </div>
+                                        <div className="long">
+                                        {destination.description.split("\n").map((i,key) => {
+                                            return <p key={key}>{i}</p>;
+                                        })}
+                                        </div>
                                     )}
-                                    {!display && (
-                                    <div className="button-wrapper">
-                                        <button className="btn" type="button" onClick={() => setDisplay(true)}>En savoir plus</button>
-                                    </div>
-                                    )}
+                                        {!display && (
+                                        <div className="button-wrapper">
+                                            <button className="btn" type="button" onClick={() => setDisplay(true)}>En savoir plus</button>
+                                        </div>
+                                        )}
                                 </div>
                                 <div className="country-infos">
                                     <span>Continent : <strong>{destination.continent}</strong></span>

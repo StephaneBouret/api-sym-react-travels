@@ -53,6 +53,10 @@ const TravelByDestination = () => {
         fetchTravelsByDestination(id);
     }, [id]);
 
+    const backgroundImage = {
+        backgroundImage: `url(${destination.filePath})`,
+    };
+
     function filteredTravels(travelType) {
         let filtredTravel = travels.filter(travel => travel.type === travelType);
         return filtredTravel;
@@ -72,12 +76,13 @@ const TravelByDestination = () => {
     
     return ( 
         <>
-        <main>
-            {loading && <ImageGrid />}
-            <section id="travel-by-destination" className="travel-by-destination position-relative">
-                <img src={destination.filePath} className="img-destinations img-fluid pos-img" />
-                <div className="title-destinations">
-                    <h2>{destination.country}</h2>
+        <main id='main'>
+        {loading && <ImageGrid />}
+            <section className="travel-by-destination">
+                <div className="inner-slide" style={backgroundImage}>
+                    <div className="container">
+                        <h2 className="title-slide">{destination.country}</h2>
+                    </div>
                 </div>
             </section>
             <section className="portfolio-travels">
