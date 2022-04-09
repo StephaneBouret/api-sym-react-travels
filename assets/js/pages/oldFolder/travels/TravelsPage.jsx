@@ -1,17 +1,17 @@
+import React, { useState, useEffect, useReducer } from 'react';
+import { toast } from 'react-toastify';
+import { Link, useParams } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import ContainerOuter from '../../components/containerouter/ContainerOuter';
-import ImageGrid from '../../components/loaders/ImageGrid';
 import Pagination from '../../components/Pagination';
-import ScrollButton from '../../components/scrollButton/ScrollButton';
 import SearchBar from '../../components/searchbar/SearchBar';
-import SmallBreadCrumbsTravel from '../../components/smallbreadcrumbs/SmallBreadCrumbsTravel';
-import TravelsCard from '../../components/travelsCard/TravelsCard';
+import ScrollButton from '../../components/scrollButton/ScrollButton';
+import ImageGrid from '../../components/loaders/ImageGrid';
 import travelsAPI from '../../services/travelsAPI';
+import ContainerOuter from '../../components/containerouter/ContainerOuter';
+import TravelsCard from '../../components/travelsCard/TravelsCard';
 import './TravelsPage.css';
+import { array } from 'prop-types';
 
 const TravelsPage = () => {
     AOS.init({
@@ -24,10 +24,7 @@ const TravelsPage = () => {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [findContinent, setFindContinent] = useState("");
-    const titleRef = useRef(null);
     const [travels, setTravels] = useState([]);
-
-    const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
     const fetchTravels = async () => {
         try {
@@ -54,26 +51,17 @@ const TravelsPage = () => {
         setCurrentId(idx);
     };
 
-    // Permet de rester sur la barre des continents au click
-    useEffect(() => {
-        if (findContinent) {
-            scrollToRef(titleRef);
-        } else {
-            window.scrollTo(0, 0);
-        }
-    }, [findContinent])
-    
-
     const filterSelectedTravel = travels
-            .filter((travel) => travel.destinations.continent.includes(findContinent))
-            .filter((travel) => travel.destinations.country.toLowerCase().includes(search.toLowerCase()));
+                                        .filter((travel) => travel.destinations.continent.includes(findContinent))
+                                        .filter((travel) => travel.destinations.country.toLowerCase().includes(search.toLowerCase()));
 
     useEffect(() => {
         if (!findContinent) {
             setArrayToFilter(travels);
         }
         setArrayToFilter(filterSelectedTravel);
-    }, [findContinent, search, travels]);
+    }, [findContinent, search, travels])
+    
 
     // Page change management
     const handlePageChange = (page) => setCurrentPage(page);
@@ -84,26 +72,21 @@ const TravelsPage = () => {
         itemsPerPage
     );
 
-    // onclick scroll to div react
-    const scrollToView = () => scrollToRef(titleRef);
-
     return ( 
         <>
-            <section id="page-destination" className="destinations position-relative">
-                <img src={require("../../../media/travels.webp")} className="img-destinations img-fluid"/>
-                <div className="title-destinations" data-aos="fade-up" data-aos-once="true">
-                    <h2>Nos voyages</h2>
-                </div>
-                <Link to={{}} className="inspire-btn scrollButton" onClick={scrollToView}></Link>
-            </section>
-            <main ref={titleRef}>
-                <SmallBreadCrumbsTravel link={"/"} linkName={"Accueil"} secondTitle={"Voyages"} travels={travels}/>
-                <section className="collection-destinations">
-                    <ContainerOuter
-                    handleClickContinent={handleClickContinent}
-                    currentId={currentId}
-                    />
+        <main id='main'>
+            <div data-aos="fade-up">
+                <section id="travels" className="travels">
+                    <div className="container">
+                        <div className="section-title">
+                            <h2>Nos voyages</h2>
+                        </div>
+                    </div>
                 </section>
+                <ContainerOuter
+                handleClickContinent={handleClickContinent}
+                currentId={currentId}
+                />
                 <section className="paginated-travels">
                     <div className="container">
                         <p className="mb-0">Rechercher par pays</p>
@@ -138,8 +121,9 @@ const TravelsPage = () => {
                         )}
                     </div>
                 </section>
+            </div>
             <ScrollButton/>
-            </main>
+        </main>
         </>
      );
 }

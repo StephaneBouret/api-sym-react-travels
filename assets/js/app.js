@@ -1,7 +1,7 @@
 // Les imports importants
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter, Route, Routes, Outlet } from 'react-router-dom';
+import { HashRouter, Route, Routes, Outlet, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/navbar/Navbar';
@@ -18,7 +18,6 @@ import TravelsPage from './pages/travels/TravelsPage';
 import TravelByDestination from './pages/travelByDestination/TravelByDestination';
 import ContinentPage from './pages/continent/ContinentPage';
 import AboutPage from './pages/about/AboutPage';
-import ScrollToTop from './components/ScrollToTop';
 
 // any CSS you import will output into a single css file (app.css in this case)
 import '../styles/app.css';
@@ -27,6 +26,14 @@ import '../styles/app.css';
 import '../bootstrap';
 import NavbarDisplayed from './components/navbar/NavbarDisplayed';
 import NavbarWithoutDisplay from './components/navbar/NavbarWithoutDisplay';
+
+const Wrapper = ({children}) => {
+    const location = useLocation();
+    useLayoutEffect(() => {
+      document.documentElement.scrollTo(0, 0);
+    }, [location.pathname]);
+    return children;
+};
 
 const App = () => {
 
@@ -46,13 +53,12 @@ const App = () => {
 
     return ( 
         <HashRouter>
-            <ScrollToTop>
                 {/* <Navbar/> */}
+            <Wrapper>
                 <div>
                     <Routes>
                         <Route element={<NavbarDisplayedLayout/>}>
                             <Route path="/about" element={<AboutPage/>}/>
-                            <Route path="/travel" element={<TravelsPage/>}/>
                             <Route path="/admin/destination/:id" element={<AdminDestinationPage/>}/>
                             <Route path="/admin/destinations" element={<AdminDestinationsPage/>}/>
                             <Route path="/admin/continent/:id" element={<AdminContinentPage/>}/>
@@ -61,6 +67,7 @@ const App = () => {
                             <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
                         </Route>
                         <Route element={<NavbarWithoutDisplayedLayout/>}>
+                            <Route path="/travel" element={<TravelsPage/>}/>
                             <Route path="/destinations/:slug/continent" element={<ContinentPage/>}/>
                             <Route path="/destination/:id/travel" element={<TravelByDestination/>}/>
                             <Route path="/destinations/:id" element={<DetailDestination/>}/>
@@ -72,7 +79,7 @@ const App = () => {
                     position={toast.POSITION.BOTTOM_LEFT}
                 />
                 </div>
-            </ScrollToTop>
+            </Wrapper>
         </HashRouter>
     );
 }

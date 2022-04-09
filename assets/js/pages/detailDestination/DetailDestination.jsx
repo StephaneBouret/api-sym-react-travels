@@ -1,5 +1,3 @@
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { SiYourtraveldottv } from "react-icons/si";
 import NumberFormat from 'react-number-format';
@@ -12,9 +10,6 @@ import destinationsAPI from '../../services/destinationsAPI';
 import './DetailDestination.css';
 
 const DetailDestination = () => {
-    AOS.init({
-        duration: 1000
-    });
     const { id } = useParams();
     const [destination, setDestination] = useState({
         title: "",
@@ -31,7 +26,6 @@ const DetailDestination = () => {
     const [display, setDisplay] = useState(false);
     const [loading, setLoading] = useState(true);
     const titleRef = useRef(null);
-    console.log(destination);
 
     // jump to section
     const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
@@ -62,7 +56,7 @@ const DetailDestination = () => {
         {loading && <ImageGrid />}
         <section id="page-destination" className="destinations position-relative">
             <img src={destination.filePath} className="img-destinations img-fluid" />
-            <div className="title-destinations" data-aos="fade-up" data-aos-once="true">
+            <div className="title-destinations">
                 <h2>{destination.country}</h2>
             </div>
             <Link to={{}} className="inspire-btn scrollButton" onClick={scrollToView}></Link>

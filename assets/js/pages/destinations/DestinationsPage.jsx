@@ -13,6 +13,7 @@ import SmallBreadCrumbs from '../../components/smallbreadcrumbs/SmallBreadCrumbs
 import destinationsAPI from '../../services/destinationsAPI';
 import continentsAPI from '../../services/continentsAPI';
 import './DestinationsPage.css';
+import ScrollToTop from '../../components/ScrollToTop';
 
 const DestinationsPage = () => {
     AOS.init({
@@ -49,8 +50,13 @@ const DestinationsPage = () => {
     }
 
     useEffect(() => {
+        let cancel = false;
+        if (cancel) return;
         fetchDestinations();
         fetchContinents();
+        return () => {
+            cancel = true;
+        }
     }, []);
 
     // Gestion de la recherche
