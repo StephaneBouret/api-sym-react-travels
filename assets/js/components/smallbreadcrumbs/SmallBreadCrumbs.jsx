@@ -12,7 +12,9 @@ const SmallBreadCrumbs = ({link, linkName, secondTitle, destinations}) => {
                         <li><Link to={link}>{linkName}</Link></li>
                         <li>{secondTitle}</li>
                     </ol>
-                    <span>({destinations.length} pays)</span>
+                    {destinations && (
+                        <span>({destinations.length} pays)</span>
+                    )}
                 </div>
             </div>
         </section>

@@ -1,6 +1,6 @@
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import CountUp from 'react-countup';
 import { BsCheckCircle, BsEmojiSmile, BsHeadset, BsPeople } from "react-icons/bs";
 import { RiCheckDoubleLine, RiFacebookFill, RiInstagramFill, RiLinkedinFill, RiTwitterFill } from "react-icons/ri";
@@ -8,7 +8,9 @@ import { SiYourtraveldottv } from "react-icons/si";
 import { Link } from 'react-router-dom';
 import VisibilitySensor from "react-visibility-sensor";
 import ScrollButton from '../../components/scrollButton/ScrollButton';
+import SmallBreadCrumbs from '../../components/smallbreadcrumbs/SmallBreadCrumbs';
 import './AboutPage.css';
+import Videos from '../../components/videos/Videos';
 
 const AboutPage = () => {
     AOS.init({
@@ -16,19 +18,32 @@ const AboutPage = () => {
     });
 
     const [focus, setFocus] = useState(false);
+    const titleRef = useRef(null);
+    // jump to section
+    const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
+
+    // onclick scroll to div react
+    const scrollToView = () => scrollToRef(titleRef);
 
     return ( 
         <>
-        <main id='main'>
+        <section id="page-about" className="about-us position-relative">
+            <img src={require("../../../media/bg-about.webp")} className="img-travels img-fluid"/>
+            <div className="title-travels" data-aos="fade-up" data-aos-once="true">
+                <h2>A propos de nous</h2>
+            </div>
+            <Link to={{}} className="inspire-btn scrollButton" onClick={scrollToView}></Link>
+        </section>
+        <main ref={titleRef}>
+            <SmallBreadCrumbs link={"/"} linkName={"Accueil"} secondTitle={"A propos de nous"} destinations={""}/>
             <section id="about" className="about">
-                <div className="container" data-aos="fade-up">
+                <div className="container" data-aos="fade-up" data-aos-once="true">
                     <div className="section-title">
-                        <h2>A propos de nous</h2>
                         <p>Agents de voyages spécialistes sur de nombreuses destinations, nous répondons à vos attentes avec le meilleur conseil sur chaque destination. Notre équipe vous propose des voyages sur mesure en fonction de vos préférences.</p>
                     </div>
                     <div className="row">
                         <div className="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100" data-aos-once="true">
-                            <img src={require('../../../media/bg-about.webp')} className='img-fluid' />
+                            <Videos/>
                         </div>
                         <div className="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100" data-aos-once="true">
                             <h3>Quels sont nos engagements ?</h3>

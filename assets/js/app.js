@@ -58,7 +58,6 @@ const App = () => {
                 <div>
                     <Routes>
                         <Route element={<NavbarDisplayedLayout/>}>
-                            <Route path="/about" element={<AboutPage/>}/>
                             <Route path="/admin/destination/:id" element={<AdminDestinationPage/>}/>
                             <Route path="/admin/destinations" element={<AdminDestinationsPage/>}/>
                             <Route path="/admin/continent/:id" element={<AdminContinentPage/>}/>
@@ -67,6 +66,7 @@ const App = () => {
                             <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
                         </Route>
                         <Route element={<NavbarWithoutDisplayedLayout/>}>
+                            <Route path="/about" element={<AboutPage/>}/>
                             <Route path="/travel" element={<TravelsPage/>}/>
                             <Route path="/destinations/:slug/continent" element={<ContinentPage/>}/>
                             <Route path="/destination/:id/travel" element={<TravelByDestination/>}/>
