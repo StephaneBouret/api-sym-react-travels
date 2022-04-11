@@ -127,6 +127,7 @@ class Travel
     /**
      * @Vich\UploadableField(mapping="travel_image", fileNameProperty="filePath")
      */
+    #[Assert\Image(mimeTypes: ['image/jpeg', 'image/png', 'image/webp'], mimeTypesMessage: 'Vous ne pouvez télécharger que du format jpeg, png, webp')]
     #[Groups(['travel_object_create'])]
     public ?File $file = null;
 

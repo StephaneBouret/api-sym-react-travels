@@ -1,6 +1,6 @@
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import CountUp from 'react-countup';
 import { BsCheckCircle, BsEmojiSmile, BsHeadset, BsPeople } from "react-icons/bs";
 import { RiCheckDoubleLine, RiFacebookFill, RiInstagramFill, RiLinkedinFill, RiTwitterFill } from "react-icons/ri";
@@ -9,8 +9,8 @@ import { Link } from 'react-router-dom';
 import VisibilitySensor from "react-visibility-sensor";
 import ScrollButton from '../../components/scrollButton/ScrollButton';
 import SmallBreadCrumbs from '../../components/smallbreadcrumbs/SmallBreadCrumbs';
-import './AboutPage.css';
 import Videos from '../../components/videos/Videos';
+import './AboutPage.css';
 
 const AboutPage = () => {
     AOS.init({

@@ -137,6 +137,7 @@ class Destination
     /**
      * @Vich\UploadableField(mapping="destination_image", fileNameProperty="filePath")
      */
+    #[Assert\Image(mimeTypes: ['image/jpeg', 'image/png', 'image/webp'], mimeTypesMessage: 'Vous ne pouvez télécharger que du format jpeg, png, webp')]
     #[Groups(['destination_object_create'])]
     public ?File $file = null;
 

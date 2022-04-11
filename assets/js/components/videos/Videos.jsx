@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
-import './Videos.css';
-import myVideo from "../../../media/essence-of-the-delta.mp4";
 import { Waypoint } from 'react-waypoint';
+import myVideo from "../../../media/essence-of-the-delta.mp4";
+import './Videos.css';
 
 const Videos = () => {
     const [play, setPlay] = useState(false);
@@ -25,6 +25,7 @@ const Videos = () => {
             muted
             className='player'
             controls
+            loop
             />
         </div>
         </Waypoint>

@@ -6,8 +6,10 @@ import slugify from 'react-slugify';
 import { toast } from 'react-toastify';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import Field from '../../components/forms/Field';
+import FileField from '../../components/forms/FileField';
 import TextArea from '../../components/forms/TextArea';
 import Pagination from '../../components/Pagination';
+import ScrollButton from '../../components/scrollButton/ScrollButton';
 import SearchBar from '../../components/searchbar/SearchBar';
 import TableAdminCountries from '../../components/tableAdminCountries/TableAdminCountries';
 import countriesAPI from '../../services/countriesAPI';
@@ -35,7 +37,7 @@ const AdminDestinationPage = () => {
     });
     const [disabled, setDisabled] = useState(true);
     const [errors, setErrors] = useState({
-        title: "", description: "", country: "", city: "", continent: "", population: "", currency: "",
+        title: "", description: "", country: "", city: "", continent: "", population: "", currency: "", file: ""
     });
     const [editing, setEditing] = useState(false);
     const [initialDestinations, setInitialDestinations] = useState([]);
@@ -192,10 +194,19 @@ const AdminDestinationPage = () => {
         formData.append('file', selectedFile);
 
         try {
+            setErrors({});
             await destinationsAPI.updateImage(id, formData);
             toast.success("L'image est bien téléchargée");
             navigate("/admin/destinations");
-        } catch (error) {
+        } catch ({ response }) {
+            const { violations } = response.data;
+            if (violations) {
+                const apiErrors = {};
+                violations.forEach(({ propertyPath, message }) => {
+                    apiErrors[propertyPath] = message;
+                    setErrors(apiErrors);
+                })
+            }
             toast.error("L'image n'a pas pu être téléchargée");
         }
     }
@@ -331,13 +342,10 @@ const AdminDestinationPage = () => {
                                     )}
                                 </div>
                             ) || (<h5>Aucune image</h5>)}
-                            <label htmlFor="file">Image</label>
-                            <input 
-                            type="file" 
-                            name="file" 
-                            id="file" 
-                            className="form-control"
+                            <FileField
+                            name={"file"}
                             onChange={changeHandler}
+                            error={errors.file}
                             />
                             <div className="tags-img mt-2">
                                 {isSelected ? (
@@ -358,6 +366,7 @@ const AdminDestinationPage = () => {
                     </form>
                 )}
             </div>
+            <ScrollButton/>
         </main>
         </>
     );

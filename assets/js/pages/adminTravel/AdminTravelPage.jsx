@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import Field from '../../components/forms/Field';
+import FileField from '../../components/forms/FileField';
 import Select from '../../components/forms/Select';
 import TextArea from '../../components/forms/TextArea';
 import FormContentLoader from '../../components/loaders/FormContentLoader';
+import ScrollButton from '../../components/scrollButton/ScrollButton';
 import destinationsAPI from '../../services/destinationsAPI';
 import travelsAPI from '../../services/travelsAPI';
 import './AdminTravelPage.css';
-import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css';
 
 const AdminTravelPage = () => {
     const navigate = useNavigate();
@@ -40,7 +42,8 @@ const AdminTravelPage = () => {
         type: "",
         days: "",
         nights: "",
-        amount: ""
+        amount: "",
+        file: ""
     });
 
     const fetchTravel = async (id) => {
@@ -123,10 +126,19 @@ const AdminTravelPage = () => {
         formData.append('file', selectedFile);
 
         try {
+            setErrors({});
             await travelsAPI.updateImage(id, formData);
             toast.success("L'image est bien téléchargée");
             navigate("/admin/travel");
-        } catch (error) {
+        } catch ({ response }) {
+            const { violations } = response.data;
+            if (violations) {
+                const apiErrors = {};
+                violations.forEach(({ propertyPath, message }) => {
+                    apiErrors[propertyPath] = message;
+                    setErrors(apiErrors);
+                })
+            }
             toast.error("L'image n'a pas pu être téléchargée");
         }
     }
@@ -249,13 +261,10 @@ const AdminTravelPage = () => {
                                     )}
                                 </div>
                             ) || (<h5>Aucune image</h5>)}
-                            <label htmlFor="file">Image</label>
-                            <input 
-                            type="file" 
-                            name="file" 
-                            id="file" 
-                            className="form-control"
+                            <FileField
+                            name={"file"}
                             onChange={changeHandler}
+                            error={errors.file}
                             />
                             <div className="tags-img mt-2">
                                 {isSelected ? (
@@ -276,6 +285,7 @@ const AdminTravelPage = () => {
                     </form>
                 )}
             </div>
+            <ScrollButton/>
         </main>
         </>
     );

@@ -23,6 +23,9 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
 
+    // To have a appropriate loader to handle this file type
+    .addLoader({ test: /\.mp4$/, use: [{loader: 'url-loader', options : {limit: false,}}] })
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 
