@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Link } from "react-router-dom";
 import { useNavigate, useLocation, useParams, use } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { BsPhone, BsClock, BsList } from "react-icons/bs";
+import { BsPhone, BsClock, BsList, BsChevronDown } from "react-icons/bs";
+import { AiOutlineClose } from "react-icons/ai";
 import "./Navbar.css";
 
 const NavbarWithoutDisplay = () => {
     const [scroll, setScroll] = useState(false);
     const [toggleMobile, settoggleMobile] = useState(false);
+    const [dropDown, setDropDown] = useState(false);
     const [display, setDisplay] = useState(false);
 
     useEffect(() => {
@@ -24,6 +26,12 @@ const NavbarWithoutDisplay = () => {
             cancel = true;
         }
     }, []);
+
+    const toggleOff = () => {
+        if (dropDown !== false) {
+            settoggleMobile(toggleMobile => !toggleMobile)
+        }
+    }
     
     return ( 
         <>
@@ -49,11 +57,17 @@ const NavbarWithoutDisplay = () => {
                             <li>
                                 <NavLink className={"nav-link scrollto"} to={"/travel"}>Voyages</NavLink>
                             </li>
-                            <li>
-                                <NavLink className={"nav-link scrollto"} to={"/admin/destinations"}>Admin Destinations</NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={"nav-link scrollto"} to={"/admin/travel"}>Admin Voyages</NavLink>
+                            <li className="dropdown">
+                                <Link className={"nav-link scrollto"} to={{}}>
+                                    Admin
+                                    <BsChevronDown onClick={() => setDropDown(dropDown => !dropDown)}/>
+                                </Link>
+                                <ul className={`${dropDown ? "dropdown-active" : ""}`}>
+                                    <li><NavLink className={"nav-link scrollto"} to={"/admin/destinations"} onClick={toggleOff}>Admin Destinations</NavLink></li>
+                                    <li><NavLink className={"nav-link scrollto"} to={"/admin/travel"} onClick={toggleOff}>Admin Voyages</NavLink></li>
+                                    <li><NavLink className={"nav-link scrollto"} to={"/admin/continents"} onClick={toggleOff}>Admin Continents</NavLink></li>
+                                    <li><NavLink className={"nav-link scrollto"} to={"/admin/images"} onClick={toggleOff}>Admin Carousel</NavLink></li>
+                                </ul>
                             </li>
                             <li>
                                 <NavLink className={"nav-link scrollto"} to={"/about"}>Qui sommes-nous</NavLink>
@@ -68,7 +82,9 @@ const NavbarWithoutDisplay = () => {
                                 <NavLink className={"btn login-btn"} to={"/login"}>Connexion</NavLink>
                             </li>
                         </ul>
-                        <i className="mobile-nav-toggle" onClick={() => settoggleMobile(toggleMobile => !toggleMobile)}><BsList/></i>
+                        <i className="mobile-nav-toggle" onClick={() => settoggleMobile(toggleMobile => !toggleMobile)}>
+                            {toggleMobile ? <AiOutlineClose/> : <BsList/>}
+                        </i>
                     </nav>
                 </div>
             </header>

@@ -116,7 +116,8 @@
 }
 
 .navbar a i,
-.navbar a:focus i {
+.navbar a:focus i, .navbar a svg,
+.navbar a:focus svg {
     font-size: 12px;
     line-height: 0;
     margin-left: 5px;
@@ -156,7 +157,7 @@
     color: #433f39;
 }
 
-.navbar .dropdown ul a i {
+.navbar .dropdown ul a i, .navbar .dropdown ul a svg {
     font-size: 12px;
 }
 
@@ -318,7 +319,7 @@
     padding: 10px 20px;
 }
 
-.navbar-mobile .dropdown ul a i {
+.navbar-mobile .dropdown ul a i, .navbar-mobile .dropdown ul a svg {
     font-size: 12px;
 }
 

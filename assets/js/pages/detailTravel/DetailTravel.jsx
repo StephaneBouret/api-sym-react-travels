@@ -7,10 +7,10 @@ import travelsAPI from '../../services/travelsAPI';
 import destinationsAPI from '../../services/destinationsAPI';
 import './DetailTravel.css';
 import SingleTravelBreadCrumbs from '../../components/singledestinationbreadcrumbs/SingleTravelBreadCrumbs';
-import SingleDestinationBreadCrumbs from '../../components/singledestinationbreadcrumbs/SingleDestinationBreadCrumbs';
 import FirstElementTravel from '../../components/firstElementTravel/FirstElementTravel';
 import Img1 from '../../../media/constance-lemuria-2.webp';
 import SecondElementTravel from '../../components/secondElementTravel/SecondElementTravel';
+import CarouselSlider from '../../components/slider/CarouselSlider';
 
 const DetailTravel = () => {
     const { id } = useParams();
@@ -90,6 +90,11 @@ const DetailTravel = () => {
             titleRef={titleRef}
             travel={travel}
             />
+            <section id="carouselElement" className="carouselElement">
+                <div className="container">
+                    <CarouselSlider/>
+                </div>
+            </section>
             <SecondElementTravel
             Img1={Img1}
             travel={travel}

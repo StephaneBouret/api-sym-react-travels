@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use App\Entity\Destination;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TravelRepository;
 use App\Controller\TravelImageController;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -31,6 +34,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
         ],
         'destination_get_subresource' => [
             'path' => '/travel/{id}/destination',
+        ],
+        'images_get_subresource' => [
+            'path' => '/travel/{id}/images'
         ]
     ],
     denormalizationContext: ["disable_type_enforcement" => true],
@@ -76,7 +82,7 @@ class Travel
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -88,7 +94,7 @@ class Travel
         minMessage: 'Le titre doit faire au moins {{ limit }} caractères',
         maxMessage: 'Le titre ne peut excéder plus de {{ limit }} caractères',
     )]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $title;
 
     #[ORM\Column(type: 'text')]
@@ -100,28 +106,28 @@ class Travel
         minMessage: 'La description doit faire au moins {{ limit }} caractères',
         maxMessage: 'La description ne peut excéder plus de {{ limit }} caractères',
     )]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $description;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Le type du voyage est obligatoire")]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $type;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank(message: "Le nombre de jours du voyage est obligatoire")]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $days;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank(message: "Le nombre de nuits du voyage est obligatoire")]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $nights;
 
     #[ORM\Column(type: 'float')]
     #[Assert\NotBlank(message: "Le prix du voyage est obligatoire")]
     #[Assert\Type(type: 'numeric', message: 'Le prix doit être au format numérique')]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $amount;
 
     /**
@@ -134,7 +140,7 @@ class Travel
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $filePath;
     
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private ?string $fileUrl = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -146,22 +152,22 @@ class Travel
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Les plus sont obligatoires")]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $theMost;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "La capacité est obligatoire")]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $capacity;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Le style est obligatoire")]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $style;
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank(message: "Les loisirs sont obligatoires")]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $hobbies;
 
     #[ORM\Column(type: 'text')]
@@ -170,7 +176,7 @@ class Travel
         max: 650,
         maxMessage: 'La description ne peut excéder plus de {{ limit }} caractères',
     )]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $arroundTrip;
 
     #[ORM\Column(type: 'text')]
@@ -179,8 +185,17 @@ class Travel
         max: 650,
         maxMessage: 'La description ne peut excéder plus de {{ limit }} caractères',
     )]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $situation;
+
+    #[ORM\OneToMany(mappedBy: 'travels', targetEntity: Images::class)]
+    #[Groups(["travel_read"])]
+    private $images;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -400,6 +415,36 @@ class Travel
     public function setSituation(string $situation): self
     {
         $this->situation = $situation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Images>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Images $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setTravels($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getTravels() === $this) {
+                $image->setTravels(null);
+            }
+        }
 
         return $this;
     }
