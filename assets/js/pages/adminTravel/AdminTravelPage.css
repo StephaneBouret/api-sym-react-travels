@@ -40,6 +40,11 @@
     padding: 10px 12px;
 }
 
+.travel-form p {
+    margin-bottom: 0;
+    font-size: 13px;
+}
+
 .travel-form button[type=submit] {
     background: #5cb874;
     border: 0;

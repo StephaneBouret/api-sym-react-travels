@@ -25,7 +25,8 @@ class TravelNormalizer implements ContextAwareNormalizerInterface, NormalizerAwa
     public function normalize(mixed $object, ?string $format = null, array $context = [])
     {
         $context[self::ALREADY_CALLED] = true;
-        $object->setFilePath($this->storage->resolveUri($object, 'file'));
+        // $object->setFilePath($this->storage->resolveUri($object, 'file'));
+        $object->setFileUrl($this->storage->resolveUri($object, 'file'));
         return $this->normalizer->normalize($object, $format, $context);
     }
 

@@ -14,6 +14,7 @@ import AdminTravelsPage from './pages/adminTravels/AdminTravelsPage';
 import AdminTravelPage from './pages/adminTravel/AdminTravelPage';
 import DestinationsPage from './pages/destinations/DestinationsPage';
 import DetailDestination from './pages/detailDestination/DetailDestination';
+import DetailTravel from './pages/detailTravel/DetailTravel';
 import TravelsPage from './pages/travels/TravelsPage';
 import TravelByDestination from './pages/travelByDestination/TravelByDestination';
 import ContinentPage from './pages/continent/ContinentPage';
@@ -67,6 +68,7 @@ const App = () => {
                         </Route>
                         <Route element={<NavbarWithoutDisplayedLayout/>}>
                             <Route path="/about" element={<AboutPage/>}/>
+                            <Route path="/travel/:id" element={<DetailTravel/>}/>
                             <Route path="/travel" element={<TravelsPage/>}/>
                             <Route path="/destinations/:slug/continent" element={<ContinentPage/>}/>
                             <Route path="/destination/:id/travel" element={<TravelByDestination/>}/>

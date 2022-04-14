@@ -78,7 +78,7 @@ const ContinentPage = () => {
         <>
         {loading && <ImageGrid />}
         <section id="page-continent" className="continent position-relative">
-            <img src={continent.filePath} className="img-continent img-fluid" />
+            <img src={continent.fileUrl} className="img-continent img-fluid" />
             <div className="title-continent">
                 <h2>{continent.name}</h2>
             </div>
@@ -95,7 +95,7 @@ const ContinentPage = () => {
                     <div key={destination.id} className="col-12 col-lg-3 col-sm-6 card-destination text-center">
                     <DestinationsSimplifiedCard
                     id={destination.id}
-                    filePath={destination.filePath}
+                    fileUrl={destination.fileUrl}
                     country={destination.country}
                     />
                     </div>

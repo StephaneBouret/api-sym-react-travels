@@ -19,7 +19,7 @@ const DetailDestination = () => {
         continent: "",
         population: "",
         currency: "",
-        filePath: "",
+        fileUrl: "",
         travel: "",
         slug: ""
     });
@@ -32,8 +32,8 @@ const DetailDestination = () => {
 
     const fetchDestination = async (id) => {
         try {
-            const { title, description, country, city, continent, population, currency, filePath, travel, slug } = await destinationsAPI.find(id);
-            setDestination({ title, description, country, city, continent, population, currency, filePath, travel, slug });
+            const { title, description, country, city, continent, population, currency, fileUrl, travel, slug } = await destinationsAPI.find(id);
+            setDestination({ title, description, country, city, continent, population, currency, fileUrl, travel, slug });
             setLoading(false);
         } catch (error) {
             toast.error("La destination n'a pas pu être chargée");
@@ -45,7 +45,7 @@ const DetailDestination = () => {
     }, [id]);
 
     const backgroundImage = {
-        backgroundImage: `url(${destination.filePath})`,
+        backgroundImage: `url(${destination.fileUrl})`,
     };
 
     // onclick scroll to div react
@@ -55,7 +55,7 @@ const DetailDestination = () => {
         <>
         {loading && <ImageGrid />}
         <section id="page-destination" className="destinations position-relative">
-            <img src={destination.filePath} className="img-destinations img-fluid" />
+            <img src={destination.fileUrl} className="img-destinations img-fluid" />
             <div className="title-destinations">
                 <h2>{destination.country}</h2>
             </div>

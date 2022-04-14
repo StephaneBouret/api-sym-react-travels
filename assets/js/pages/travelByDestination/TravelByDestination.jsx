@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BiLink, BiPlus } from "react-icons/bi";
 import Lightbox from 'react-image-lightbox';
 import Masonry from "react-masonry-component";
@@ -25,8 +25,8 @@ const TravelByDestination = () => {
 
     const fetchDestination = async (id) => {
         try {
-            const { country, filePath } = await destinationsAPI.find(id);
-            setDestination({ country, filePath });
+            const { country, fileUrl } = await destinationsAPI.find(id);
+            setDestination({ country, fileUrl });
             setLoading(false);
             
         } catch (error) {
@@ -39,7 +39,7 @@ const TravelByDestination = () => {
             const data = await destinationsAPI.getTravelsbyDestination(id);
             setTravels(data);
             setFiltredTravel(data);
-            const imagesTravels = data.map(obj => obj.filePath);
+            const imagesTravels = data.map(obj => obj.fileUrl);
             setImages(imagesTravels);
             const typesTravels = data.map(obj => obj.type);
             setTravelType(typesTravels);
@@ -75,7 +75,7 @@ const TravelByDestination = () => {
         <main>
             {loading && <ImageGrid />}
             <section id="travel-by-destination" className="travel-by-destination position-relative">
-                <img src={destination.filePath} className="img-destinations img-fluid pos-img" />
+                <img src={destination.fileUrl} className="img-destinations img-fluid pos-img" />
                 <div className="title-destinations">
                     <h2>{destination.country}</h2>
                 </div>
@@ -110,7 +110,7 @@ const TravelByDestination = () => {
                             {filtredTravel && filtredTravel.map((type, index) => (
                                 <li key={type.id} className={"col-lg-4 col-md-6 portfolio-item filter-item filter-" + type.type}>
                                     <div className="portfolio-wrap">
-                                        <img src={type.filePath} className="img-fluid" />
+                                        <img src={type.fileUrl} className="img-fluid" />
                                         <div className="portfolio-info">
                                             <h4>{type.title}</h4>
                                             <p>{type.type}</p>

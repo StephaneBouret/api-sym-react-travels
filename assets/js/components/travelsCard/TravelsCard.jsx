@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import TextTruncate from 'react-text-truncate';
 import './TravelsCard.css';
 
-const TravelsCard = ({ amount, country, days, description, filePath, id, nights, title }) => {
+const TravelsCard = ({ amount, country, days, description, fileUrl, id, nights, title }) => {
     return ( 
         <>
         <Link
@@ -13,7 +13,7 @@ const TravelsCard = ({ amount, country, days, description, filePath, id, nights,
         >
         <div className="card card-explore">
             <div className="card-explore__img">
-                <img src={filePath} alt="" className='card-img-top' />
+                <img src={fileUrl} alt="" className='card-img-top' />
                 <div className="text">
                     <h3>{country}</h3>
                 </div>

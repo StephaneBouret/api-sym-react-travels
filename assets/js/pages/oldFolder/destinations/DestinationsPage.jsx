@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import './DestinationsPage.css';
-import Pagination from '../../components/Pagination';
-import SearchBar from '../../components/searchbar/SearchBar';
-import ScrollButton from '../../components/scrollButton/ScrollButton';
-import ImageGrid from '../../components/loaders/ImageGrid';
-import { toast } from 'react-toastify';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import destinationsAPI from '../../services/destinationsAPI';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import DestinationsCard from '../../components/destinationsCard/DestinationsCard';
+import ImageGrid from '../../components/loaders/ImageGrid';
+import Pagination from '../../components/Pagination';
+import ScrollButton from '../../components/scrollButton/ScrollButton';
+import SearchBar from '../../components/searchbar/SearchBar';
+import destinationsAPI from '../../services/destinationsAPI';
+import './DestinationsPage.css';
 
 const DestinationsPage = () => {
     AOS.init({
@@ -75,7 +75,7 @@ const DestinationsPage = () => {
                                 id={destination.id}
                                 country={destination.country}
                                 city={destination.city}
-                                filePath={destination.filePath}
+                                fileUrl={destination.fileUrl}
                                 travel={destination.travel}
                                 />
                             </div>

@@ -9,7 +9,7 @@ const ContainerContinent = ({ paginatedContinents }) => {
             <div key={continent.id} className="col-12 col-lg-3 col-md-6 col-sm-6 mb-3">
                 <div className="text-center">
                     <Link to={"/destinations/" + continent.slug + "/continent"}>
-                        <img src={continent.filePath} className='img-fluid' />
+                        <img src={continent.fileUrl} className='img-fluid' />
                         <h3>{continent.name}</h3>
                     </Link>
                 </div>

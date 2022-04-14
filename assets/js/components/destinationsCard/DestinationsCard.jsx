@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import './DestinationsCard.css';
 
-const DestinationsCard = ({ id, city, country, filePath, travel }) => {
+const DestinationsCard = ({ id, city, country, fileUrl, travel }) => {
     return ( 
         <>
         <Link
@@ -10,7 +10,7 @@ const DestinationsCard = ({ id, city, country, filePath, travel }) => {
         >
             <div className="destination-box">
                 <div className="pic">
-                    <img src={filePath} alt="" className='img-fluid' />
+                    <img src={fileUrl} alt="" className='img-fluid' />
                 </div>
                 <div className="member-info">
                     <h4>{country}</h4>

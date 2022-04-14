@@ -132,8 +132,10 @@ class Travel
     public ?File $file = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
     private $filePath;
+    
+    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    private ?string $fileUrl = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updatedAt;
@@ -141,6 +143,44 @@ class Travel
     #[ORM\ManyToOne(targetEntity: Destination::class, inversedBy: 'travel')]
     #[Groups(["travel_read"])]
     private $destinations;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "Les plus sont obligatoires")]
+    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    private $theMost;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "La capacité est obligatoire")]
+    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    private $capacity;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "Le style est obligatoire")]
+    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    private $style;
+
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message: "Les loisirs sont obligatoires")]
+    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    private $hobbies;
+
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message: "La description est obligatoire")]
+    #[Assert\Length(
+        max: 650,
+        maxMessage: 'La description ne peut excéder plus de {{ limit }} caractères',
+    )]
+    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    private $arroundTrip;
+
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message: "La description est obligatoire")]
+    #[Assert\Length(
+        max: 650,
+        maxMessage: 'La description ne peut excéder plus de {{ limit }} caractères',
+    )]
+    #[Groups(["travel_read", "destination_read", "travel_subresource"])]
+    private $situation;
 
     public function getId(): ?int
     {
@@ -271,6 +311,96 @@ class Travel
     public function setFile(?File $file): Travel
     {
         $this->file = $file;
+        return $this;
+    }
+
+    public function getTheMost(): ?string
+    {
+        return $this->theMost;
+    }
+
+    public function setTheMost(?string $theMost): self
+    {
+        $this->theMost = $theMost;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFileUrl(): ?string
+    {
+        return $this->fileUrl;
+    }
+
+    /**
+     * @param string|null $fileUrl
+     * @return Travel
+     */
+    public function setFileUrl(?string $fileUrl): Travel
+    {
+        $this->fileUrl = $fileUrl;
+        return $this;
+    }
+
+    public function getCapacity(): ?string
+    {
+        return $this->capacity;
+    }
+
+    public function setCapacity(string $capacity): self
+    {
+        $this->capacity = $capacity;
+
+        return $this;
+    }
+
+    public function getStyle(): ?string
+    {
+        return $this->style;
+    }
+
+    public function setStyle(string $style): self
+    {
+        $this->style = $style;
+
+        return $this;
+    }
+
+    public function getHobbies(): ?string
+    {
+        return $this->hobbies;
+    }
+
+    public function setHobbies(string $hobbies): self
+    {
+        $this->hobbies = $hobbies;
+
+        return $this;
+    }
+
+    public function getArroundTrip(): ?string
+    {
+        return $this->arroundTrip;
+    }
+
+    public function setArroundTrip(string $arroundTrip): self
+    {
+        $this->arroundTrip = $arroundTrip;
+
+        return $this;
+    }
+
+    public function getSituation(): ?string
+    {
+        return $this->situation;
+    }
+
+    public function setSituation(string $situation): self
+    {
+        $this->situation = $situation;
+
         return $this;
     }
 }

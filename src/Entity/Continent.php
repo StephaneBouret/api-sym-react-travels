@@ -91,8 +91,10 @@ class Continent
     public ?File $file = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['continent_read', "countries_read"])]
     private $filePath;
+
+    #[Groups(['continent_read', "countries_read"])]
+    private ?string $fileUrl = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updatedAt;
@@ -209,6 +211,25 @@ class Continent
     public function setFile(?File $file): Continent
     {
         $this->file = $file;
+        return $this;
+    }
+
+        /**
+     * @return string|null
+     */
+    public function getFileUrl(): ?string
+    {
+        return $this->fileUrl;
+    }
+
+
+    /**
+     * @param string|null $fileUrl
+     * @return Continent
+     */
+    public function setFileUrl(?string $fileUrl): Continent
+    {
+        $this->fileUrl = $fileUrl;
         return $this;
     }
 }

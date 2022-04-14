@@ -16,7 +16,7 @@ const AdminContinentPage = () => {
     const [continents, setContinents] = useState({
         name: "",
         slug: "",
-        filePath: ""
+        fileUrl: ""
     });
     const [errors, setErrors] = useState({
         name: "",
@@ -29,8 +29,8 @@ const AdminContinentPage = () => {
 
     const fetchContinent = async (id) => {
         try {
-          const { name, filePath, slug } = await continentsAPI.find(id);
-          setContinents({ name, filePath, slug });
+          const { name, fileUrl, slug } = await continentsAPI.find(id);
+          setContinents({ name, fileUrl, slug });
         } catch (error) {
           toast.error("Le continent n'a pas pu être chargé");
           navigate("/admin/continents");
@@ -154,15 +154,15 @@ const AdminContinentPage = () => {
             {editing && (
                 <form className="travel-form mb-3" onSubmit={handleSubmission}>
                     <div className="form-group">
-                        {(continents.filePath && 
+                        {(continents.fileUrl && 
                             <div className="edit-img mb-3">
                                 <img 
-                                src={continents.filePath}
+                                src={continents.fileUrl}
                                 onClick={() => setIsOpen(true)}
                                 />
                                 {isOpen && (
                                     <Lightbox
-                                    mainSrc={continents.filePath}
+                                    mainSrc={continents.fileUrl}
                                     onCloseRequest={() => setIsOpen(false)}
                                     />
                                 )}

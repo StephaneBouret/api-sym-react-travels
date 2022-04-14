@@ -39,7 +39,7 @@ const DetailDestination = () => {
     }, [id]);
 
     const backgroundImage = {
-        backgroundImage: `url(${destination.filePath})`,
+        backgroundImage: `url(${destination.fileUrl})`,
     };
 
     return ( 

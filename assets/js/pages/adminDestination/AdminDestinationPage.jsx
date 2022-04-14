@@ -32,7 +32,7 @@ const AdminDestinationPage = () => {
         continent: "",
         population: "",
         currency: "",
-        filePath: "",
+        fileUrl: "",
         slug: ""
     });
     const [disabled, setDisabled] = useState(true);
@@ -67,8 +67,8 @@ const AdminDestinationPage = () => {
 
     const fetchDestination = async (id) => {
         try {
-            const { title, description, country, city, continent, population, currency, filePath, slug } = await destinationsAPI.find(id);
-            setDestinations({ title, description, country, city, continent, population, currency, filePath, slug })
+            const { title, description, country, city, continent, population, currency, fileUrl, slug } = await destinationsAPI.find(id);
+            setDestinations({ title, description, country, city, continent, population, currency, fileUrl, slug })
         } catch (error) {
             toast.error("La destination n'a pas pu être chargée");
             navigate("/admin/destinations");
@@ -328,15 +328,15 @@ const AdminDestinationPage = () => {
                 {editing && (
                     <form className="destination-form mb-3" onSubmit={handleSubmission}>
                         <div className="form-group">
-                            {(destinations.filePath && 
+                            {(destinations.fileUrl && 
                                 <div className="edit-img mb-3">
                                     <img 
-                                    src={destinations.filePath}
+                                    src={destinations.fileUrl}
                                     onClick={() => setIsOpen(true)}
                                     />
                                     {isOpen && (
                                         <Lightbox
-                                        mainSrc={destinations.filePath}
+                                        mainSrc={destinations.fileUrl}
                                         onCloseRequest={() => setIsOpen(false)}
                                         />
                                     )}

@@ -115,7 +115,7 @@ const TravelsPage = () => {
                                 className="col-lg-4 col-md-6 mb-3"
                                 >
                                 <TravelsCard
-                                filePath={travel.filePath}
+                                fileUrl={travel.fileUrl}
                                 country={travel.destinations.country}
                                 id={travel.id}
                                 title={travel.title}

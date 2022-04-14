@@ -1,11 +1,17 @@
+import { convertToRaw, EditorState } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 import React, { useEffect, useState } from 'react';
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import EditorWysiwyg from '../../components/editorWysiwyg/EditorWysiwyg';
 import Field from '../../components/forms/Field';
 import FileField from '../../components/forms/FileField';
+import LimitedTextArea from "../../components/forms/LimitedTextArea";
+import LimitedWordTextarea from '../../components/forms/LimitedWordTextarea';
 import Select from '../../components/forms/Select';
 import TextArea from '../../components/forms/TextArea';
 import FormContentLoader from '../../components/loaders/FormContentLoader';
@@ -20,6 +26,10 @@ const AdminTravelPage = () => {
     const { id = "new" } = params;
 
     const [destinations, setDestinations] = useState([]);
+    const [description, setDescription] = useState({
+        htmlValue: "<p></p>\n",
+        editorState: EditorState.createEmpty()
+    });
     const [editing, setEditing] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
@@ -32,10 +42,18 @@ const AdminTravelPage = () => {
         days: "",
         nights: "",
         amount: "",
-        filePath: null,
+        fileUrl: null,
         destinations: "",
+        theMost: "",
+        capacity: "",
+        style: "",
+        hobbies: "",
+        arroundTrip: "",
+        situation: ""
     });
-    
+    const [textAreaCount, setTextAreaCount] = useState(0);
+    const [limit, setLimit] = useState(25);
+    const [limitCar, setLimitCar] = useState(650);
     const [errors, setErrors] = useState({
         title: "",
         description: "",
@@ -43,13 +61,20 @@ const AdminTravelPage = () => {
         days: "",
         nights: "",
         amount: "",
-        file: ""
+        file: "",
+        theMost: "",
+        capacity: "",
+        style: "",
+        hobbies: "",
+        arroundTrip: "",
+        situation: ""
     });
 
     const fetchTravel = async (id) => {
         try {
-          const { title, description, type, days, nights, amount, filePath, destinations } = await travelsAPI.find(id);
-          setTravel({ title, description, type, days, nights, amount, filePath, destinations: destinations.id });
+          const { title, description, type, days, nights, amount, fileUrl, destinations, theMost, capacity, style, hobbies, arroundTrip, situation } = await travelsAPI.find(id);
+          setTravel({ title, description, type, days, nights, amount, fileUrl, destinations: destinations.id, theMost, capacity, style, hobbies, arroundTrip, situation });
+          setTextAreaCount((theMost.split(' ').filter(Boolean)).length);
         } catch (error) {
           toast.error("Le voyage n'a pas pu être chargé");
           navigate("/admin/travel");
@@ -75,9 +100,14 @@ const AdminTravelPage = () => {
     }, []);
 
     useEffect(() => {
+        let cancel = false;
+        if (cancel) return;
         if (id !== "new") {
           setEditing(true);
           fetchTravel(id);
+        }
+        return () => {
+            cancel = true;
         }
     }, [id]);
 
@@ -85,6 +115,47 @@ const AdminTravelPage = () => {
     const handleChange = ({ currentTarget }) => {
         const { name, value } = currentTarget;
         setTravel({ ...travel, [name]: value });
+    };
+
+    // Gestion de la limite de mots dans le textArea "Les Plus"
+    const setFormattedContent = ({ currentTarget }) => {
+        const { value } = currentTarget;
+        const words = value.split(' ').filter(Boolean);
+        const content = words.slice(0, limit).join(' ');
+        if (words.length > limit) {
+            setTravel({...travel, theMost: content});
+            setTextAreaCount(limit);
+        } else {
+            setTravel({ ...travel, theMost: value});
+            setTextAreaCount(words.length);
+        }
+    }    
+
+    // Gestion du nombre de caractères max dans le textArea "Autour du voyage"
+    const setFormattedContentTrip = ({ currentTarget }) => {
+        const { value } = currentTarget;
+        const text = value.slice(0, limitCar);
+        setTravel({...travel, arroundTrip: text});
+    }
+
+    // Gestion du nombre de caractères max dans le textArea "Situation du voyage"
+    const setFormattedContentSituation = ({ currentTarget }) => {
+        const { value } = currentTarget;
+        const text = value.slice(0, limitCar);
+        setTravel({...travel, situation: text});
+    }
+
+    // Editor Wysiwyg
+    const onEditorStateChange = editorValue => {
+        const editorStateInHtml = draftToHtml(
+          convertToRaw(editorValue.getCurrentContent())
+        );
+    
+        setDescription({
+          htmlValue: editorStateInHtml,
+          editorState: editorValue
+        });
+        setTravel({...travel, hobbies: description.htmlValue});
     };
 
     // Gestion de la soumission du formulaire
@@ -115,6 +186,7 @@ const AdminTravelPage = () => {
         }
     }
 
+    // Manage image
     const changeHandler = (event) => {
         setSelectedFile(event.target.files[0]);
 		setIsSelected(true);
@@ -232,8 +304,66 @@ const AdminTravelPage = () => {
                         label="Description du voyage"
                         value={travel.description}
                         onChange={handleChange}
+                        row="10"
                         error={errors.description}
                     />
+                    <LimitedWordTextarea
+                    name={"theMost"}
+                    label="Les plus"
+                    onChange={setFormattedContent}
+                    value={travel.theMost}
+                    error={errors.theMost}
+                    limit={limit}
+                    textAreaCount={textAreaCount}
+                    />
+                    <div className="row">
+                        <TextArea
+                        name={"style"}
+                        label="Style"
+                        value={travel.style}
+                        onChange={handleChange}
+                        error={errors.style}
+                        row="3"
+                        classCss="col-md-6"
+                        />
+                        <Field
+                        name={"capacity"}
+                        label="Capacité"
+                        placeholder="Capacité de l'hôtel ou de la location"
+                        value={travel.capacity}
+                        onChange={handleChange}
+                        type="text"
+                        error={errors.capacity}
+                        classCss="col-md-6"
+                        />
+                    </div>
+                    <div className="row">
+                        <EditorWysiwyg
+                        description={description}
+                        onEditorStateChange={onEditorStateChange}
+                        travel={travel}
+                        />
+                    </div>
+                    <div className="row">
+                        <LimitedTextArea
+                        name={"arroudTrip"}
+                        label="Autour du voyage"
+                        limitCar={limitCar}
+                        value={travel.arroundTrip}
+                        onChange={setFormattedContentTrip}
+                        classCss="col-md-6"
+                        error={errors.arroundTrip}
+                        />
+                        <LimitedTextArea
+                        name={"situation"}
+                        label="Situation du voyage"
+                        limitCar={limitCar}
+                        value={travel.situation}
+                        onChange={setFormattedContentSituation}
+                        classCss="col-md-6"
+                        error={errors.situation}
+                        />
+                    </div>
                     <div className="form-group mt-3">
                         <button type="submit" className="btn btn-success">
                         Enregistrer
@@ -247,15 +377,15 @@ const AdminTravelPage = () => {
                 {editing && (
                     <form className="travel-form mb-3" onSubmit={handleSubmission}>
                         <div className="form-group">
-                            {(travel.filePath && 
+                            {(travel.fileUrl && 
                                 <div className="edit-img mb-3">
                                     <img 
-                                    src={travel.filePath}
+                                    src={travel.fileUrl}
                                     onClick={() => setIsOpen(true)}
                                     />
                                     {isOpen && (
                                         <Lightbox
-                                        mainSrc={travel.filePath}
+                                        mainSrc={travel.fileUrl}
                                         onCloseRequest={() => setIsOpen(false)}
                                         />
                                     )}

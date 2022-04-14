@@ -10,10 +10,9 @@ import Pagination from '../../components/Pagination';
 import ScrollButton from '../../components/scrollButton/ScrollButton';
 import SearchBar from '../../components/searchbar/SearchBar';
 import SmallBreadCrumbs from '../../components/smallbreadcrumbs/SmallBreadCrumbs';
-import destinationsAPI from '../../services/destinationsAPI';
 import continentsAPI from '../../services/continentsAPI';
+import destinationsAPI from '../../services/destinationsAPI';
 import './DestinationsPage.css';
-import ScrollToTop from '../../components/ScrollToTop';
 
 const DestinationsPage = () => {
     AOS.init({
@@ -106,7 +105,7 @@ const DestinationsPage = () => {
                             <div key={destination.id} className="col-12 col-lg-3 col-sm-6 card-destination text-center">
                             <DestinationsSimplifiedCard
                             id={destination.id}
-                            filePath={destination.filePath}
+                            fileUrl={destination.fileUrl}
                             country={destination.country}
                             />
                             </div>

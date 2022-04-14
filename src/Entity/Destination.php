@@ -142,8 +142,10 @@ class Destination
     public ?File $file = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(["destination_read", "travel_read"])]
     private $filePath;
+
+    #[Groups(["destination_read", "travel_read"])]
+    private ?string $fileUrl = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updatedAt;
@@ -332,6 +334,24 @@ class Destination
     {
         $this->slug = $slug;
 
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFileUrl(): ?string
+    {
+        return $this->fileUrl;
+    }
+
+    /**
+     * @param string|null $fileUrl
+     * @return Destination
+     */
+    public function setFileUrl(?string $fileUrl): Destination
+    {
+        $this->fileUrl = $fileUrl;
         return $this;
     }
 }
