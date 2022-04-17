@@ -1,4 +1,4 @@
-.travel-form {
+.image-form {
     width: 100%;
     border-top: 3px solid #ffb03b;
     border-bottom: 3px solid #ffb03b;
@@ -7,45 +7,45 @@
     box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
 }
 
-.travel-form .form-group {
+.image-form .form-group {
     padding-bottom: 8px;
 }
 
-.travel-form input,
-.travel-form textarea,
-.travel-form select {
+.image-form input,
+.image-form textarea,
+.image-form select {
     border-radius: 0;
     box-shadow: none;
     font-size: 14px;
     border-radius: 4px;
 }
 
-.travel-form input:focus,
-.travel-form textarea:focus,
-.travel-form select:focus {
+.image-form input:focus,
+.image-form textarea:focus,
+.image-form select:focus {
     border-color: #ffb03b;
     box-shadow: none;
 }
 
-.travel-form input[type=file] {
+.image-form input[type=file] {
     height: auto;
 }
 
-.travel-form input,
-.travel-form select {
+.image-form input,
+.image-form select {
     height: 44px;
 }
 
-.travel-form textarea {
+.image-form textarea {
     padding: 10px 12px;
 }
 
-.travel-form p {
+.image-form p {
     margin-bottom: 0;
     font-size: 13px;
 }
 
-.travel-form button[type=submit] {
+.image-form button[type=submit] {
     background: #5cb874;
     border: 0;
     padding: 10px 24px;
@@ -54,6 +54,6 @@
     border-radius: 4px;
 }
 
-.travel-form button[type=submit]:hover {
+.image-form button[type=submit]:hover {
     background: #6ec083;
 }

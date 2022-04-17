@@ -1,0 +1,25 @@
+@media (max-width: 768px) {
+    .table thead {
+        display: none;
+    }
+
+    .table tr {
+        display: block;
+        margin-bottom: 40px;
+    }
+
+    .table td {
+        display: block;
+        text-align: right !important;
+    }
+
+    .table td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+    }
+}
+
+.btn-carousel a {
+    color: #FFFFFF;
+}

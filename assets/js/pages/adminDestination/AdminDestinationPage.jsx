@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import slugify from 'react-slugify';
 import { toast } from 'react-toastify';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import Field from '../../components/forms/Field';
-import FileField from '../../components/forms/FileField';
 import TextArea from '../../components/forms/TextArea';
+import ImageUpload from '../../components/imageUpload/ImageUpload';
 import Pagination from '../../components/Pagination';
 import ScrollButton from '../../components/scrollButton/ScrollButton';
 import SearchBar from '../../components/searchbar/SearchBar';
@@ -41,7 +39,6 @@ const AdminDestinationPage = () => {
     });
     const [editing, setEditing] = useState(false);
     const [initialDestinations, setInitialDestinations] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [search, setSearch] = useState("");
@@ -326,44 +323,14 @@ const AdminDestinationPage = () => {
                 </form>
                 )}
                 {editing && (
-                    <form className="destination-form mb-3" onSubmit={handleSubmission}>
-                        <div className="form-group">
-                            {(destinations.fileUrl && 
-                                <div className="edit-img mb-3">
-                                    <img 
-                                    src={destinations.fileUrl}
-                                    onClick={() => setIsOpen(true)}
-                                    />
-                                    {isOpen && (
-                                        <Lightbox
-                                        mainSrc={destinations.fileUrl}
-                                        onCloseRequest={() => setIsOpen(false)}
-                                        />
-                                    )}
-                                </div>
-                            ) || (<h5>Aucune image</h5>)}
-                            <FileField
-                            name={"file"}
-                            onChange={changeHandler}
-                            error={errors.file}
-                            />
-                            <div className="tags-img mt-2">
-                                {isSelected ? (
-                                    <>
-                                    <p>Type : {selectedFile.type}</p>
-                                    <p>Taille en octets : {selectedFile.size}</p>
-                                    </>
-                                ) : (
-                                    <p>Merci de sélectionner un fichier</p>
-                                )}
-                            </div>
-                            <div className="form-group mt-3">
-                            <button type="submit" className="btn btn-success">
-                            Enregistrer
-                            </button>
-                        </div>
-                        </div>
-                    </form>
+                    <ImageUpload
+                    changeHandler={changeHandler}
+                    errors={errors}
+                    handleSubmission={handleSubmission}
+                    isSelected={isSelected}
+                    selectedFile={selectedFile}
+                    travel={destinations}
+                    />
                 )}
             </div>
             <ScrollButton/>

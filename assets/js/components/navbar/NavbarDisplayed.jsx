@@ -58,10 +58,10 @@ const NavbarDisplayed = () => {
                                 <NavLink className={"nav-link scrollto"} to={"/travel"}>Voyages</NavLink>
                             </li>
                             <li className="dropdown">
-                                <Link className={"nav-link scrollto"} to={{}}>
+                                <NavLink className={"nav-link scrollto"} to={{}}>
                                     Admin
                                     <BsChevronDown onClick={() => setDropDown(dropDown => !dropDown)}/>
-                                </Link>
+                                </NavLink>
                                 <ul className={`${dropDown ? "dropdown-active" : ""}`}>
                                     <li><NavLink className={"nav-link scrollto"} to={"/admin/destinations"} onClick={toggleOff}>Admin Destinations</NavLink></li>
                                     <li><NavLink className={"nav-link scrollto"} to={"/admin/travel"} onClick={toggleOff}>Admin Voyages</NavLink></li>

@@ -1,12 +1,17 @@
 import React from 'react';
 import './SecondElementTravel.css';
+import imageSingleTravel from "../../../media/undefinedSingleTravel.jpg";
 
-const SecondElementTravel = ({ Img1, travel }) => {
+const SecondElementTravel = ({ travel }) => {
     // html to string travel.hobbies
     function createMarkup() {
         return {__html: travel.hobbies};
     }
-    
+
+    const latestImages = travel.images.slice(-3).map(image => {
+        return image.fileUrl;
+    });
+   
     return ( 
         <>
             <section id="secondElement" className="secondElement">
@@ -14,7 +19,11 @@ const SecondElementTravel = ({ Img1, travel }) => {
                     <div className="block-experiments">
                         <div className="row experiments mb-25">
                             <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 bg-white">
-                                <img src={Img1} className="img-fluid img-responsive " />
+                                {latestImages.length > 0 ? (
+                                    <img src={latestImages[0]} className="img-fluid img-responsive " />
+                                ) : (
+                                    <img src={imageSingleTravel} className="img-fluid img-responsive " />
+                                )}
                             </div>
                             <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 bg-white">
                                 <div className="col-md-12 text-experiments">
@@ -37,12 +46,20 @@ const SecondElementTravel = ({ Img1, travel }) => {
                                 </div>
                             </div>
                             <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 bg-white col-sol">
-                                <img src={Img1} className="img-fluid img-responsive " />
+                                {latestImages.length > 0 ? (
+                                    <img src={latestImages[1]} className="img-fluid img-responsive " />
+                                ) : (
+                                    <img src={imageSingleTravel} className="img-fluid img-responsive " />
+                                )}
                             </div>
                         </div>
                         <div className="row experiments mb-25">
                             <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 bg-white">
-                                <img src={Img1} className="img-fluid img-responsive " />
+                            {latestImages.length > 0 ? (
+                                    <img src={latestImages[2]} className="img-fluid img-responsive " />
+                                ) : (
+                                    <img src={imageSingleTravel} className="img-fluid img-responsive " />
+                                )}
                             </div>
                             <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 bg-white">
                                 <div className="col-md-12 text-experiments">

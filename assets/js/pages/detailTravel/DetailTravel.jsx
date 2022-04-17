@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
+import FirstElementTravel from '../../components/firstElementTravel/FirstElementTravel';
 import ImageGrid from '../../components/loaders/ImageGrid';
 import ScrollButton from '../../components/scrollButton/ScrollButton';
-import travelsAPI from '../../services/travelsAPI';
-import destinationsAPI from '../../services/destinationsAPI';
-import './DetailTravel.css';
-import SingleTravelBreadCrumbs from '../../components/singledestinationbreadcrumbs/SingleTravelBreadCrumbs';
-import FirstElementTravel from '../../components/firstElementTravel/FirstElementTravel';
-import Img1 from '../../../media/constance-lemuria-2.webp';
 import SecondElementTravel from '../../components/secondElementTravel/SecondElementTravel';
+import SingleTravelBreadCrumbs from '../../components/singledestinationbreadcrumbs/SingleTravelBreadCrumbs';
 import CarouselSlider from '../../components/slider/CarouselSlider';
+import destinationsAPI from '../../services/destinationsAPI';
+import travelsAPI from '../../services/travelsAPI';
+import './DetailTravel.css';
 
 const DetailTravel = () => {
     const { id } = useParams();
@@ -28,20 +27,20 @@ const DetailTravel = () => {
         style: "",
         hobbies: "",
         arroundTrip: "",
-        situation: ""
+        situation: "",
+        images: []
     });
     const [destination, setDestination] = useState([]);
     const [loading, setLoading] = useState(true);
     const titleRef = useRef(null);
-    // console.log(travel);
 
     // jump to section
     const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
     
     const fetchTravel = async (id) => {
         try {
-            const { title, description, type, days, nights, amount, fileUrl, destinations, theMost, capacity, style, hobbies, arroundTrip, situation } = await travelsAPI.find(id);
-            setTravel({ title, description, type, days, nights, amount, fileUrl, destinations: destinations.id, theMost, capacity, style, hobbies, arroundTrip, situation });
+            const { title, description, type, days, nights, amount, fileUrl, destinations, theMost, capacity, style, hobbies, arroundTrip, situation, images } = await travelsAPI.find(id);
+            setTravel({ title, description, type, days, nights, amount, fileUrl, destinations: destinations.id, theMost, capacity, style, hobbies, arroundTrip, situation, images });
         } catch (error) {
             toast.error("Le voyage n'a pas pu être chargé");
         }
@@ -90,13 +89,16 @@ const DetailTravel = () => {
             titleRef={titleRef}
             travel={travel}
             />
+            {travel.images.length > 0 && (
             <section id="carouselElement" className="carouselElement">
                 <div className="container">
-                    <CarouselSlider/>
+                    <CarouselSlider
+                    travel={travel}
+                    />
                 </div>
             </section>
+            )}
             <SecondElementTravel
-            Img1={Img1}
             travel={travel}
             />
             <ScrollButton/>

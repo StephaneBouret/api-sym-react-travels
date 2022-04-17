@@ -147,7 +147,7 @@ class Travel
     private $updatedAt;
 
     #[ORM\ManyToOne(targetEntity: Destination::class, inversedBy: 'travel')]
-    #[Groups(["travel_read"])]
+    #[Groups(["travel_read", "images_read"])]
     private $destinations;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -189,6 +189,9 @@ class Travel
     private $situation;
 
     #[ORM\OneToMany(mappedBy: 'travels', targetEntity: Images::class)]
+    #[ApiSubresource(
+        maxDepth: 1,
+    )]
     #[Groups(["travel_read"])]
     private $images;
 

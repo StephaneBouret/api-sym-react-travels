@@ -1,0 +1,23 @@
+.images_h1 {
+    position: relative;
+    font-size: 1.7em;
+    font-weight: 600;
+}
+
+.images_h1:before {
+    content: "";
+    left: 0;
+    position: absolute;
+    height: 3px;
+    right: 60%;
+    background-color: #ffb03b;
+    bottom: -5px;
+}
+
+@media (max-width: 768px) {
+    .image_button {
+        margin-right: 0;
+        margin-top: 0.5rem;
+    }
+
+}

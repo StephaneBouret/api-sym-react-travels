@@ -20,6 +20,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\FindDestinationByContinent;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @Vich\Uploadable
@@ -77,7 +78,7 @@ class Destination
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["destination_read", "travel_read"])]
+    #[Groups(["destination_read", "travel_read", "images_read"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -107,7 +108,7 @@ class Destination
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Le pays de la destination est obligatoire")]
     #[Assert\Type(type: 'string', message: 'Le pays doit être au format texte')]
-    #[Groups(["destination_read", "travel_read"])]
+    #[Groups(["destination_read", "travel_read", "images_read"])]
     private $country;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -152,7 +153,7 @@ class Destination
 
     #[ORM\OneToMany(mappedBy: 'destinations', targetEntity: Travel::class)]
     #[Groups(["destination_read"])]
-    #[ApiSubresource]
+    #[ApiSubresource(maxDepth:1)]
     private $travel;
 
     #[ORM\Column(type: 'string', length: 255)]

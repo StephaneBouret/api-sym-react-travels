@@ -1,0 +1,107 @@
+.image-form {
+    width: 100%;
+    border-top: 3px solid #ffb03b;
+    border-bottom: 3px solid #ffb03b;
+    padding: 30px;
+    background: #fff;
+    box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+}
+
+.image-form .form-group {
+    padding-bottom: 8px;
+}
+
+.image-form input,
+.image-form textarea,
+.image-form select {
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.image-form input:focus,
+.image-form textarea:focus,
+.image-form select:focus {
+    border-color: #ffb03b;
+    box-shadow: none;
+}
+
+.image-form input[type=file] {
+    height: auto;
+}
+
+.image-form input,
+.image-form select {
+    height: 44px;
+}
+
+.image-form textarea {
+    padding: 10px 12px;
+}
+
+.image-form p {
+    margin-bottom: 0;
+    font-size: 13px;
+}
+
+.image-form button[type=submit] {
+    background: #5cb874;
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 4px;
+}
+
+.image-form button[type=submit]:hover {
+    background: #6ec083;
+}
+
+.text-carousel {
+    background-color: #e9ecef;
+    opacity: 1;
+    height: 44px;
+    box-shadow: none;
+    font-size: 15px;
+    border-radius: 4px;
+    padding: 8px 17.6px;
+    display: flex;
+    align-items: center;
+}
+
+.btn-carousel {
+    background: #ffb03b;
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 4px;
+}
+
+.btn-carousel:hover {
+    background: #ffb03b;
+    color: #FFFFFF;
+}
+
+.file-input svg {
+    color: darkred;
+    font-size: 26px;
+    position: absolute;
+    right: -15px;
+    top: -5px;
+}
+
+.invalid-carousel {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: .875em;
+    color: #d9534f;
+}
+
+.delete-img-carousel, .create-img-carousel {
+    border-radius: 4px;
+    font-size: 12px;
+    border: 0;
+    padding: 10px 20px;
+}

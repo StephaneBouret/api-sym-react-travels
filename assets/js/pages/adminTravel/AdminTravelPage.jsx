@@ -2,18 +2,16 @@ import { convertToRaw, EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import React, { useEffect, useState } from 'react';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import EditorWysiwyg from '../../components/editorWysiwyg/EditorWysiwyg';
 import Field from '../../components/forms/Field';
-import FileField from '../../components/forms/FileField';
 import LimitedTextArea from "../../components/forms/LimitedTextArea";
 import LimitedWordTextarea from '../../components/forms/LimitedWordTextarea';
 import Select from '../../components/forms/Select';
 import TextArea from '../../components/forms/TextArea';
+import ImageUpload from "../../components/imageUpload/ImageUpload";
 import FormContentLoader from '../../components/loaders/FormContentLoader';
 import ScrollButton from '../../components/scrollButton/ScrollButton';
 import destinationsAPI from '../../services/destinationsAPI';
@@ -31,7 +29,6 @@ const AdminTravelPage = () => {
         editorState: EditorState.createEmpty()
     });
     const [editing, setEditing] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
     const [loading, setLoading] = useState(true);
     const [selectedFile, setSelectedFile] = useState();
@@ -375,44 +372,14 @@ const AdminTravelPage = () => {
                 </form>
                 )}
                 {editing && (
-                    <form className="travel-form mb-3" onSubmit={handleSubmission}>
-                        <div className="form-group">
-                            {(travel.fileUrl && 
-                                <div className="edit-img mb-3">
-                                    <img 
-                                    src={travel.fileUrl}
-                                    onClick={() => setIsOpen(true)}
-                                    />
-                                    {isOpen && (
-                                        <Lightbox
-                                        mainSrc={travel.fileUrl}
-                                        onCloseRequest={() => setIsOpen(false)}
-                                        />
-                                    )}
-                                </div>
-                            ) || (<h5>Aucune image</h5>)}
-                            <FileField
-                            name={"file"}
-                            onChange={changeHandler}
-                            error={errors.file}
-                            />
-                            <div className="tags-img mt-2">
-                                {isSelected ? (
-                                    <>
-                                    <p>Type : {selectedFile.type}</p>
-                                    <p>Taille en octets : {selectedFile.size}</p>
-                                    </>
-                                ) : (
-                                    <p>Merci de sélectionner un fichier</p>
-                                )}
-                            </div>
-                            <div className="form-group mt-3">
-                            <button type="submit" className="btn btn-success">
-                            Enregistrer
-                            </button>
-                        </div>
-                        </div>
-                    </form>
+                    <ImageUpload
+                    handleSubmission={handleSubmission}
+                    changeHandler={changeHandler}
+                    selectedFile={selectedFile}
+                    isSelected={isSelected}
+                    errors={errors}
+                    travel={travel}
+                    />
                 )}
             </div>
             <ScrollButton/>
