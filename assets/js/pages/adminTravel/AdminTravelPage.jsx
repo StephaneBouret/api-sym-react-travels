@@ -46,7 +46,9 @@ const AdminTravelPage = () => {
         style: "",
         hobbies: "",
         arroundTrip: "",
-        situation: ""
+        situation: "",
+        lat: "",
+        lng: ""
     });
     const [textAreaCount, setTextAreaCount] = useState(0);
     const [limit, setLimit] = useState(25);
@@ -64,13 +66,15 @@ const AdminTravelPage = () => {
         style: "",
         hobbies: "",
         arroundTrip: "",
-        situation: ""
+        situation: "",
+        lat: "",
+        lng: ""
     });
 
     const fetchTravel = async (id) => {
         try {
-          const { title, description, type, days, nights, amount, fileUrl, destinations, theMost, capacity, style, hobbies, arroundTrip, situation } = await travelsAPI.find(id);
-          setTravel({ title, description, type, days, nights, amount, fileUrl, destinations: destinations.id, theMost, capacity, style, hobbies, arroundTrip, situation });
+          const { title, description, type, days, nights, amount, fileUrl, destinations, theMost, capacity, style, hobbies, arroundTrip, situation, lat, lng } = await travelsAPI.find(id);
+          setTravel({ title, description, type, days, nights, amount, fileUrl, destinations: destinations.id, theMost, capacity, style, hobbies, arroundTrip, situation, lat, lng });
           setTextAreaCount((theMost.split(' ').filter(Boolean)).length);
         } catch (error) {
           toast.error("Le voyage n'a pas pu être chargé");
@@ -332,6 +336,26 @@ const AdminTravelPage = () => {
                         type="text"
                         error={errors.capacity}
                         classCss="col-md-6"
+                        />
+                    </div>
+                    <div className="row">
+                        <Field
+                            name="lat"
+                            label="Lattitude"
+                            value={travel.lat}
+                            onChange={handleChange}
+                            type="number"
+                            error={errors.lat}
+                            classCss="col-md-6"
+                        />
+                        <Field
+                            name="lng"
+                            label="Longitude"
+                            value={travel.lng}
+                            onChange={handleChange}
+                            type="number"
+                            error={errors.lng}
+                            classCss="col-md-6"
                         />
                     </div>
                     <div className="row">

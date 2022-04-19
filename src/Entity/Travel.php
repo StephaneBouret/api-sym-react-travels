@@ -195,6 +195,16 @@ class Travel
     #[Groups(["travel_read"])]
     private $images;
 
+    #[ORM\Column(type: 'decimal', precision: 20, scale: 16)]
+    #[Assert\NotBlank(message: "La lattitude est obligatoire")]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    private $lat;
+
+    #[ORM\Column(type: 'decimal', precision: 20, scale: 16)]
+    #[Assert\NotBlank(message: "La longitude est obligatoire")]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    private $lng;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -448,6 +458,30 @@ class Travel
                 $image->setTravels(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLat(): ?string
+    {
+        return $this->lat;
+    }
+
+    public function setLat(string $lat): self
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLng(): ?string
+    {
+        return $this->lng;
+    }
+
+    public function setLng(string $lng): self
+    {
+        $this->lng = $lng;
 
         return $this;
     }

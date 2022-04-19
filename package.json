@@ -19,6 +19,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@react-google-maps/api": "^2.8.1",
         "@types/isotope-layout": "^3.0.9",
         "aos": "^2.3.4",
         "axios": "^0.26.1",
@@ -27,6 +28,7 @@
         "dotenv": "^16.0.0",
         "draft-js": "^0.11.7",
         "draftjs-to-html": "^0.9.1",
+        "google-map-react": "^2.1.10",
         "html-to-draftjs": "^1.5.0",
         "isotope-layout": "^3.0.6",
         "jwt-decode": "^3.1.2",

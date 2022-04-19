@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
 import FirstElementTravel from '../../components/firstElementTravel/FirstElementTravel';
 import ImageGrid from '../../components/loaders/ImageGrid';
+import Maps from '../../components/Maps';
 import ScrollButton from '../../components/scrollButton/ScrollButton';
 import SecondElementTravel from '../../components/secondElementTravel/SecondElementTravel';
 import SingleTravelBreadCrumbs from '../../components/singledestinationbreadcrumbs/SingleTravelBreadCrumbs';
@@ -28,7 +29,9 @@ const DetailTravel = () => {
         hobbies: "",
         arroundTrip: "",
         situation: "",
-        images: []
+        images: [],
+        lat: 0,
+        lng: 0
     });
     const [destination, setDestination] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -39,8 +42,8 @@ const DetailTravel = () => {
     
     const fetchTravel = async (id) => {
         try {
-            const { title, description, type, days, nights, amount, fileUrl, destinations, theMost, capacity, style, hobbies, arroundTrip, situation, images } = await travelsAPI.find(id);
-            setTravel({ title, description, type, days, nights, amount, fileUrl, destinations: destinations.id, theMost, capacity, style, hobbies, arroundTrip, situation, images });
+            const { title, description, type, days, nights, amount, fileUrl, destinations, theMost, capacity, style, hobbies, arroundTrip, situation, images, lat, lng } = await travelsAPI.find(id);
+            setTravel({ title, description, type, days, nights, amount, fileUrl, destinations: destinations.id, theMost, capacity, style, hobbies, arroundTrip, situation, images, lat, lng });
         } catch (error) {
             toast.error("Le voyage n'a pas pu être chargé");
         }
@@ -99,6 +102,9 @@ const DetailTravel = () => {
             </section>
             )}
             <SecondElementTravel
+            travel={travel}
+            />
+            <Maps
             travel={travel}
             />
             <ScrollButton/>
