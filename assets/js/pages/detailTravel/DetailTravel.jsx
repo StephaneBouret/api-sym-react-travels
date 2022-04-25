@@ -8,6 +8,7 @@ import ScrollButton from '../../components/scrollButton/ScrollButton';
 import SecondElementTravel from '../../components/secondElementTravel/SecondElementTravel';
 import SingleTravelBreadCrumbs from '../../components/singledestinationbreadcrumbs/SingleTravelBreadCrumbs';
 import CarouselSlider from '../../components/slider/CarouselSlider';
+import SocialShare from '../../components/socialshare/SocialShare';
 import destinationsAPI from '../../services/destinationsAPI';
 import travelsAPI from '../../services/travelsAPI';
 import './DetailTravel.css';
@@ -106,6 +107,9 @@ const DetailTravel = () => {
             />
             <Maps
             travel={travel}
+            />
+            <SocialShare
+            id={id}
             />
             <ScrollButton/>
         </main>

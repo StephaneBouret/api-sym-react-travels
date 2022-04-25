@@ -35,7 +35,7 @@ const Maps = ({ travel }) => {
     }, [mapInstance]);   
 
     return ( 
-        <section id="mapElement" className="mapElement pt-0">
+        <section id="mapElement" className="mapElement pt-0 pb-0">
             <div className="container">
                 <div style={{ width: "100%", height: "100%" }}>
                     <LoadScript googleMapsApiKey={key}>

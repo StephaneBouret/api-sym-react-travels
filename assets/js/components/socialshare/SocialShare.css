@@ -1,0 +1,84 @@
+.social-media {
+    margin: 29px 0 25px;
+}
+
+@media (max-width: 769px) {
+    .social-media {
+        margin-top: 45px;
+    }
+}
+
+.social-media h5 {
+    display: inline-block;
+    margin: 10px 15px;
+    position: relative;
+    top: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+@media (max-width: 767px) {
+    .social-media h5 {
+        margin: 0 15px 10px !important;
+        top: 0 !important;
+    }
+}
+
+.social-media h3 {
+    position: relative;
+    line-height: 20px;
+    font-size: 15px;
+    padding: 10px 0 0;
+}
+
+.social-media h3 a {
+    font-size: 15px;
+    color: #80807e;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 14px;
+    font-weight: 400;
+}
+
+.social-media h3:after {
+    content: '';
+    width: 27%;
+    height: 1px;
+    position: absolute;
+    background: #72716f;
+    left: 37%;
+    right: 50%;
+    top: 40px;
+}
+
+@media (max-width: 767px) {
+    .social-media h3:after {
+        width: auto !important;
+        left: 30px !important;
+        right: 30px !important;
+        top: 0px;
+    }
+}
+
+@media (min-width: 768px) {
+    .social-media h3:after {
+        width: 500px;
+        left: calc(50% - 250px);
+        top: 0px;
+    }
+}
+
+.spcs-links {
+    display: inline-block;
+    margin: 1em 0 10px;
+}
+
+.Demo__some-network__share-button {
+    cursor: pointer;
+}
+
+.Demo__some-network__share-button:hover:not(:active) {
+    opacity: 0.75;
+}

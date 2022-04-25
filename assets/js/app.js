@@ -21,6 +21,7 @@ import TravelsPage from './pages/travels/TravelsPage';
 import TravelByDestination from './pages/travelByDestination/TravelByDestination';
 import ContinentPage from './pages/continent/ContinentPage';
 import AboutPage from './pages/about/AboutPage';
+import Footer from './components/footer/Footer';
 
 // any CSS you import will output into a single css file (app.css in this case)
 import '../styles/app.css';
@@ -81,6 +82,7 @@ const App = () => {
                             <Route path="/" element={<HomePage />}/>
                         </Route>
                     </Routes>
+                    <Footer/>
                 <ToastContainer 
                     position={toast.POSITION.BOTTOM_LEFT}
                 />

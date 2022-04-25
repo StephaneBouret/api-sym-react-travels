@@ -24,7 +24,7 @@ const FirstElementTravel = ({ titleRef, travel }) => {
                         <div className="col-lg-3 col-md-12 text-center mb-25">
                             <h3>Durée et prix</h3>
                             <p>
-                                Durée : {travel.days} jours / {travel.nights} nuits<br />
+                                Durée : {travel.days} {travel.days > 1 ? "jours" : "jour"} / {travel.nights} {travel.nights > 1 ? "nuits" : "nuit"}<br />
                                 À partir de : {travel.amount.toLocaleString()} €
                             </p>
                         </div>
