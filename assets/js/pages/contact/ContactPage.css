@@ -1,0 +1,137 @@
+#page-contact {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(39, 37, 34, 0.8);
+    overflow: hidden;
+    padding: 0;
+}
+
+#page-contact::before {
+    content: "";
+    background-color: rgba(12, 11, 10, 0.2);
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.img-contact {
+    width: 100%;
+    height: 100vh;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+@media (max-width: 920px) {
+    #page-contact {
+        height: 92vh !important;
+    }
+
+    .img-contact {
+        height: 92vh !important;
+        -o-object-fit: cover;
+        object-fit: cover;
+    }
+}
+
+.title-contact {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 75px;
+    text-align: center;
+}
+
+.title-contact h2 {
+    font-size: 30px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0 60px 7px;
+    position: relative;
+    text-transform: uppercase;
+}
+
+.contact .inspire-btn {
+    padding: 0 0 35px;
+}
+
+.contact .scrollBottom {
+    cursor: pointer;
+}
+
+.contact a.inspire-btn.scrollButton {
+    width: 100%;
+    position: absolute;
+    margin: 0 auto;
+    text-align: center;
+    left: 0;
+    bottom: 50px;
+}
+
+.collection-contact {
+    padding: 20px 0;
+}
+
+.contact-form {
+    width: 100%;
+    border-top: 3px solid #ffb03b;
+    border-bottom: 3px solid #ffb03b;
+    padding: 30px;
+    background-color: #f5f6f6;
+    box-shadow: 0 0 24px 0 rgb(0 0 0 / 12%);
+}
+
+.contact-form .form-group {
+    padding-bottom: 8px;
+}
+
+.contact-form input,
+.contact-form select {
+    height: 44px;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+    border-color: #ffb03b;
+    box-shadow: none;
+}
+
+.contact-form p {
+    display: block;
+    width: 100%;
+    font-size: 12px;
+}
+
+.contact-form button[type=submit] {
+    background: #5cb874;
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.contact-form .recaptcha_info {
+    margin-top: 20px;
+    font-size: 0.8em;
+}
+
+.contact-form .recaptcha_info a {
+    color: inherit;
+}

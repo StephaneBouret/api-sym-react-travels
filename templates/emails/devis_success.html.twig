@@ -1,0 +1,38 @@
+{% extends 'emails/emailBase.html.twig' %}
+
+{% block content %}
+<row class="welcome">
+    <columns>
+        <h1>
+            <center>
+                Demande de devis
+            </center>
+        </h1>
+        <spacer size="10"></spacer>
+    </columns>
+</row>
+<spacer size="30"></spacer>
+<row>
+    <columns>
+        <p>
+            <strong>Prénom :</strong> {{ contact.firstname }}<br>
+            <strong>Nom :</strong> {{ contact.lastname }}<br>
+            <strong>Email :</strong> {{ contact.email }}<br>
+            <strong>Téléphone :</strong> {{ contact.phone}}<br>
+            <strong>Date de départ souhaitée :</strong> {{ contact.checkInDate | date('d-m-Y') }}<br>
+            <strong>Durée du séjour (nuits) :</strong> {{ contact.duration }}<br>
+            <strong>Nombre d'adulte :</strong> {{ contact.numberAdult }}<br>
+            <strong>Nombre d'enfant :</strong> {{ contact.numberChildren }}<br>
+            <strong>Budget par personne :</strong> {{ contact.budget }} €<br>
+            <strong>Destination :</strong> {{ contact.destinations.country }}<br>
+        </p>
+    </columns>
+</row>
+<row>
+    <columns>
+        <p>
+            {{ contact.content }}
+        </p>
+    </columns>
+</row>
+{% endblock %}

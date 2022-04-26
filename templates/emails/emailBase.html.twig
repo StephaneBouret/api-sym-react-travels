@@ -1,0 +1,13 @@
+{% apply inline_css %}
+    <container>
+        {# <row class="header">
+            <columns>
+                <a href="">
+                    <img src="{{ email.image('@media/bg-about.webp') }}" class="logo" alt="SpaceBar Logo">
+                </a>
+            </columns>
+        </row> #}
+        {% block content %}
+        {% endblock %}
+    </container>
+{% endapply %}

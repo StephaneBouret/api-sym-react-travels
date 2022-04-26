@@ -1,0 +1,52 @@
+.collection-contact .info {
+    border-top: 3px solid #ffb03b;
+    border-bottom: 3px solid #ffb03b;
+    padding: 30px;
+    background: #fff;
+    width: 100%;
+    box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+}
+
+.collection-contact .outerCircle {
+    float: left;
+    width: 44px;
+    height: 44px;
+    background: #ffb03b40;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    transition: all 0.3s ease-in-out;
+}
+
+.collection-contact .info svg {
+    color: #ffb03b;
+    transition: all 0.3s ease-in-out;
+}
+
+.collection-contact .info .adress:hover svg,
+.collection-contact .info .email:hover svg,
+.collection-contact .info .phone:hover svg {
+    color: #fff;
+}
+
+.collection-contact .info .adress:hover .outerCircle,
+.collection-contact .info .email:hover .outerCircle,
+.collection-contact .info .phone:hover .outerCircle {
+    background: #ffb03b;
+}
+
+.collection-contact .info h4 {
+    padding: 0 0 0 60px;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #222222;
+}
+
+.collection-contact .info p {
+    padding: 0 0 10px 60px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #555555;
+}

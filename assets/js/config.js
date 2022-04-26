@@ -5,3 +5,4 @@ export const COUNTRIES_API = API_URL + "countries";
 export const TRAVELS_API = API_URL + "travel";
 export const CONTINENTS_API = API_URL + "continents";
 export const IMAGES_API = API_URL + "images";
+export const CONTACTS_API = API_URL + "contacts";

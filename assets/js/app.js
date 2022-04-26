@@ -21,6 +21,7 @@ import TravelsPage from './pages/travels/TravelsPage';
 import TravelByDestination from './pages/travelByDestination/TravelByDestination';
 import ContinentPage from './pages/continent/ContinentPage';
 import AboutPage from './pages/about/AboutPage';
+import ContactPage from './pages/contact/ContactPage';
 import Footer from './components/footer/Footer';
 
 // any CSS you import will output into a single css file (app.css in this case)
@@ -72,6 +73,7 @@ const App = () => {
                             <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
                         </Route>
                         <Route element={<NavbarWithoutDisplayedLayout/>}>
+                            <Route path="/contact" element={<ContactPage/>}/>
                             <Route path="/about" element={<AboutPage/>}/>
                             <Route path="/travel/:id" element={<DetailTravel/>}/>
                             <Route path="/travel" element={<TravelsPage/>}/>

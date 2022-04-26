@@ -78,7 +78,7 @@ class Destination
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["destination_read", "travel_read", "images_read"])]
+    #[Groups(["destination_read", "travel_read", "images_read", "contact_read"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -108,7 +108,7 @@ class Destination
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Le pays de la destination est obligatoire")]
     #[Assert\Type(type: 'string', message: 'Le pays doit être au format texte')]
-    #[Groups(["destination_read", "travel_read", "images_read"])]
+    #[Groups(["destination_read", "travel_read", "images_read", "contact_read"])]
     private $country;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -160,9 +160,14 @@ class Destination
     #[Groups(["destination_read", "travel_read"])]
     private $slug;
 
+    #[ORM\OneToMany(mappedBy: 'destinations', targetEntity: Contact::class)]
+    #[Groups(["destination_read"])]
+    private $contacts;
+
     public function __construct()
     {
         $this->travel = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -353,6 +358,36 @@ class Destination
     public function setFileUrl(?string $fileUrl): Destination
     {
         $this->fileUrl = $fileUrl;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts[] = $contact;
+            $contact->setDestinations($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        if ($this->contacts->removeElement($contact)) {
+            // set the owning side to null (unless already changed)
+            if ($contact->getDestinations() === $this) {
+                $contact->setDestinations(null);
+            }
+        }
+
         return $this;
     }
 }
