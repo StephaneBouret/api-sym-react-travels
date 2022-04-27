@@ -1,6 +1,9 @@
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import React, { useEffect, useRef, useState } from 'react';
+import {
+    GoogleReCaptcha, GoogleReCaptchaProvider
+} from "react-google-recaptcha-v3";
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Field from '../../components/forms/Field';
@@ -21,13 +24,14 @@ const ContactPage = () => {
     const navigate = useNavigate();
 
     const [destinations, setDestinations] = useState([]);
+    const [isValidToken, setIsValidToken] = useState();
     const [query, setQuery] = useState({
         firstname: "",
         lastname: "",
         phone: "",
         email: "",
         destinations: "",
-        checkInDate: null,
+        checkInDate: "",
         duration: 0,
         numberAdult: 0,
         numberChildren: 0,
@@ -96,7 +100,21 @@ const ContactPage = () => {
         }
     }
 
+    const handleReCaptchaVerify = async (token) => {
+        if (!token) {
+          return;
+        }
+    
+        // CORS issue in sandbox cannot make verify call
+        // const recaptchaSecret = "6Lch-VodAAAAALO1MsCqE7CufSc8eVisxis9WMDO";
+        // const url = `https://www.recaptcha.net/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${token}`;
+        // make post request to validate token
+        // if valid
+        token && setIsValidToken(true);
+      };
+
     return ( 
+        <GoogleReCaptchaProvider reCaptchaKey='6Lch-VodAAAAAOqeUpcdkS1LICAVHMABREyK4sA6'>
         <>
         <section id="page-contact" className="contact position-relative">
             <img src={require("../../../media/contact-bg.webp")} className="img-contact img-fluid"/>
@@ -113,6 +131,7 @@ const ContactPage = () => {
                         <InfosPageContact/>
                         <div className="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
                             <form className="contact-form" onSubmit={handleSubmit}>
+                            <GoogleReCaptcha onVerify={(token) => handleReCaptchaVerify(token)} />
                                 <div className="row">
                                     <Field
                                     name="firstname"
@@ -243,11 +262,6 @@ const ContactPage = () => {
                                     Envoyer votre demande
                                     </button>
                                 </div>
-                                <div className="recaptcha_info">
-                                This site is protected by reCAPTCHA and the Google 
-                                <a href='https://policies.google.com/privacy' target="_blank"> Privacy Policy</a> and
-                                <a href="https://policies.google.com/terms" target="_blank"> Terms of Service</a> apply
-                                </div>
                             </form>
                         </div>
                     </div>
@@ -255,6 +269,7 @@ const ContactPage = () => {
             </section>
         </main>
         </>
+        </GoogleReCaptchaProvider>
      );
 }
  

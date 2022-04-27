@@ -29,3 +29,11 @@ services:
                 event: lexik_jwt_authentication.on_jwt_created,
                 method: updateJwtData
             }
+
+    App\Normalizer\NullableDateTimeDenormalizer:
+        arguments:
+            $dateTimeNormalizer: '@serializer.normalizer.datetime'
+        tags:
+            -
+                name: serializer.normalizer
+                priority: 100
