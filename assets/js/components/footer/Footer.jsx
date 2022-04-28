@@ -59,14 +59,14 @@ const Footer = () => {
                         </div>
                         <div className="footer-box footer-box-3 col-md-3 col-sm-6 col-xs-12">
                             <aside className="text-widget">
-                                <Link to={{}}><h6>à la une</h6></Link>
+                                <h6>à la une</h6>
                                 <Link to={"/nouveautes"}>Nouveautés</Link>
                             </aside>
                         </div>
                         <div className="footer-box footer-box-4 col-md-3 col-sm-6 col-xs-12">
                             <aside className="text-widget">
                                 <Link to={"/about"}><h6>l'agence</h6></Link>
-                                <Link to={{}}>Notre équipe</Link>
+                                <Link to={"/about"}>Notre équipe</Link>
                                 <Link to={{}}>Nos partenaires</Link>
                             </aside>
                             <aside className="text-widget">

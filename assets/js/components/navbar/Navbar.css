@@ -219,12 +219,25 @@
 }
 
 @media (max-width: 992px) {
-    .login-btn {
+    .login-btn, .logout-btn {
         margin: 0 100px 0 0;
         padding: 8px 20px !important;
         letter-spacing: 1px;
         width: auto;
     }
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
+    border-radius: 50px;
+    padding: 10px 25px;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    letter-spacing: 1px;
+    transition: 0.3s !important;
 }
 
 /**

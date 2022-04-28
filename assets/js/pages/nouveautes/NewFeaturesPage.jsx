@@ -3,14 +3,13 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import TravelsSimplifiedCard from '../../components/destinationsSimplifiedCard/TravelsSimplifiedCard';
 import ImageGrid from '../../components/loaders/ImageGrid';
-import Pagination from '../../components/Pagination';
 import ScrollButton from '../../components/scrollButton/ScrollButton';
 import SmallBreadCrumbsNewFeatures from '../../components/smallbreadcrumbs/SmallBreadCrumbsNewFeatures';
 import travelsAPI from '../../services/travelsAPI';
 
 const NewFeaturesPage = () => {
-    const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
+    const size = 10;
     const [travels, setTravels] = useState([]);
     const titleRef = useRef(null);
 
@@ -20,7 +19,7 @@ const NewFeaturesPage = () => {
     const fetchTravels = async () => {
         try {
           const data = await travelsAPI.findAll();
-          const sortTravelByIdDesc = data.sort((a, b) => b.id < a.id ? -1 : 1);
+          const sortTravelByIdDesc = data.sort((a, b) => b.id < a.id ? -1 : 1).slice(0, size);
           setTravels(sortTravelByIdDesc);
           setLoading(false);
         } catch (error) {
@@ -32,14 +31,7 @@ const NewFeaturesPage = () => {
         fetchTravels();
     }, []);
 
-    // Page change management
-    const handlePageChange = (page) => setCurrentPage(page);
-    const itemsPerPage = 12;
-    const paginatedDestinations = Pagination.getData(
-        travels,
-        currentPage,
-        itemsPerPage
-    )
+    const paginatedDestinations = travels;
 
     // onclick scroll to div react
     const scrollToView = () => scrollToRef(titleRef);
@@ -70,14 +62,6 @@ const NewFeaturesPage = () => {
                             </div>
                         ))}
                     </div>
-                )}
-                {itemsPerPage < travels.length && (
-                    <Pagination 
-                        currentPage={currentPage} 
-                        itemsPerPage={itemsPerPage} 
-                        length={travels.length} 
-                        onPageChanged={handlePageChange} 
-                    />
                 )}
                 </div>
             </section>

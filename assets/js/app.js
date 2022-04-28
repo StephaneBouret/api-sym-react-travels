@@ -1,5 +1,5 @@
 // Les imports importants
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter, Route, Routes, Outlet, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -24,6 +24,10 @@ import AboutPage from './pages/about/AboutPage';
 import ContactPage from './pages/contact/ContactPage';
 import NewFeaturesPage from './pages/nouveautes/NewFeaturesPage';
 import Footer from './components/footer/Footer';
+import LoginPage from './pages/LoginPage';
+import AuthAPI from './services/authApi';
+import AuthContext from './contexts/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
 
 // any CSS you import will output into a single css file (app.css in this case)
 import '../styles/app.css';
@@ -33,15 +37,21 @@ import '../bootstrap';
 import NavbarDisplayed from './components/navbar/NavbarDisplayed';
 import NavbarWithoutDisplay from './components/navbar/NavbarWithoutDisplay';
 
+
 const Wrapper = ({children}) => {
     const location = useLocation();
     useLayoutEffect(() => {
-      document.documentElement.scrollTo(0, 0);
+        document.documentElement.scrollTo(0, 0);
     }, [location.pathname]);
     return children;
 };
 
+AuthAPI.setup();
+
 const App = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(
+        AuthAPI.isAuthenticated()
+    );
 
     // Cacher la Navbar sur les pages login et register
     const NavbarDisplayedLayout = () => (
@@ -54,45 +64,55 @@ const App = () => {
         <>
         <NavbarWithoutDisplay />
         <Outlet />
+        <Footer />
         </>
     );
 
     return ( 
-        <HashRouter>
-                {/* <Navbar/> */}
-            <Wrapper>
-                <div>
-                    <Routes>
-                        <Route element={<NavbarDisplayedLayout/>}>
-                            <Route path="/admin/destination/:id" element={<AdminDestinationPage/>}/>
-                            <Route path="/admin/destinations" element={<AdminDestinationsPage/>}/>
-                            <Route path="/admin/continent/:id" element={<AdminContinentPage/>}/>
-                            <Route path="/admin/continents" element={<AdminContinentsPage/>}/>
-                            <Route path="/admin/images/:id" element={<AdminImagePage/>}/>
-                            <Route path="/admin/images" element={<AdminImagesPage/>}/>
-                            <Route path="/admin/travel/:id" element={<AdminTravelPage/>}/>
-                            <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
-                        </Route>
-                        <Route element={<NavbarWithoutDisplayedLayout/>}>
-                            <Route path="/nouveautes" element={<NewFeaturesPage/>} />
-                            <Route path="/contact" element={<ContactPage/>}/>
-                            <Route path="/about" element={<AboutPage/>}/>
-                            <Route path="/travel/:id" element={<DetailTravel/>}/>
-                            <Route path="/travel" element={<TravelsPage/>}/>
-                            <Route path="/destinations/:slug/continent" element={<ContinentPage/>}/>
-                            <Route path="/destination/:id/travel" element={<TravelByDestination/>}/>
-                            <Route path="/destinations/:id" element={<DetailDestination/>}/>
-                            <Route path="/destinations" element={<DestinationsPage/>} />
-                            <Route path="/" element={<HomePage />}/>
-                        </Route>
-                    </Routes>
-                    <Footer/>
-                <ToastContainer 
-                    position={toast.POSITION.BOTTOM_LEFT}
-                />
-                </div>
-            </Wrapper>
-        </HashRouter>
+        <AuthContext.Provider
+            value={{
+                isAuthenticated,
+                setIsAuthenticated
+            }}
+        >
+            <HashRouter>
+                    {/* <Navbar/> */}
+                <Wrapper>
+                    <div>
+                        <Routes>
+                            <Route element={<PrivateRoute/>}>
+                                <Route element={<NavbarDisplayedLayout/>}>
+                                    <Route path="/admin/destination/:id" element={<AdminDestinationPage/>}/>
+                                    <Route path="/admin/destinations" element={<AdminDestinationsPage/>}/>
+                                    <Route path="/admin/continent/:id" element={<AdminContinentPage/>}/>
+                                    <Route path="/admin/continents" element={<AdminContinentsPage/>}/>
+                                    <Route path="/admin/images/:id" element={<AdminImagePage/>}/>
+                                    <Route path="/admin/images" element={<AdminImagesPage/>}/>
+                                    <Route path="/admin/travel/:id" element={<AdminTravelPage/>}/>
+                                    <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
+                                </Route>
+                            </Route>
+                            <Route element={<NavbarWithoutDisplayedLayout/>}>
+                                <Route path="/nouveautes" element={<NewFeaturesPage/>} />
+                                <Route path="/contact" element={<ContactPage/>}/>
+                                <Route path="/about" element={<AboutPage/>}/>
+                                <Route path="/travel/:id" element={<DetailTravel/>}/>
+                                <Route path="/travel" element={<TravelsPage/>}/>
+                                <Route path="/destinations/:slug/continent" element={<ContinentPage/>}/>
+                                <Route path="/destination/:id/travel" element={<TravelByDestination/>}/>
+                                <Route path="/destinations/:id" element={<DetailDestination/>}/>
+                                <Route path="/destinations" element={<DestinationsPage/>} />
+                                <Route path="/" element={<HomePage />}/>
+                            </Route>
+                            <Route path="/login" element={<LoginPage/>}/>
+                        </Routes>
+                    <ToastContainer 
+                        position={toast.POSITION.BOTTOM_LEFT}
+                    />
+                    </div>
+                </Wrapper>
+            </HashRouter>
+        </AuthContext.Provider>
     );
 }
 

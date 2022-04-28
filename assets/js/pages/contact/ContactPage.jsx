@@ -11,6 +11,7 @@ import FieldContact from '../../components/forms/FieldContact';
 import Select from '../../components/forms/Select';
 import TextArea from '../../components/forms/TextArea';
 import InfosPageContact from '../../components/infosPageContact/InfosPageContact';
+import ScrollButton from '../../components/scrollButton/ScrollButton';
 import SmallBreadCrumbsContact from '../../components/smallbreadcrumbs/SmallBreadCrumbsContact';
 import contactsAPI from '../../services/contactsAPI';
 import destinationsAPI from '../../services/destinationsAPI';
@@ -67,7 +68,12 @@ const ContactPage = () => {
     };
 
     useEffect(() => {
+        let cancel = false;
+        if (cancel) return;
         fetchDestinations();
+        return () => {
+            cancel = true;
+        }
     }, []);
 
     // onclick scroll to div react
@@ -267,6 +273,7 @@ const ContactPage = () => {
                     </div>
                 </div>
             </section>
+            <ScrollButton/>
         </main>
         </>
         </GoogleReCaptchaProvider>
