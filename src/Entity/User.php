@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity('email')]
+#[UniqueEntity('email', message: "Un utilisateur ayant cette adresse email existe déjà")]
 #[ApiResource(
     normalizationContext: ['groups' => ['users_read']],
     itemOperations: [
@@ -30,6 +30,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\NotBlank(message: "L'email doit être renseigné")]
+    #[Assert\Email(message: "L'adresse email doit avoir un format valide !")]
     #[Groups(["travel_read", "destination_read", "travel_subresource", "users_read"])]
     private $email;
 
@@ -38,13 +40,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank(message: "Le mot de passe est obligatoire")]
+    #[Assert\Regex(
+        pattern: "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/m",
+        message: "Votre mot de passe doit contenir au moins 1 chiffre, 1 lettre en minuscule, 1 lettre en majuscule, 1 caractère spécial et contenir au moins 8 caractères"
+    )]
     private $password;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "Le prénom est obligatoire")]
+    #[Assert\Length(min: 3, max: 255, minMessage: "Le prénom doit faire plus de 3 caractères", maxMessage: "Le prénom doit faire moins de 255 caractères")]
     #[Groups(["travel_read", "destination_read", "travel_subresource", "users_read"])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "Le nom de famille est obligatoire")]
+    #[Assert\Length(min: 3, max: 255, minMessage: "Le nom de famille doit faire plus de 3 caractères", maxMessage: "Le nom de famille doit faire moins de 255 caractères")]
     #[Groups(["travel_read", "destination_read", "travel_subresource", "users_read"])]
     private $lastName;
 

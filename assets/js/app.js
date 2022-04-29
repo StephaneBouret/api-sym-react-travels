@@ -25,6 +25,7 @@ import ContactPage from './pages/contact/ContactPage';
 import NewFeaturesPage from './pages/nouveautes/NewFeaturesPage';
 import Footer from './components/footer/Footer';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import AuthAPI from './services/authApi';
 import AuthContext from './contexts/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
@@ -105,6 +106,7 @@ const App = () => {
                                 <Route path="/" element={<HomePage />}/>
                             </Route>
                             <Route path="/login" element={<LoginPage/>}/>
+                            <Route path="/register" element={<RegisterPage/>}/>
                         </Routes>
                     <ToastContainer 
                         position={toast.POSITION.BOTTOM_LEFT}

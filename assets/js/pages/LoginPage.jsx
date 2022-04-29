@@ -87,7 +87,7 @@ const LoginPage = () => {
                                     </Link>
                                 </div>
                             </form>
-                            <p className="color-gray-dark font-15 bold link-bottom">Pas encore de compte&nbsp;?<Link to={{}}> Inscrivez-vous&nbsp;!</Link></p>
+                            <p className="color-gray-dark font-15 bold link-bottom">Pas encore de compte&nbsp;?<Link to={"/register"}> Inscrivez-vous&nbsp;!</Link></p>
                         </div>
                     </div>
                 </div>
