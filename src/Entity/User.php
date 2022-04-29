@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\CheckEmailController;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,6 +22,17 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         'get',
         'put',
         'delete',
+        'check_email' => [
+            'method' => 'GET',
+            'path' => '/forgetpassword/{email}/check_email',
+            'controller' => CheckEmailController::class,
+            'read'=> false,
+            'pagination_enabled'=> false,
+            'openapi_context' => [
+                'summary' => 'Vérifie si email existe dans la BDD',
+                'description' => 'Vérifie si email existe dans la BDD'
+            ]
+        ],
     ],
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -26,13 +40,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["travel_read", "destination_read", "travel_subresource", "users_read"])]
+    #[Groups(["travel_read", "destination_read", "travel_subresource", "users_read", "forgets_read"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank(message: "L'email doit être renseigné")]
     #[Assert\Email(message: "L'adresse email doit avoir un format valide !")]
-    #[Groups(["travel_read", "destination_read", "travel_subresource", "users_read"])]
+    #[Groups(["travel_read", "destination_read", "travel_subresource", "users_read", "forgets_read"])]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -50,14 +64,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Le prénom est obligatoire")]
     #[Assert\Length(min: 3, max: 255, minMessage: "Le prénom doit faire plus de 3 caractères", maxMessage: "Le prénom doit faire moins de 255 caractères")]
-    #[Groups(["travel_read", "destination_read", "travel_subresource", "users_read"])]
+    #[Groups(["travel_read", "destination_read", "travel_subresource", "users_read", "forgets_read"])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Le nom de famille est obligatoire")]
     #[Assert\Length(min: 3, max: 255, minMessage: "Le nom de famille doit faire plus de 3 caractères", maxMessage: "Le nom de famille doit faire moins de 255 caractères")]
-    #[Groups(["travel_read", "destination_read", "travel_subresource", "users_read"])]
+    #[Groups(["travel_read", "destination_read", "travel_subresource", "users_read", "forgets_read"])]
     private $lastName;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Forget::class)]
+    private $forgets;
+
+    public function __construct()
+    {
+        $this->forgets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -168,6 +190,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Forget>
+     */
+    public function getForgets(): Collection
+    {
+        return $this->forgets;
+    }
+
+    public function addForget(Forget $forget): self
+    {
+        if (!$this->forgets->contains($forget)) {
+            $this->forgets[] = $forget;
+            $forget->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeForget(Forget $forget): self
+    {
+        if ($this->forgets->removeElement($forget)) {
+            // set the owning side to null (unless already changed)
+            if ($forget->getUser() === $this) {
+                $forget->setUser(null);
+            }
+        }
 
         return $this;
     }

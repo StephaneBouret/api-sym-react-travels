@@ -7,6 +7,13 @@ function register(user) {
         USERS_API, user);
 }
 
+function update(id, user) {
+    return axios.put(
+        USERS_API + "/" + id, user 
+    );
+}
+
 export default {
     register,
+    update
 };

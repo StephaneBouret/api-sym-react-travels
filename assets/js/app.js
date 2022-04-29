@@ -26,6 +26,9 @@ import NewFeaturesPage from './pages/nouveautes/NewFeaturesPage';
 import Footer from './components/footer/Footer';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ForgetPassword from './pages/ForgetPassword';
+import ForgetPasswordCheck from './pages/ForgetPasswordCheck';
+import ResetPassword from './pages/ResetPassword';
 import AuthAPI from './services/authApi';
 import AuthContext from './contexts/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
@@ -81,6 +84,11 @@ const App = () => {
                 <Wrapper>
                     <div>
                         <Routes>
+                            <Route path="/login" element={<LoginPage/>}/>
+                            <Route path="/register" element={<RegisterPage/>}/>
+                            <Route path="/forgetpassword/done" element={<ForgetPasswordCheck/>}/>
+                            <Route path='/resetpassword/:token' element={<ResetPassword />} />
+                            <Route path="/forgetpassword" element={<ForgetPassword/>}/>
                             <Route element={<PrivateRoute/>}>
                                 <Route element={<NavbarDisplayedLayout/>}>
                                     <Route path="/admin/destination/:id" element={<AdminDestinationPage/>}/>
@@ -105,8 +113,6 @@ const App = () => {
                                 <Route path="/destinations" element={<DestinationsPage/>} />
                                 <Route path="/" element={<HomePage />}/>
                             </Route>
-                            <Route path="/login" element={<LoginPage/>}/>
-                            <Route path="/register" element={<RegisterPage/>}/>
                         </Routes>
                     <ToastContainer 
                         position={toast.POSITION.BOTTOM_LEFT}

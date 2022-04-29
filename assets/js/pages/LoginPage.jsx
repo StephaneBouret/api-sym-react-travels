@@ -82,7 +82,7 @@ const LoginPage = () => {
                                     <button type="submit" className="btn btn-primary">
                                         Je me connecte
                                     </button>
-                                    <Link to={{}} className='btn btn-link'>
+                                    <Link to={"/forgetpassword"} className='btn btn-link'>
                                         J'ai oublié mon mot de passe
                                     </Link>
                                 </div>
