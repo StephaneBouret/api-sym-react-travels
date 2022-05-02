@@ -1,13 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { NavLink, Link } from "react-router-dom";
-import { useNavigate, useLocation, useParams, use } from "react-router-dom";
-import { toast } from 'react-toastify';
-import { BsPhone, BsClock, BsList, BsChevronDown } from "react-icons/bs";
-import { AiOutlineClose } from "react-icons/ai";
-import authApi from '../../services/authApi';
-import AuthContext from '../../contexts/AuthContext';
-import "./Navbar.css";
 import JwtDecode from "jwt-decode";
+import React, { useContext, useEffect, useState } from 'react';
+import { AiOutlineClose } from "react-icons/ai";
+import { BsChevronDown, BsClock, BsList, BsPhone } from "react-icons/bs";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import AuthContext from '../../contexts/AuthContext';
+import authApi from '../../services/authApi';
+import "./Navbar.css";
 
 const NavbarDisplayed = () => {
     const navigate = useNavigate();
@@ -59,7 +58,12 @@ const NavbarDisplayed = () => {
     };
 
     useEffect(() => {
-      findApiUser();
+        let cancel = false;
+        if (cancel) return;
+        findApiUser();
+        return () => {
+            cancel = true;
+        }
     }, []);
     
     return ( 
@@ -118,11 +122,16 @@ const NavbarDisplayed = () => {
                                 </li>                             
                                 </>
                             )) || (
+                                <>
+                                <li>
+                                    <NavLink className={"nav-link scrollto"} to={"/profile/" + id}>Mon profil</NavLink>
+                                </li>
                                 <li className="ps-3">
                                     <button onClick={handleLogout} className="btn btn-danger logout-btn">
                                         Déconnexion
                                     </button>
                                 </li>
+                                </>
                             )}
                         </ul>
                         <i className="mobile-nav-toggle" onClick={() => settoggleMobile(toggleMobile => !toggleMobile)}>

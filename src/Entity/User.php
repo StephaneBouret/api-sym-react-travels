@@ -8,11 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\CheckEmailController;
+use App\Controller\CheckPasswordController;
+use App\Controller\ResetPasswordController;
+use App\Controller\UsersUpdateController;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity('email', message: "Un utilisateur ayant cette adresse email existe déjà")]
@@ -21,6 +25,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
     itemOperations: [
         'get',
         'put',
+        'patch',
         'delete',
         'check_email' => [
             'method' => 'GET',
@@ -33,7 +38,14 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
                 'description' => 'Vérifie si email existe dans la BDD'
             ]
         ],
-    ],
+        'check_password' => [
+            'method' => 'GET',
+            'path' => '/profile/{password}/check_password',
+            'controller' => CheckPasswordController::class,
+            'read'=> false,
+            'pagination_enabled'=> false,
+        ],
+    ]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {

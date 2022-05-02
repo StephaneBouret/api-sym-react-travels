@@ -1,12 +1,5 @@
 import axios from "axios";
-import { FORGETPASSWORD_API } from "../config";
 import { FORGET_API } from "../config";
-
-async function find(email) {
-    return axios
-        .get(FORGETPASSWORD_API + "/" + email + "/check_email")
-        .then(response => response.data);
-}
 
 async function create(id) {
     return axios
@@ -25,7 +18,6 @@ async function check(token) {
 }
 
 export default {
-    find,
     create,
     check
 }

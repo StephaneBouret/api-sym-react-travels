@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import FieldLogin from '../components/forms/FieldLogin';
 import Slider from '../components/Slider';
 import tokenAPI from '../services/tokenAPI';
+import usersApi from '../services/usersApi';
 import "./SecurityPage.css";
 
 const ForgetPassword = () => {
@@ -29,7 +30,7 @@ const ForgetPassword = () => {
         const email = credentials.username;
 
         try {
-            const user = await tokenAPI.find(email);
+            const user = await usersApi.checkEmail(email);
             if (user !== null) {
                 const id = user.id;
                 await tokenAPI.create(id);

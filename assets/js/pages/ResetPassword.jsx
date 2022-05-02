@@ -70,6 +70,10 @@ const ResetPassword = () => {
         }
     }, [token]); 
 
+    useEffect(() => {
+        return () => {};
+    }, []);
+
     // Gestion des changements des inputs dans le formulaire
     const handleChange = ({ currentTarget }) => {
         const { name, value } = currentTarget;

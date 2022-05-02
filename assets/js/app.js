@@ -29,9 +29,12 @@ import RegisterPage from './pages/RegisterPage';
 import ForgetPassword from './pages/ForgetPassword';
 import ForgetPasswordCheck from './pages/ForgetPasswordCheck';
 import ResetPassword from './pages/ResetPassword';
+import ProfilePage from './pages/ProfilePage';
+import ChangePassword from './pages/ChangePassword';
 import AuthAPI from './services/authApi';
 import AuthContext from './contexts/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
+import PrivateProfile from './components/PrivateProfile';
 
 // any CSS you import will output into a single css file (app.css in this case)
 import '../styles/app.css';
@@ -84,6 +87,10 @@ const App = () => {
                 <Wrapper>
                     <div>
                         <Routes>
+                            <Route element={<PrivateProfile/>}>
+                                <Route path="/profile/:id" element={<ProfilePage/>}/>
+                                <Route path="/profile/:id/changepassword" element={<ChangePassword/>}/>
+                            </Route>
                             <Route path="/login" element={<LoginPage/>}/>
                             <Route path="/register" element={<RegisterPage/>}/>
                             <Route path="/forgetpassword/done" element={<ForgetPasswordCheck/>}/>

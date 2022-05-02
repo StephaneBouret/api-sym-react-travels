@@ -69,10 +69,27 @@ function isAuthenticated() {
     return false;
 }
 
+/**
+ * Requête HTTP de re-authentification suite changement d'email comme username
+ * @param {object} credentials 
+ */
+async function refreshJWT(credentials) {
+    window.localStorage.removeItem("authToken");
+    delete axios.defaults.headers["Authorization"];
+    return axios
+        .post(LOGIN_API, credentials)
+        .then((response) => response.data.token)
+        .then(token => {
+            window.localStorage.setItem("authToken", token);
+            setAxiosToken(token);
+        });
+}
+
 
 export default {
     authenticate,
     logout,
     setup,
     isAuthenticated,
+    refreshJWT
 }
