@@ -14,6 +14,8 @@ import AdminImagesPage from './pages/adminImages/AdminImagesPage';
 import AdminImagePage from './pages/adminImage/AdminImagePage';
 import AdminTravelsPage from './pages/adminTravels/AdminTravelsPage';
 import AdminTravelPage from './pages/adminTravel/AdminTravelPage';
+import AdminUsersPage from './pages/adminUsers/AdminUsersPage';
+import AdminUserPage from './pages/adminUser/AdminUserPage';
 import DestinationsPage from './pages/destinations/DestinationsPage';
 import DetailDestination from './pages/detailDestination/DetailDestination';
 import DetailTravel from './pages/detailTravel/DetailTravel';
@@ -106,6 +108,8 @@ const App = () => {
                                     <Route path="/admin/images" element={<AdminImagesPage/>}/>
                                     <Route path="/admin/travel/:id" element={<AdminTravelPage/>}/>
                                     <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
+                                    <Route path="/admin/users/:id" element={<AdminUserPage/>}/>
+                                    <Route path="/admin/users" element={<AdminUsersPage/>}/>
                                 </Route>
                             </Route>
                             <Route element={<NavbarWithoutDisplayedLayout/>}>

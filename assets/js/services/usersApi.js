@@ -6,6 +6,15 @@ function register(user) {
         USERS_API, user);
 }
 
+async function findAll() {
+    return axios.get(USERS_API)
+                .then((response) => response.data["hydra:member"]);
+}
+
+function deleteUser(id) {
+    return axios.delete(USERS_API + "/" + id);
+}
+
 async function find(id) {
     return axios
         .get(USERS_API + "/" + id)
@@ -42,7 +51,9 @@ async function checkPassword(password) {
 export default {
     register,
     update,
+    delete: deleteUser,
     find,
+    findAll,
     checkEmail,
     checkPassword,
     patch

@@ -102,6 +102,7 @@ const NavbarDisplayed = () => {
                                         <li><NavLink className={"nav-link scrollto"} to={"/admin/travel"} onClick={toggleOff}>Admin Voyages</NavLink></li>
                                         <li><NavLink className={"nav-link scrollto"} to={"/admin/continents"} onClick={toggleOff}>Admin Continents</NavLink></li>
                                         <li><NavLink className={"nav-link scrollto"} to={"/admin/images"} onClick={toggleOff}>Admin Carousel</NavLink></li>
+                                        <li><NavLink className={"nav-link scrollto"} to={"/admin/users"} onClick={toggleOff}>Admin Utilisateurs</NavLink></li>
                                     </ul>
                                 </li>                                
                                 </>
