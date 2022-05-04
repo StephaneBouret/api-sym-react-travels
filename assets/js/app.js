@@ -25,6 +25,7 @@ import ContinentPage from './pages/continent/ContinentPage';
 import AboutPage from './pages/about/AboutPage';
 import ContactPage from './pages/contact/ContactPage';
 import NewFeaturesPage from './pages/nouveautes/NewFeaturesPage';
+import PartnersPage from './pages/partners/PartnersPage';
 import Footer from './components/footer/Footer';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -113,6 +114,7 @@ const App = () => {
                                 </Route>
                             </Route>
                             <Route element={<NavbarWithoutDisplayedLayout/>}>
+                                <Route path="/nos-partenaires" element={<PartnersPage/>}/>
                                 <Route path="/nouveautes" element={<NewFeaturesPage/>} />
                                 <Route path="/contact" element={<ContactPage/>}/>
                                 <Route path="/about" element={<AboutPage/>}/>

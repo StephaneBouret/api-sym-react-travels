@@ -65,9 +65,9 @@ const Footer = () => {
                         </div>
                         <div className="footer-box footer-box-4 col-md-3 col-sm-6 col-xs-12">
                             <aside className="text-widget">
-                                <Link to={"/about"}><h6>l'agence</h6></Link>
+                                <h6>l'agence</h6>
                                 <Link to={"/about"}>Notre équipe</Link>
-                                <Link to={{}}>Nos partenaires</Link>
+                                <Link to={"/nos-partenaires"}>Nos partenaires</Link>
                             </aside>
                             <aside className="text-widget">
                                 <div className="group2">

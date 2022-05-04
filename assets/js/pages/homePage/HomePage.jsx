@@ -5,6 +5,7 @@ import Slider from '../../components/slider/Slider';
 import WhyUs from '../../components/whyUs/WhyUs';
 import ScrollButton from '../../components/scrollButton/ScrollButton';
 import SpecialsPage from '../../components/specials/SpecialsPage';
+import VideosHomePage from '../../components/videos/VideosHomePage';
 import "./HomePage.css";
 
 const HomePage = () => {
@@ -14,11 +15,12 @@ const HomePage = () => {
 
     return ( 
         <>
-        <section id="hero">
+        <VideosHomePage/>
+        {/* <section id="hero">
             <div className="hero-container">
                 <Slider/>
             </div>
-        </section>
+        </section> */}
         <main>
             <WhyUs/>
             <ScrollButton/>
