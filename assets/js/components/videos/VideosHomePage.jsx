@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
+import { Link } from 'react-router-dom';
 import { Waypoint } from 'react-waypoint';
-import video1BG from "../../../media/sossusvlei-desert-lodge-namibia.mp4";
-import video2BG from "../../../media/six-senses-laamu.mp4";
-import video3BG from "../../../media/cipriani-1280x720.mp4";
+import video3BG from "../../../media/essence-of-the-delta.mp4";
+import img1BG from "../../../media/img-bg-home/slider-1.jpg";
+import img2BG from "../../../media/img-bg-home/slider-3.jpg";
 import imgBG from "../../../media/img-bg-home/zambie-Chiawa-Camp-Safari-Canoe-Elephants.jpg";
-import img1BG from "../../../media/img-bg-home/slider-1.jpg"
-import img2BG from "../../../media/img-bg-home/slider-3.jpg"
+import video2BG from "../../../media/six-senses-laamu.mp4";
+import video1BG from "../../../media/sossusvlei-desert-lodge-namibia.mp4";
 import './Videos.css';
 
-const VideosHomePage = () => {
+const VideosHomePage = ({ display, handleSearch, paginatedTravels, scrollToView, search }) => {
     const [play, setPlay] = useState(false);
     const [imgUrl, setImgUrl] = useState([]);
     const [videoUrl, setVideoUrl] = useState([]);
@@ -39,7 +40,7 @@ const VideosHomePage = () => {
     const handleEnterViewport = () => {
         setPlay(true);
     }
-    
+   
     return ( 
         <>
         <Waypoint
@@ -60,7 +61,28 @@ const VideosHomePage = () => {
                         />
                     </div>
                     <img src={imgUrl} className="img-fluid img-bloc1 bg-mobile" />
+                    <div className="search-bloc-2 text-center search-home">
+                        <div className="form-group full-search position-relative">
+                            <i className="fa fa-search position-absolute icon-search"></i>
+                            <input
+                                type="text"
+                                onChange={handleSearch}
+                                value={search}
+                                className="input-search"
+                            />
+                        </div>
+                        <Link to={{}} className="inspire-btn angle-down scrollButton" onClick={scrollToView}>
+                            Faites vos valises
+                        </Link>
+                    </div>
                 </div>
+            </div>
+            <div className="results-search">
+            {display && paginatedTravels.map((travel) => (
+                <Link key={travel.id} to={"/travel/" + travel.id} className="list-group-item">
+                    {travel.title}
+                </Link>
+            ))}
             </div>
         </article>
         </Waypoint>

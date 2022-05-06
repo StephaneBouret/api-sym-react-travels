@@ -83,18 +83,21 @@ const NavbarWithoutDisplay = () => {
                     <nav id="navbar" className={toggleMobile ? "navbar order-last order-lg-0 navbar-mobile" : "navbar order-last order-lg-0"}>
                         <ul>
                             <li>
-                                <NavLink className={"nav-link scrollto"} to="/">Accueil</NavLink>
+                                <NavLink className={"nav-link scrollto text-uppercase"} to="/">Accueil</NavLink>
                             </li>
                             <li>
-                                <NavLink className={"nav-link scrollto"} to={"/destinations"}>Destinations</NavLink>
+                                <NavLink className={"nav-link scrollto text-uppercase"} to={"/destinations"}>Destinations</NavLink>
                             </li>
                             <li>
-                                <NavLink className={"nav-link scrollto"} to={"/travel"}>Voyages</NavLink>
+                                <NavLink className={"nav-link scrollto text-uppercase"} to={"/travel"}>Voyages</NavLink>
+                            </li>
+                            <li>
+                                <NavLink className={"nav-link scrollto text-uppercase"} to={"/vos-envies"}>Envies</NavLink>
                             </li>
                             {ifAdmin && (
                                 <>
                                 <li className="dropdown">
-                                    <Link className={"nav-link scrollto"} to={{}}>
+                                    <Link className={"nav-link scrollto text-uppercase"} to={{}}>
                                         Admin
                                         <BsChevronDown onClick={() => setDropDown(dropDown => !dropDown)}/>
                                     </Link>
@@ -104,20 +107,21 @@ const NavbarWithoutDisplay = () => {
                                         <li><NavLink className={"nav-link scrollto"} to={"/admin/continents"} onClick={toggleOff}>Admin Continents</NavLink></li>
                                         <li><NavLink className={"nav-link scrollto"} to={"/admin/images"} onClick={toggleOff}>Admin Carousel</NavLink></li>
                                         <li><NavLink className={"nav-link scrollto"} to={"/admin/users"} onClick={toggleOff}>Admin Utilisateurs</NavLink></li>
+                                        <li><NavLink className={"nav-link scrollto"} to={"/admin/wishes"} onClick={toggleOff}>Admin Envies</NavLink></li>
                                     </ul>
                                 </li>                                
                                 </>
                             )}
                             <li>
-                                <NavLink className={"nav-link scrollto"} to={"/about"}>Qui sommes-nous</NavLink>
+                                <NavLink className={"nav-link scrollto text-uppercase"} to={"/about"}>Qui sommes-nous</NavLink>
                             </li>
                             <li>
-                                <NavLink className={"nav-link scrollto"} to={"/contact"}>Contact</NavLink>
+                                <NavLink className={"nav-link scrollto text-uppercase"} to={"/contact"}>Contact</NavLink>
                             </li>
                             {(!isAuthenticated && (
                                 <>
                                 <li>
-                                    <NavLink className={"nav-link scrollto"} to={"/register"}>Inscription</NavLink>
+                                    <NavLink className={"nav-link scrollto text-uppercase"} to={"/register"}>Inscription</NavLink>
                                 </li>
                                 <li>
                                     <NavLink className={"btn login-btn"} to={"/login"}>Connexion</NavLink>
@@ -126,7 +130,7 @@ const NavbarWithoutDisplay = () => {
                             )) || (
                                 <>
                                 <li>
-                                    <NavLink className={"nav-link scrollto"} to={"/profile/" + id}>Mon profil</NavLink>
+                                    <NavLink className={"nav-link scrollto text-uppercase"} to={"/profile/" + id}>Mon profil</NavLink>
                                 </li>
                                 <li className="ps-3">
                                     <button onClick={handleLogout} className="btn btn-danger logout-btn">

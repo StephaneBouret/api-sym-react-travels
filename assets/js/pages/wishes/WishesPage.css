@@ -1,0 +1,87 @@
+#page-wishes {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(39, 37, 34, 0.8);
+    overflow: hidden;
+    padding: 0;
+  }
+  
+  #page-wishes::before {
+    content: "";
+    background-color: rgba(12, 11, 10, 0.2);
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
+  
+  .img-wishes {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+  }
+  
+  @media (max-width: 920px) {
+    #page-wishes {
+      height: 92vh !important;
+    }
+  
+    .img-wishes {
+      height: 92vh !important;
+      object-fit: cover;
+    }
+  }
+  
+  .title-wishes {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 75px;
+    text-align: center;
+  }
+  
+  .title-wishes h2 {
+    font-size: 30px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0 60px 7px;
+    position: relative;
+    text-transform: uppercase;
+  }
+  
+  .wishes .inspire-btn {
+    padding: 0 0 35px;
+  }
+  
+  .wishes .scrollBottom {
+    cursor: pointer;
+  }
+  
+  .wishes a.inspire-btn.scrollButton {
+    width: 100%;
+    position: absolute;
+    margin: 0 auto;
+    text-align: center;
+    left: 0;
+    bottom: 50px;
+  }
+
+  .collection-wishes {
+    padding: 20px 0;
+  }
+  
+  .page-wishes .card-destination {
+    margin: 10px 0 20px !important;
+    padding: 0;
+  }
+  
+  @media (min-width: 1199px) {
+    .page-wishes .card-destination {
+      padding: 0;
+    }
+  }

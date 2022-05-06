@@ -1,51 +1,54 @@
 // Les imports importants
 import React, { useLayoutEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter, Route, Routes, Outlet, useLocation } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { HashRouter, Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from './components/navbar/Navbar';
-import HomePage from './pages/homePage/HomePage';
-import AdminContinentsPage from './pages/adminContinents/AdminContinentsPage';
+// start the Stimulus application
+import '../bootstrap';
+// any CSS you import will output into a single css file (app.css in this case)
+import '../styles/app.css';
+import Footer from './components/footer/Footer';
+import NavbarDisplayed from './components/navbar/NavbarDisplayed';
+import NavbarWithoutDisplay from './components/navbar/NavbarWithoutDisplay';
+import PrivateProfile from './components/PrivateProfile';
+import PrivateRoute from './components/PrivateRoute';
+import AuthContext from './contexts/AuthContext';
+import AboutPage from './pages/about/AboutPage';
 import AdminContinentPage from './pages/adminContinent/AdminContinentPage';
-import AdminDestinationsPage from './pages/adminDestinations/AdminDestinationsPage';
+import AdminContinentsPage from './pages/adminContinents/AdminContinentsPage';
 import AdminDestinationPage from './pages/adminDestination/AdminDestinationPage';
-import AdminImagesPage from './pages/adminImages/AdminImagesPage';
+import AdminDestinationsPage from './pages/adminDestinations/AdminDestinationsPage';
 import AdminImagePage from './pages/adminImage/AdminImagePage';
-import AdminTravelsPage from './pages/adminTravels/AdminTravelsPage';
+import AdminImagesPage from './pages/adminImages/AdminImagesPage';
 import AdminTravelPage from './pages/adminTravel/AdminTravelPage';
-import AdminUsersPage from './pages/adminUsers/AdminUsersPage';
+import AdminTravelsPage from './pages/adminTravels/AdminTravelsPage';
 import AdminUserPage from './pages/adminUser/AdminUserPage';
+import AdminUsersPage from './pages/adminUsers/AdminUsersPage';
+import AdminWishPage from './pages/adminWish/AdminWishPage';
+import AdminWishesPage from './pages/adminWishes/AdminWishesPage';
+import ChangePassword from './pages/ChangePassword';
+import ContactPage from './pages/contact/ContactPage';
+import ContinentPage from './pages/continent/ContinentPage';
 import DestinationsPage from './pages/destinations/DestinationsPage';
 import DetailDestination from './pages/detailDestination/DetailDestination';
 import DetailTravel from './pages/detailTravel/DetailTravel';
-import TravelsPage from './pages/travels/TravelsPage';
-import TravelByDestination from './pages/travelByDestination/TravelByDestination';
-import ContinentPage from './pages/continent/ContinentPage';
-import AboutPage from './pages/about/AboutPage';
-import ContactPage from './pages/contact/ContactPage';
-import NewFeaturesPage from './pages/nouveautes/NewFeaturesPage';
-import PartnersPage from './pages/partners/PartnersPage';
-import Footer from './components/footer/Footer';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
 import ForgetPassword from './pages/ForgetPassword';
 import ForgetPasswordCheck from './pages/ForgetPasswordCheck';
-import ResetPassword from './pages/ResetPassword';
+import HomePage from './pages/homePage/HomePage';
+import LoginPage from './pages/LoginPage';
+import NewFeaturesPage from './pages/nouveautes/NewFeaturesPage';
+import PartnersPage from './pages/partners/PartnersPage';
 import ProfilePage from './pages/ProfilePage';
-import ChangePassword from './pages/ChangePassword';
+import RegisterPage from './pages/RegisterPage';
+import ResetPassword from './pages/ResetPassword';
+import TravelByDestination from './pages/travelByDestination/TravelByDestination';
+import TravelsPage from './pages/travels/TravelsPage';
+import WishPage from './pages/wish/WishPage';
+import WishesPage from './pages/wishes/WishesPage';
 import AuthAPI from './services/authApi';
-import AuthContext from './contexts/AuthContext';
-import PrivateRoute from './components/PrivateRoute';
-import PrivateProfile from './components/PrivateProfile';
 
-// any CSS you import will output into a single css file (app.css in this case)
-import '../styles/app.css';
 
-// start the Stimulus application
-import '../bootstrap';
-import NavbarDisplayed from './components/navbar/NavbarDisplayed';
-import NavbarWithoutDisplay from './components/navbar/NavbarWithoutDisplay';
 
 
 const Wrapper = ({children}) => {
@@ -111,9 +114,13 @@ const App = () => {
                                     <Route path="/admin/travel" element={<AdminTravelsPage/>}/>
                                     <Route path="/admin/users/:id" element={<AdminUserPage/>}/>
                                     <Route path="/admin/users" element={<AdminUsersPage/>}/>
+                                    <Route path="/admin/wishes/:id" element={<AdminWishPage/>}/>
+                                    <Route path="/admin/wishes" element={<AdminWishesPage/>}/>
                                 </Route>
                             </Route>
                             <Route element={<NavbarWithoutDisplayedLayout/>}>
+                                <Route path="/vos-envies/:id" element={<WishPage/>}/>
+                                <Route path="/vos-envies" element={<WishesPage/>}/>
                                 <Route path="/nos-partenaires" element={<PartnersPage/>}/>
                                 <Route path="/nouveautes" element={<NewFeaturesPage/>} />
                                 <Route path="/contact" element={<ContactPage/>}/>

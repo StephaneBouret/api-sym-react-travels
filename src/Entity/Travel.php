@@ -20,6 +20,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\AddWishController;
 
 /**
  * @Vich\Uploadable
@@ -37,6 +38,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
         ],
         'images_get_subresource' => [
             'path' => '/travel/{id}/images'
+        ],
+        'wishes_get_subresource' => [
+            'path' => '/travel/{id}/wishes'
         ]
     ],
     denormalizationContext: ["disable_type_enforcement" => true],
@@ -82,7 +86,7 @@ class Travel
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -94,7 +98,7 @@ class Travel
         minMessage: 'Le titre doit faire au moins {{ limit }} caractères',
         maxMessage: 'Le titre ne peut excéder plus de {{ limit }} caractères',
     )]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $title;
 
     #[ORM\Column(type: 'text')]
@@ -106,28 +110,28 @@ class Travel
         minMessage: 'La description doit faire au moins {{ limit }} caractères',
         maxMessage: 'La description ne peut excéder plus de {{ limit }} caractères',
     )]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $description;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Le type du voyage est obligatoire")]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $type;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank(message: "Le nombre de jours du voyage est obligatoire")]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $days;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank(message: "Le nombre de nuits du voyage est obligatoire")]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $nights;
 
     #[ORM\Column(type: 'float')]
     #[Assert\NotBlank(message: "Le prix du voyage est obligatoire")]
     #[Assert\Type(type: 'numeric', message: 'Le prix doit être au format numérique')]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $amount;
 
     /**
@@ -140,34 +144,34 @@ class Travel
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $filePath;
     
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private ?string $fileUrl = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updatedAt;
 
     #[ORM\ManyToOne(targetEntity: Destination::class, inversedBy: 'travel')]
-    #[Groups(["travel_read", "images_read"])]
+    #[Groups(["travel_read", "images_read", 'wish_read'])]
     private $destinations;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Les plus sont obligatoires")]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $theMost;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "La capacité est obligatoire")]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $capacity;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Le style est obligatoire")]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $style;
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank(message: "Les loisirs sont obligatoires")]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $hobbies;
 
     #[ORM\Column(type: 'text')]
@@ -176,7 +180,7 @@ class Travel
         max: 650,
         maxMessage: 'La description ne peut excéder plus de {{ limit }} caractères',
     )]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $arroundTrip;
 
     #[ORM\Column(type: 'text')]
@@ -185,7 +189,7 @@ class Travel
         max: 650,
         maxMessage: 'La description ne peut excéder plus de {{ limit }} caractères',
     )]
-    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
+    #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource", 'wish_read'])]
     private $situation;
 
     #[ORM\OneToMany(mappedBy: 'travels', targetEntity: Images::class)]
@@ -205,9 +209,14 @@ class Travel
     #[Groups(["images_read", "travel_read", "destination_read", "travel_subresource"])]
     private $lng;
 
+    #[ORM\ManyToMany(targetEntity: Wish::class, mappedBy: 'travels')]
+    #[Groups(['travel_read'])]
+    private $wishes;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->wishes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -482,6 +491,33 @@ class Travel
     public function setLng(string $lng): self
     {
         $this->lng = $lng;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Wish>
+     */
+    public function getWishes(): Collection
+    {
+        return $this->wishes;
+    }
+
+    public function addWish(Wish $wish): self
+    {
+        if (!$this->wishes->contains($wish)) {
+            $this->wishes[] = $wish;
+            $wish->addTravel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWish(Wish $wish): self
+    {
+        if ($this->wishes->removeElement($wish)) {
+            $wish->removeTravel($this);
+        }
 
         return $this;
     }

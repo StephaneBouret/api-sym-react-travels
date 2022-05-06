@@ -1,3 +1,4 @@
+import axios from "axios";
 import { convertToRaw, EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import React, { useEffect, useState } from 'react';
@@ -70,6 +71,7 @@ const AdminTravelPage = () => {
         lat: "",
         lng: ""
     });
+    const [wishes, setWishes] = useState([]);
 
     const fetchTravel = async (id) => {
         try {
@@ -130,21 +132,21 @@ const AdminTravelPage = () => {
             setTravel({ ...travel, theMost: value});
             setTextAreaCount(words.length);
         }
-    }    
+    };    
 
     // Gestion du nombre de caractères max dans le textArea "Autour du voyage"
     const setFormattedContentTrip = ({ currentTarget }) => {
         const { value } = currentTarget;
         const text = value.slice(0, limitCar);
         setTravel({...travel, arroundTrip: text});
-    }
+    };
 
     // Gestion du nombre de caractères max dans le textArea "Situation du voyage"
     const setFormattedContentSituation = ({ currentTarget }) => {
         const { value } = currentTarget;
         const text = value.slice(0, limitCar);
         setTravel({...travel, situation: text});
-    }
+    };
 
     // Editor Wysiwyg
     const onEditorStateChange = editorValue => {
@@ -214,7 +216,7 @@ const AdminTravelPage = () => {
             }
             toast.error("L'image n'a pas pu être téléchargée");
         }
-    }
+    };
 
     return ( 
         <>

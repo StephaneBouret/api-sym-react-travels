@@ -78,7 +78,7 @@ class Destination
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["destination_read", "travel_read", "images_read", "contact_read"])]
+    #[Groups(["destination_read", "travel_read", "images_read", "contact_read", 'wish_read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -90,7 +90,7 @@ class Destination
         minMessage: 'Le titre doit faire au moins {{ limit }} caractères',
         maxMessage: 'Le titre ne peut excéder plus de {{ limit }} caractères',
     )]
-    #[Groups(["destination_read", "travel_read"])]
+    #[Groups(["destination_read", "travel_read", 'wish_read'])]
     private $title;
 
     #[ORM\Column(type: 'text')]
@@ -108,19 +108,19 @@ class Destination
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Le pays de la destination est obligatoire")]
     #[Assert\Type(type: 'string', message: 'Le pays doit être au format texte')]
-    #[Groups(["destination_read", "travel_read", "images_read", "contact_read"])]
+    #[Groups(["destination_read", "travel_read", "images_read", "contact_read", 'wish_read'])]
     private $country;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "La ville de la destination est obligatoire")]
     #[Assert\Type(type: 'string', message: 'La ville doit être au format texte')]
-    #[Groups(["destination_read", "travel_read"])]
+    #[Groups(["destination_read", "travel_read", 'wish_read'])]
     private $city;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Le continent de la destination est obligatoire")]
     #[Assert\Type(type: 'string', message: 'Le continent doit être au format texte')]
-    #[Groups(["destination_read", "travel_read"])]
+    #[Groups(["destination_read", "travel_read", 'wish_read'])]
     private $continent;
 
     #[ORM\Column(type: 'integer')]
@@ -157,7 +157,7 @@ class Destination
     private $travel;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["destination_read", "travel_read"])]
+    #[Groups(["destination_read", "travel_read", 'wish_read'])]
     private $slug;
 
     #[ORM\OneToMany(mappedBy: 'destinations', targetEntity: Contact::class)]

@@ -1,0 +1,144 @@
+.wrap-breadcrumb {
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    width: 100%
+}
+
+@media (max-width: 992px) {
+    .wrap-breadcrumb {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .wrap-breadcrumb,
+    .block-breadcrumbs {
+        flex-wrap: wrap;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 520px) {
+    .wrap-breadcrumb {
+        padding: 15px 15px 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .wrap-breadcrumb {
+        justify-content: center !important;
+    }
+}
+
+@media (max-width: 469px) {
+
+    .wrap-breadcrumb,
+    .block-breadcrumbs {
+        flex-direction: column;
+    }
+}
+
+.single-breadcrumbs {
+    padding: 25px 0;
+    background: #f6f5f0;
+}
+
+.block-breadcrumbs {
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.single-breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+
+.single-breadcrumbs .block-breadcrumbs .separator {
+    margin: 0 5px;
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+.single-breadcrumbs .block-breadcrumbs ol li+li a {
+    color: #7a7a7a;
+}
+
+.title-country {
+    color: #7a7a7a
+}
+
+.block-breadcrumbs span {
+    font-size: 14px;
+    color: #3c3c3c;
+    padding-left: 10px;
+}
+
+@media (max-width: 576px) {
+    .block-breadcrumbs span {
+        text-align: right;
+    }
+}
+
+@media (max-width: 469px) {
+    .block-breadcrumbs span {
+        margin-left: 0;
+        text-align: center;
+    }
+}
+
+@media (max-width: 992px) {
+    .block-breadcrumbs {
+        width: fit-content;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .block-breadcrumbs {
+        flex-wrap: wrap;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .block-breadcrumbs {
+        justify-content: center !important;
+    }
+}
+
+@media (max-width: 469px) {
+    .block-breadcrumbs {
+        flex-direction: column;
+    }
+}
+
+.fa-contact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fa-contact a {
+    font-size: 14px;
+    color: #4d4d4b;
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+.fa-contact a svg {
+    margin-left: 10px;
+    font-size: 16px;
+    display: inline-block;
+}

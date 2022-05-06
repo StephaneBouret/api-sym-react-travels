@@ -11,3 +11,4 @@ export const USERS_API = API_URL + "users";
 export const FORGETPASSWORD_API = API_URL + "forgetpassword";
 export const FORGET_API = API_URL + "forgets";
 export const PROFILE_API = API_URL + "profile";
+export const WISHES_API = API_URL + "wishes";
