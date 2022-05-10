@@ -35,8 +35,12 @@ function updateImage(id, formData) {
 }
 
 function updateWishes(id, wish) {
+    // return axios.put(
+    //     WISHES_API + "/" + id, wish
+    // );
     return axios.put(
-        WISHES_API + "/" + id, wish
+        WISHES_API + "/" + id, 
+        {...wish, travels: tagsSelected}
     );
 }
 

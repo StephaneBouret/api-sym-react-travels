@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
@@ -33,6 +34,8 @@ const AdminWishPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
     const [selectedFile, setSelectedFile] = useState();
+    const [tagsData, setTagsData] = useState([]);
+    const [tagsSelected, setTagsSelected] = useState([]);
 
     const fetchWish = async (id) => {
         try {
@@ -78,6 +81,14 @@ const AdminWishPage = () => {
             label: travel.id + " - " + travel.title + " - " + travel.destinations.country
         }
     });
+
+    // Gestion du Default Values react-select en fonction des données de l'API
+    useEffect(() => {
+        let list = travelsByWish.map((t) => {
+            return ({value: t.id, label: t.id + " - " + t.title + " - " + t.destinations.country});
+        });
+        setTagsData(list.slice(0).map((i) => i));
+    }, [travelsByWish]);  
 
     // Gestion des changements des inputs dans le formulaire
     const handleChange = ({ currentTarget }) => {
@@ -142,18 +153,21 @@ const AdminWishPage = () => {
         }
     };
 
-    const handleChangeSelect = (event) => {
-        let sel = event.map((e, index) => {
-            return (`/api/travel/${e.value}`);
+    // Préparation des données pour le ManyToMany et soumission du formulaire
+    useEffect(() => {
+        const sel = tagsData.map((t) => {
+            return (`/api/travel/${t.value}`);
         });
-        setWish({travels: sel});
-    };
+        setTagsSelected(sel);
+    }, [tagsData]);
 
     const handleSubmitSelect = async event => {
         event.preventDefault();
 
         try {
-            await wishesAPI.updateWishes(id, wish);
+            await axios.put("https://127.0.0.1:8000/api/wishes" + "/" + id, 
+            {...wish, travels: tagsSelected}
+            );
             toast.success("Les modifications ont bien été prises en compte");
             navigate("/admin/wishes");
         } catch (error) {
@@ -258,8 +272,9 @@ const AdminWishPage = () => {
                     <div className="col-md-6">
                         <Select
                         isMulti
+                        value={tagsData}
                         options={options}
-                        onChange={handleChangeSelect}
+                        onChange={setTagsData}
                         />
                     </div>
                     <div className="form-group mt-3">
